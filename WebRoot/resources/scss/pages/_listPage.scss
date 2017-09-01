@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+@import "../helpers/parameters";
+@import "../helpers/mixin";
+
+/* ----------------------------------- Pages - ListPage ----------------------------------- */
+#listPage {
+  .search-form {
+
+    //Select2 样式覆盖
+    .select2-container {
+      width: 100% !important;
+    }
+
+    @media (min-width: 768px) {
+
+      //查询输入框组
+      .form-group {
+        margin-bottom: 10px;
+
+        label {
+          text-align: right;
+          width: 65px;
+        }
+
+        .form-control {
+          width: 65%;
+        }
+
+        //Select2 样式覆盖
+        .select2-container {
+          width: 65% !important;
+        }
+      }
+
+      //查询按钮组
+      .search-form-btnDiv {
+        float: right;
+        text-align: right;
+        padding-right: 6%;
+      }
+    }
+  }
+}

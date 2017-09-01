@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+@import "../helpers/parameters";
+
+/* ----------------------------------- Mixin - Init ----------------------------------- */
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin button-create($color, $background, $border, $activeBg, $activeColor) {
+  color: $color;
+  background: $background;
+  border: $border;
+
+  &:hover {
+    color: $activeColor;
+    background: $activeBg;
+  }
+}
