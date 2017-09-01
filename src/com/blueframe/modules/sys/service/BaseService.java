@@ -2,9 +2,13 @@ package com.blueframe.modules.sys.service;
 
 import java.util.List;
 
-import com.blueframe.modules.sys.dao.BaseDao;
+import javax.servlet.http.HttpServletRequest;
 
-public abstract class BaseService<E> {
+import com.blueframe.modules.sys.dao.BaseDao;
+import com.blueframe.modules.sys.model.BaseEntity;
+import com.blueframe.modules.sys.model.Page;
+
+public abstract class BaseService<E extends BaseEntity<E>> {
 
 	public abstract BaseDao<E> getDao();
 
@@ -20,11 +24,22 @@ public abstract class BaseService<E> {
 		getDao().update(entity);
 	}
 
-	public List<E> select(E entity) {
-		return getDao().select(entity);
+	public List<E> select(E entity, Boolean like) {
+		return getDao().select(entity, like);
 	}
 
-	public Long count(E entity) {
-		return getDao().count(entity);
+	public Integer count(E entity, Boolean like) {
+		return getDao().count(entity, like);
 	}
+
+	public Page<E> selectPage(E entity, HttpServletRequest request, Page<E> page) {
+		entity.setPage(page);
+		List<E> list = select(entity, true);
+		Integer count = count(entity, true);
+		page.setData(list);
+		page.setRecordsTotal(count);
+		page.setRecordsFiltered(count);
+		return page;
+	}
+
 }

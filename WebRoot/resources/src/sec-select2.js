@@ -2,10 +2,6 @@
 (function () {
     GLOBAL.namespace("SELECT2");
 
-    $(function () {
-        GLOBAL.SELECT2.initSelect2();
-    });
-
     GLOBAL.SELECT2.initSelect2 = function () {
         $(".select2").each(function () {
             $(this).select2({

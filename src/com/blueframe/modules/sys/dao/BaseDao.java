@@ -40,21 +40,31 @@ public abstract class BaseDao<E> extends SqlSessionDaoSupport {
 	* @param entity
 	* @return
 	*/
-	public List<E> select(E entity) {
-		List<E> list = getSqlSession().selectList(getEntityClass().getSimpleName() + ".select", entity);
-		return list;
+	public List<E> select(E entity, Boolean like) {
+		if (like) {
+			List<E> list = getSqlSession().selectList(getEntityClass().getSimpleName() + ".selectLike", entity);
+			return list;
+		} else {
+			List<E> list = getSqlSession().selectList(getEntityClass().getSimpleName() + ".select", entity);
+			return list;
+		}
 	}
 
 	/**
 	 * 获取查询数量
 	 * @return
 	 */
-	public Long count(E entity) {
-		return getSqlSession().selectOne(getEntityClass().getSimpleName() + ".count");
+	public Integer count(E entity, Boolean like) {
+		if (like) {
+			return getSqlSession().selectOne(getEntityClass().getSimpleName() + ".countLike", entity);
+		} else {
+			return getSqlSession().selectOne(getEntityClass().getSimpleName() + ".count", entity);
+		}
 	}
 
 	@Resource
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
 		super.setSqlSessionFactory(sqlSessionFactory);
 	}
+
 }

@@ -2,10 +2,6 @@
 (function () {
     GLOBAL.namespace("DATETIMEPICKER");
 
-    $(function () {
-        GLOBAL.DATETIMEPICKER.initYearDayPicker();
-    });
-
     GLOBAL.DATETIMEPICKER.initYearDayPicker = function () {
         $(".year-day-picker").datetimepicker(
             {

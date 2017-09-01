@@ -2,9 +2,6 @@
 (function () {
     GLOBAL.namespace("FILEINPUT");
 
-    $(function () {
-
-    });
 
     /**
      * 文件上传 初始化

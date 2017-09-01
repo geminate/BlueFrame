@@ -2,12 +2,6 @@
 (function () {
     GLOBAL.namespace("VALIDATE");
 
-    $(function () {
-        GLOBAL.VALIDATE.changeLanguage();
-        GLOBAL.VALIDATE.initValidate();
-        GLOBAL.VALIDATE.addMethod();
-    });
-
     /**
      * 修改 验证提示信息语言
      */

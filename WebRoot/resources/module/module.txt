@@ -1,0 +1,79 @@
+Jquery：
+        Ver：1.12.4
+        Js：jquery.min.js
+        Css：
+        Img：
+        Font：
+        Git:
+        Remarks:
+
+Bootstrap：
+        Ver：3.3.7
+        Js：bootstrap.min.js
+        Css: bootstrap.css
+        Img:
+        Font: ./fonts/bootstrap
+        Remarks:
+
+Bootstrap-datetimepicker:
+        Ver:
+        Js: bootstrap-datetimepicker.js , bootstrap-datetimepicker.zh-CN.js
+        Css: bootstrap-datetimepicker.css
+        Img:
+        Font:
+        Git:
+        Remarks: 日期选择器
+
+Jquery-Validation:
+        Ver:
+        Js: jquery.validate.min.js , additional-methods.min.js
+        Css:
+        Img:
+        Font:
+        Git:
+        Remarks: 表单验证
+
+Jquery-Confirm:
+        Ver:
+        Js: jquery-confirm.min.js
+        Css: jquery-confirm.css
+        Img:
+        Font:
+        Git:
+        Remarks: 提示框信息
+
+Jquery-datatables:
+        Ver:
+        Js: jquery.dataTables.min.js
+        Css: jquery.dataTables.css
+        Img: ./img/dataTables
+        Font:
+        Git:
+        Remarks: 分页表格插件
+
+Underscore:
+        Ver:
+        Js: underscore-min.js
+        Css:
+        Img:
+        Font:
+        Git:
+        Remarks: JS工具库
+
+Bootstrap-FileInput:
+        Ver:
+        Js: fileinput.min.js , fileinput-zh.js
+        Css: fileinput.css
+        Img: ./img/fileinput
+        Font:
+        Git:
+        Remarks: 文件上传插件
+
+Select2:
+        Ver:
+        Js: select2.js , select2-zh-CN.js
+        Css: select2.css
+        Img:
+        Font:
+        Git:
+        Remarks: 下拉搜索插件
