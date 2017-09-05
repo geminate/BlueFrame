@@ -1,4 +1,4 @@
-package tools;
+package com.blueframe.common.tools;
 
 import java.util.Collection;
 import java.util.Date;

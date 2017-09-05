@@ -1,9 +1,12 @@
-package com.blueframe.modules.sys.model;
+package com.blueframe.frame.base.model;
+
+import com.blueframe.common.config.Global;
 
 import net.sf.json.JSONObject;
 
 public class BaseEntity<T> {
 
+	//分页对象
 	private Page<T> page;
 
 	public Page<T> getPage() {
@@ -12,6 +15,11 @@ public class BaseEntity<T> {
 
 	public void setPage(Page<T> page) {
 		this.page = page;
+	}
+
+	//数据库 类型
+	public String getJdbcType() {
+		return Global.getConfig("jdbc.type");
 	}
 
 	@Override

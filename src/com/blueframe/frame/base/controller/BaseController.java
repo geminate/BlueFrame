@@ -1,4 +1,4 @@
-package com.blueframe.modules.sys.controller;
+package com.blueframe.frame.base.controller;
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import tools.DateFormat;
+import com.blueframe.common.tools.DateFormat;
 
 public class BaseController {
 

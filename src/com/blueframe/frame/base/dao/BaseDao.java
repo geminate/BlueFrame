@@ -1,4 +1,4 @@
-package com.blueframe.modules.sys.dao;
+package com.blueframe.frame.base.dao;
 
 import java.util.List;
 

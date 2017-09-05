@@ -1,4 +1,4 @@
-package tools;
+package com.blueframe.common.tools;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

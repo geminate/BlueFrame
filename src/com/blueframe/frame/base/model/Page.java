@@ -1,4 +1,4 @@
-package com.blueframe.modules.sys.model;
+package com.blueframe.frame.base.model;
 
 import java.util.List;
 
@@ -7,8 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 public class Page<T> {
-	private Integer length;
-	private Integer start;
+
+	private Integer length; //页面数据数量
+	private Integer start; //起始数据
 	private Integer draw;
 
 	private List<T> data;

@@ -37,7 +37,9 @@
                 {
                     "url": url,
                     "type": "POST",
-                    "data": GLOBAL.JQUERY.addSerializeObject($(form))
+                    "data": function (d) {
+                        return $.extend({}, d, GLOBAL.JQUERY.addSerializeObject($(form)));
+                    }
                 },
             "columns": columns,
             "language": {
@@ -60,18 +62,14 @@
 
         if (freshBtn != null) {
             $(freshBtn).click(function () {
-                setting.ajax.data = GLOBAL.JQUERY.addSerializeObject($(form));
-                re.destroy();
-                re = $(table).DataTable(setting);
+                re.ajax.reload();
             });
         }
 
         if (resetBtn != null) {
             $(resetBtn).click(function () {
                 $(form)[0].reset();
-                setting.ajax.data = GLOBAL.JQUERY.addSerializeObject($(form));
-                re.destroy();
-                re = $(table).DataTable(setting);
+                re.ajax.reload();
             });
         }
 
