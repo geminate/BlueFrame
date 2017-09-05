@@ -28,7 +28,9 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
 	protected Dialect DIALECT;
 
 	/**
-	 * 对参数进行转换和检查
+	 * 将参数对象 转换成 Page 对象
+	 * 如果参数对象本身为Page对象 则直接返回，否则获取 参数对象中的 page 属性并将其返回
+	 * 
 	 * @param parameterObject 参数对象
 	 * @param page            分页对象
 	 * @return 分页对象
