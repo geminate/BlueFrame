@@ -77,3 +77,11 @@ Select2:
         Font:
         Git:
         Remarks: 下拉搜索插件
+        
+Jquery-pjax:
+		Ver:
+		Js:jquery.pjax.js
+        Img:
+        Font:
+        Git:
+        Remarks: ajax加载页面

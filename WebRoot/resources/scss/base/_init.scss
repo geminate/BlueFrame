@@ -75,12 +75,30 @@
 }
 
 /* --------------- Normal -------------------*/
+//设置 body,html 高度 自适应
+body, html {
+  height: 100%;
+  overflow: auto;
+}
+
 //去除a指向时的下划线
 a, a:hover, a:active, a:focus {
   text-decoration: none;
   outline: none;
 }
 
+//解决 Chrome 浏览器自动填充 导致的 input黄底问题
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #333;
+}
+
+//去掉 li 前面的 黑点
+li {
+  list-style-type: none;
+}
+
+/* --------------- Tool Class ----------------*/
 //清除浮动
 .clear-fix:after {
   content: "";
@@ -96,16 +114,4 @@ a, a:hover, a:active, a:focus {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-//设置 body,html 高度 自适应
-body, html {
-  height: 100%;
-  overflow: auto;
-}
-
-//解决 Chrome 浏览器自动填充 导致的 input黄底问题
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-text-fill-color: #333;
 }

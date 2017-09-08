@@ -35,5 +35,4 @@ public class Global {
 		return getConfig("adminPath");
 	}
 
-	
 }

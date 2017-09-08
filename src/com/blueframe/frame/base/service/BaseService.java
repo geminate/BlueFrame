@@ -1,45 +1,105 @@
 package com.blueframe.frame.base.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.blueframe.frame.base.dao.BaseDao;
 import com.blueframe.frame.base.model.BaseEntity;
 import com.blueframe.frame.base.model.Page;
+import com.blueframe.frame.sys.model.SysUser;
 
-public abstract class BaseService<E extends BaseEntity<E>> {
+public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>> {
 
-	public abstract BaseDao<E> getDao();
+	@Autowired
+	protected D dao;
 
-	public void insert(E entity) {
-		getDao().insert(entity);
+	/**
+	 * 增
+	 * @param entity
+	 */
+	public void insert(E entity, Boolean autoAddUUID) {
+		entity = preInsert(entity, autoAddUUID);
+		dao.insert(entity);
 	}
 
-	public void delete(E entity) {
-		getDao().delete(entity);
+	/**
+	 * 删
+	 * @param entity
+	 */
+	public void delete(E entity, Boolean logicDelete) {
+		if (logicDelete) {
+			dao.deleteLogic(entity);
+		} else {
+			dao.delete(entity);
+		}
 	}
 
+	/**
+	 * 改
+	 * @param entity
+	 */
 	public void update(E entity) {
-		getDao().update(entity);
+		dao.update(entity);
 	}
 
+	/**
+	 * 查
+	 * @param entity
+	 * @param like
+	 * @return
+	 */
 	public List<E> select(E entity, Boolean like) {
-		return getDao().select(entity, like);
+		if (like) {
+			return dao.selectLike(entity);
+		} else {
+			return dao.select(entity);
+		}
 	}
 
+	/**
+	 * 查询数量
+	 * @param entity
+	 * @param like
+	 * @return
+	 */
 	public Integer count(E entity, Boolean like) {
-		return getDao().count(entity, like);
+		if (like) {
+			return dao.countLike(entity);
+		} else {
+			return dao.count(entity);
+		}
 	}
 
+	/**
+	 * 分页查询
+	 * @param entity
+	 * @param request
+	 * @param page
+	 * @return
+	 */
 	public Page<E> selectPage(E entity, HttpServletRequest request, Page<E> page) {
 		entity.setPage(page);
-		List<E> list = select(entity, true);
-		//Integer count = count(entity, true);
+		List<E> list = dao.selectLike(entity);
 		page.setData(list);
-		//page.setRecordsTotal(count);
-		//page.setRecordsFiltered(count);
 		return page;
+	}
+
+	private E preInsert(E entity, Boolean autoAddUUID) {
+		entity.setCreateBy(new SysUser());
+		entity.setCreateDate(new Date());
+		entity.setUpdateBy(new SysUser());
+		entity.setUpdateDate(new Date());
+		entity.setDelFlag("0");
+		if (autoAddUUID) {
+			String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+			entity.setId(uuid);
+		}
+		return entity;
 	}
 
 }

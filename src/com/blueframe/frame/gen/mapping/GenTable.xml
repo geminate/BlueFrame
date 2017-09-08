@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blueframe.frame.gen.dao.GenTableDao">
+
+	<!-- Select 列 -->
+	<sql id="selectColumnList">
+		gen_table.id AS id,
+		gen_table.name AS name,
+		gen_table.comments AS comments,
+		gen_table.class_name AS className
+	</sql>
+
+	<sql id="leftJoin">
+	</sql>
+
+	<!-- 精确查询 Where -->
+	<sql id="dynamicWhere">
+		<where>
+			<if test="id!=null and id!=''">and id = #{id}</if>
+			<if test="name!=null and name!=''">and name = #{name}</if>
+			<if test="comments!=null and comments!=''">and comments = #{comments}</if>
+			<if test="className!=null and className!=''">and class_name = #{className}</if>
+		</where>
+	</sql>
+
+	<!-- 模糊查询 Where -->
+	<sql id="dynamicWhereLike">
+		<where>
+			<if test="id!=null and id!=''">and id = #{id}</if>
+			<if test="name!=null and name!=''">and name = #{name}</if>
+			<if test="comments!=null and comments!=''">and comments = #{comments}</if>
+			<if test="className!=null and className!=''">and class_name = #{className}</if>
+		</where>
+	</sql>
+
+	<!-- 增 -->
+	<insert id="insert" parameterType="com.blueframe.frame.gen.model.GenTable" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into sys_user
+		(
+		id,
+		username
+		)
+		values
+		(
+		#{id,jdbcType=VARCHAR},
+		#{username,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 删 -->
+	<delete id="delete" parameterType="com.blueframe.frame.sys.model.SysUser">
+		delete from sys_user
+		<include refid="dynamicWhere" />
+	</delete>
+
+	<!-- 改 -->
+	<update id="update" parameterType="com.blueframe.frame.sys.model.SysUser">
+		update sys_user
+		<set>
+			<if test="username!=null and username!=''">and username = #{username,jdbcType=VARCHAR}</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查(精确) -->
+	<select id="select" parameterType="com.blueframe.frame.sys.model.SysUser" resultType="com.blueframe.frame.sys.model.SysUser">
+		select
+		<include refid="selectColumnList" />
+		from sys_user
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 数量查询(精确) -->
+	<select id="count" parameterType="com.blueframe.frame.sys.model.SysUser" resultType="java.lang.Integer">
+		select count(*) from sys_user
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 查(模糊) -->
+	<select id="selectLike" parameterType="com.blueframe.frame.sys.model.SysUser" resultType="com.blueframe.frame.sys.model.SysUser">
+		select
+		<include refid="selectColumnList" />
+		from sys_user
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 数量查询(模糊) -->
+	<select id="countLike" parameterType="com.blueframe.frame.sys.model.SysUser" resultType="java.lang.Integer">
+		select count(*) from sys_user
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+	</select>
+</mapper>

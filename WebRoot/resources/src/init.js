@@ -10,8 +10,25 @@ GLOBAL.namespace = function (str) {
     }
 };
 
-//全部的 Js 初始化
 $(function () {
+    init();
+
+});
+
+function init() {
+
+    //初始化 Pjax :
+    GLOBAL.DOM.initPjax();
+    //为 Validtae 验证 添加规则
+    GLOBAL.VALIDATE.addMethod();
+    //修改 Validate 语言
+    GLOBAL.VALIDATE.changeLanguage();
+    //初始化 事件绑定
+    initPageBind();
+}
+
+//初始化 事件绑定
+function initPageBind() {
 
     //初始化 年、月 日期选择器：$(".year-day-picker")
     GLOBAL.DATETIMEPICKER.initYearDayPicker();
@@ -26,12 +43,6 @@ $(function () {
     //                删除 他的 父级 $("[data-temple-delete]") 元素
     GLOBAL.TEMPLATE.initTemplate();
 
-    //修改 Validate 语言
-    GLOBAL.VALIDATE.changeLanguage();
-
-    //为 Validtae 验证 添加规则
-    GLOBAL.VALIDATE.addMethod();
-
     //初始化 Validate验证
     GLOBAL.VALIDATE.initValidate();
-});
+}

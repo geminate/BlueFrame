@@ -13,7 +13,10 @@
 @import "components/block";
 @import "components/select2";
 
-@import "layouts/topNav";
+@import "layouts/pageHead";
+@import "layouts/pageNav";
+@import "layouts/pageLeft";
+@import "layouts/pageContainer";
 
 @import "pages/listPage";
 @import "pages/editPage";

@@ -6,10 +6,6 @@ import com.blueframe.frame.base.dao.BaseDao;
 import com.blueframe.frame.sys.model.SysUser;
 
 @Repository
-public class SysUserDao extends BaseDao<SysUser> {
+public interface SysUserDao extends BaseDao<SysUser> {
 
-	@Override
-	public Class<SysUser> getEntityClass() {
-		return SysUser.class;
-	}
 }

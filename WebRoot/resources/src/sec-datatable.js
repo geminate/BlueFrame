@@ -95,7 +95,7 @@
                         var param = $(element).attr("data-datatable-param");
 
                         $.post(url, {id: param}, function (re) {
-                            if (re == "success") {
+                            if (re != null && re.info != null && re.info == "success") {
                                 $.alert("删除成功");
                                 $(table).DataTable().draw();
                             }

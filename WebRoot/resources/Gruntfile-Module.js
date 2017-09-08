@@ -21,6 +21,7 @@ module.exports = function (grunt) {
         concat: {
             js: {
                 src: ['./module/js/jquery.min.js',
+                    './module/js/jquery.pjax.js',
                     './module/js/bootstrap.min.js',
                     './module/js/bootstrap-datetimepicker.js',
                     './module/js/bootstrap-datetimepicker.zh-CN.js',

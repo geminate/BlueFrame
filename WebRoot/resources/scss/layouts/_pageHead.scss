@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+@import "../helpers/parameters";
+@import "../helpers/mixin";
+
+/* ----------------------------------- Layout - pageHead ----------------------------------- */
+
+//页面头部
+#pageHead {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: $pageHead-height;
+  width: 100%;
+  padding: 0px 20px;
+  background: #3399cc;
+
+  //系统名称
+  h1 {
+    float: left;
+    height: $pageHead-height;
+    line-height: $pageHead-height;
+    margin: 0px;
+    font-size: 26px;
+  }
+
+  //用户信息块
+  .head-info {
+    height: $pageHead-height;
+    line-height: $pageHead-height;
+    font-size: 14px;
+
+    //分割线
+    .divide {
+      padding: 12px 0px 2px 20px;
+      margin-left: 20px;
+      border-left: 1px solid orange;
+      font-size: 0;
+    }
+
+    //链接
+    a {
+      color: white;
+    }
+  }
+}
