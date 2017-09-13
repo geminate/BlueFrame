@@ -1,6 +1,3 @@
-/**
- * Copyright (c) 2005-2012 springside.org.cn
- */
 package com.blueframe.common.tools;
 
 import java.lang.reflect.Field;
@@ -17,12 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 /**
- * 反射工具类.
- * 提供调用getter/setter方法, 访问私有变量, 调用私有方法, 获取泛型类型Class, 被AOP过的真实类等工具函数.
- * @author calvin
- * @version 2013-01-15
+ * 反射工具类. 提供调用getter/setter方法, 访问私有变量, 调用私有方法, 获取泛型类型Class, 被AOP过的真实类等工具函数.
  */
-@SuppressWarnings("rawtypes")
 public class Reflections {
 
 	private static final String SETTER_PREFIX = "set";
@@ -34,8 +27,7 @@ public class Reflections {
 	private static Logger logger = LoggerFactory.getLogger(Reflections.class);
 
 	/**
-	 * 调用Getter方法.
-	 * 支持多级，如：对象名.对象名.方法
+	 * 调用Getter方法. 支持多级，如：对象名.对象名.方法
 	 */
 	public static Object invokeGetter(Object obj, String propertyName) {
 		Object object = obj;
@@ -47,8 +39,7 @@ public class Reflections {
 	}
 
 	/**
-	 * 调用Setter方法, 仅匹配方法名。
-	 * 支持多级，如：对象名.对象名.方法
+	 * 调用Setter方法, 仅匹配方法名。 支持多级，如：对象名.对象名.方法
 	 */
 	public static void invokeSetter(Object obj, String propertyName, Object value) {
 		Object object = obj;
@@ -102,8 +93,7 @@ public class Reflections {
 
 	/**
 	 * 直接调用对象方法, 无视private/protected修饰符.
-	 * 用于一次性调用的情况，否则应使用getAccessibleMethod()函数获得Method后反复调用.
-	 * 同时匹配方法名+参数类型，
+	 * 用于一次性调用的情况，否则应使用getAccessibleMethod()函数获得Method后反复调用. 同时匹配方法名+参数类型，
 	 */
 	public static Object invokeMethod(final Object obj, final String methodName, final Class<?>[] parameterTypes, final Object[] args) {
 		Method method = getAccessibleMethod(obj, methodName, parameterTypes);
@@ -149,7 +139,7 @@ public class Reflections {
 				Field field = superClass.getDeclaredField(fieldName);
 				makeAccessible(field);
 				return field;
-			} catch (NoSuchFieldException e) {//NOSONAR
+			} catch (NoSuchFieldException e) {// NOSONAR
 				// Field不在当前类定义,继续向上转型
 				continue;// new add
 			}
@@ -158,11 +148,11 @@ public class Reflections {
 	}
 
 	/**
-	 * 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.
-	 * 如向上转型到Object仍无法找到, 返回null.
+	 * 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问. 如向上转型到Object仍无法找到, 返回null.
 	 * 匹配函数名+参数类型。
 	 * 
-	 * 用于方法需要被多次调用的情况. 先使用本函数先取得Method,然后调用Method.invoke(Object obj, Object... args)
+	 * 用于方法需要被多次调用的情况. 先使用本函数先取得Method,然后调用Method.invoke(Object obj, Object...
+	 * args)
 	 */
 	public static Method getAccessibleMethod(final Object obj, final String methodName, final Class<?>... parameterTypes) {
 		Validate.notNull(obj, "object can't be null");
@@ -182,11 +172,10 @@ public class Reflections {
 	}
 
 	/**
-	 * 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.
-	 * 如向上转型到Object仍无法找到, 返回null.
-	 * 只匹配函数名。
+	 * 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问. 如向上转型到Object仍无法找到, 返回null. 只匹配函数名。
 	 * 
-	 * 用于方法需要被多次调用的情况. 先使用本函数先取得Method,然后调用Method.invoke(Object obj, Object... args)
+	 * 用于方法需要被多次调用的情况. 先使用本函数先取得Method,然后调用Method.invoke(Object obj, Object...
+	 * args)
 	 */
 	public static Method getAccessibleMethodByName(final Object obj, final String methodName) {
 		Validate.notNull(obj, "object can't be null");
@@ -224,30 +213,29 @@ public class Reflections {
 	}
 
 	/**
-	 * 通过反射, 获得Class定义中声明的泛型参数的类型, 注意泛型必须定义在父类处
-	 * 如无法找到, 返回Object.class.
-	 * eg.
+	 * 通过反射, 获得Class定义中声明的泛型参数的类型, 注意泛型必须定义在父类处 如无法找到, 返回Object.class. eg.
 	 * public UserDao extends HibernateDao<User>
-	 *
+	 * 
 	 * @param clazz The class to introspect
-	 * @return the first generic declaration, or Object.class if cannot be determined
+	 * @return the first generic declaration, or Object.class if cannot be
+	 *         determined
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> Class<T> getClassGenricType(final Class clazz) {
-		return getClassGenricType(clazz, 0);
+	public static <T> Class<T> getClassGenricType(final Class<?> clazz) {
+		return (Class<T>) getClassGenricType(clazz, 0);
 	}
 
 	/**
-	 * 通过反射, 获得Class定义中声明的父类的泛型参数的类型.
-	 * 如无法找到, 返回Object.class.
+	 * 通过反射, 获得Class定义中声明的父类的泛型参数的类型. 如无法找到, 返回Object.class.
 	 * 
 	 * 如public UserDao extends HibernateDao<User,Long>
-	 *
+	 * 
 	 * @param clazz clazz The class to introspect
 	 * @param index the Index of the generic ddeclaration,start from 0.
-	 * @return the index generic declaration, or Object.class if cannot be determined
+	 * @return the index generic declaration, or Object.class if cannot be
+	 *         determined
 	 */
-	public static Class getClassGenricType(final Class clazz, final int index) {
+	public static Class<?> getClassGenricType(final Class<?> clazz, final int index) {
 
 		Type genType = clazz.getGenericSuperclass();
 
@@ -267,12 +255,12 @@ public class Reflections {
 			return Object.class;
 		}
 
-		return (Class) params[index];
+		return (Class<?>) params[index];
 	}
 
 	public static Class<?> getUserClass(Object instance) {
 		Assert.notNull(instance, "Instance must not be null");
-		Class clazz = instance.getClass();
+		Class<?> clazz = instance.getClass();
 		if (clazz != null && clazz.getName().contains(CGLIB_CLASS_SEPARATOR)) {
 			Class<?> superClass = clazz.getSuperclass();
 			if (superClass != null && !Object.class.equals(superClass)) {

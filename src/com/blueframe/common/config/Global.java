@@ -28,11 +28,4 @@ public class Global {
 		return value;
 	}
 
-	/**
-	 * 获取管理端根路径
-	 */
-	public static String getAdminPath() {
-		return getConfig("adminPath");
-	}
-
 }

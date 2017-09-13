@@ -40,8 +40,8 @@
 			<if test="id!=null and id!=''">and a.id = #{id}</if>
 			<if test="username!=null and username!=''">
 				and a.username LIKE
-				<if test="jdbcType == 'oracle'">'%,'||#{username}||',%'</if>
-				<if test="jdbcType == 'mysql'">CONCAT('%', #{username}, '%')</if>
+				<if test="dbType == 'oracle'">'%,'||#{username}||',%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{username}, '%')</if>
 			</if>
 			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
 			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>

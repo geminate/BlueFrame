@@ -2,13 +2,6 @@
 (function () {
     GLOBAL.namespace("DOM");
 
-    GLOBAL.DOM.initPjax = function () {
-        $(document).pjax('a[data-pjax]', '#innerContainer');
-        $(document).on('pjax:complete', function () {
-            initPageBind();
-        });
-    };
-
     GLOBAL.DOM.toggleDisable = function ($ele) {
         if ($ele.attr("disabled") == "disabled") {
             $ele.removeAttr("disabled");

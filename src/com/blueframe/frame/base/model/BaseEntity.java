@@ -84,8 +84,8 @@ public class BaseEntity<T> {
 	}
 
 	// 数据库 类型
-	public String getJdbcType() {
-		return Global.getConfig("jdbc.type");
+	public String getDbType() {
+		return Global.getConfig("db.type");
 	}
 
 	@Override

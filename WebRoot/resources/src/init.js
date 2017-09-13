@@ -12,13 +12,12 @@ GLOBAL.namespace = function (str) {
 
 $(function () {
     init();
-
 });
 
 function init() {
 
     //初始化 Pjax :
-    GLOBAL.DOM.initPjax();
+    GLOBAL.PJAX.initPjax();
     //为 Validtae 验证 添加规则
     GLOBAL.VALIDATE.addMethod();
     //修改 Validate 语言

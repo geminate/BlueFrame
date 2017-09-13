@@ -12,6 +12,9 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
+/**
+ * 配置文件 读取 工具类
+ */
 public class PropertiesReader {
 
 	private static Logger logger = LoggerFactory.getLogger(PropertiesReader.class);
@@ -100,7 +103,8 @@ public class PropertiesReader {
 	}
 
 	/**
-	 * 取出Boolean类型的Property，但以System的Property优先.如果都为Null抛出异常,如果内容不是true/false则返回false.
+	 * 取出Boolean类型的Property，但以System的Property优先.如果都为Null抛出异常,如果内容不是true/
+	 * false则返回false.
 	 */
 	public Boolean getBoolean(String key) {
 		String value = getValue(key);
@@ -111,7 +115,8 @@ public class PropertiesReader {
 	}
 
 	/**
-	 * 取出Boolean类型的Property，但以System的Property优先.如果都为Null则返回Default值,如果内容不为true/false则返回false.
+	 * 取出Boolean类型的Property，但以System的Property优先.如果都为Null则返回Default值,如果内容不为true/
+	 * false则返回false.
 	 */
 	public Boolean getBoolean(String key, boolean defaultValue) {
 		String value = getValue(key);
@@ -124,7 +129,7 @@ public class PropertiesReader {
 	private Properties loadProperties(String... resourcesPaths) {
 		Properties props = new Properties();
 
-		for (String location : resourcesPaths) {	
+		for (String location : resourcesPaths) {
 			InputStream is = null;
 			try {
 				Resource resource = resourceLoader.getResource(location);

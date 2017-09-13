@@ -10,9 +10,17 @@
 </sitemesh:style>
 
 <sitemesh:container>
-	123
+
+	<form data-pjax="true" action="${ctx}/frame/gen/genTable/selectTableColumn">
+		<select name="name">
+			<c:forEach items="${tableList}" var="item">
+				<option value="${item.name}">${item.name}<c:if test="${not (empty item.comments)}"> ------ ${item.comments}</c:if></option>
+			</c:forEach>
+		</select>
+		<input type="submit">
+	</form>
 </sitemesh:container>
 
 <sitemesh:script>
-	
+
 </sitemesh:script>

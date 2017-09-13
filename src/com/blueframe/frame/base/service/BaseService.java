@@ -1,5 +1,6 @@
 package com.blueframe.frame.base.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -58,6 +59,21 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 			return dao.selectLike(entity);
 		} else {
 			return dao.select(entity);
+		}
+	}
+
+	public E selectOne(E entity, Boolean like) {
+		List<E> list = new ArrayList<>();
+		if (like) {
+			list = dao.selectLike(entity);
+		} else {
+			list = dao.select(entity);
+		}
+
+		if (list.size() > 0) {
+			return list.get(0);
+		} else {
+			return null;
 		}
 	}
 
