@@ -60,6 +60,7 @@
 					},
 					{
 						"data" : "username",
+						"name" : "username",
 						"orderable" : true
 					},
 					{

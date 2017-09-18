@@ -1,6 +1,7 @@
 package com.blueframe.frame.base.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -9,7 +10,7 @@ import com.blueframe.frame.sys.model.SysUser;
 
 public class BaseEntity<T> {
 
-	private String id;// 主键Id
+	protected String id;// 主键Id
 	protected SysUser createBy; // 创建者
 	protected Date createDate; // 创建日期
 	protected SysUser updateBy; // 更新者
@@ -86,6 +87,18 @@ public class BaseEntity<T> {
 	// 数据库 类型
 	public String getDbType() {
 		return Global.getConfig("db.type");
+	}
+
+	public void preInsert(Boolean autoAddUUID) {
+		this.setCreateBy(new SysUser());
+		this.setCreateDate(new Date());
+		this.setUpdateBy(new SysUser());
+		this.setUpdateDate(new Date());
+		this.setDelFlag("0");
+		if (autoAddUUID) {
+			String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+			this.setId(uuid);
+		}
 	}
 
 	@Override

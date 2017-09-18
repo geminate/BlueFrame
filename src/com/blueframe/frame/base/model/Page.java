@@ -8,8 +8,8 @@ import net.sf.json.JSONObject;
 
 public class Page<T> {
 
-	private Integer length; //页面数据数量
-	private Integer start; //起始数据
+	private Integer length; // 页面数据数量
+	private Integer start; // 起始数据
 	private Integer draw;
 
 	private List<T> data;
@@ -24,7 +24,7 @@ public class Page<T> {
 		this.draw = Integer.parseInt(request.getParameter("draw"));
 		String index = request.getParameter("order[0][column]");
 		this.setOrderDir(request.getParameter("order[0][dir]"));
-		this.setOrder(request.getParameter("columns[" + index + "][data]"));
+		this.setOrder(request.getParameter("columns[" + index + "][name]"));
 	}
 
 	public Integer getLength() {

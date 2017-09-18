@@ -10,11 +10,6 @@
 
         $(document).pjax('a[data-pjax]', '#innerContainer');
 
-        $(document).on('submit', 'form', function (event) {
-            var container = $(this).closest('[data-pjax]');
-            $.pjax.submit(event, $("#innerContainer"));
-        });
-
         $(document).on('pjax:complete', function () {
             GLOBAL.PJAX.refreshCount++;
             if (GLOBAL.PJAX.refreshCount >= 250) {

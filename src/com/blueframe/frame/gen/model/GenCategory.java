@@ -1,5 +1,6 @@
 package com.blueframe.frame.gen.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -13,7 +14,7 @@ import com.blueframe.frame.sys.model.Dict;
 @XmlRootElement(name = "category")
 public class GenCategory extends Dict {
 
-	private List<String> template; // 模板
+	private List<String> template = new ArrayList<>(); // 模板
 
 	@XmlElement(name = "template")
 	public List<String> getTemplate() {

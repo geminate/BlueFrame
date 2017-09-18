@@ -25,7 +25,9 @@ public class GenUtils {
 	private static Logger logger = LoggerFactory.getLogger(GenUtils.class);
 
 	public static void initColumnField(GenTable genTable) {
+
 		List<GenTableColumn> genTableColumns = genTable.getTableColumns();
+
 		for (GenTableColumn column : genTableColumns) {
 
 			// 若字段 无注释，则将列名作为注释

@@ -1,9 +1,7 @@
 package com.blueframe.frame.base.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.blueframe.frame.base.dao.BaseDao;
 import com.blueframe.frame.base.model.BaseEntity;
 import com.blueframe.frame.base.model.Page;
-import com.blueframe.frame.sys.model.SysUser;
 
 public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>> {
 
@@ -24,7 +21,7 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 	 * @param entity
 	 */
 	public void insert(E entity, Boolean autoAddUUID) {
-		entity = preInsert(entity, autoAddUUID);
+		entity.preInsert(autoAddUUID);
 		dao.insert(entity);
 	}
 
@@ -62,6 +59,12 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 		}
 	}
 
+	/**
+	 * 
+	 * @param entity
+	 * @param like
+	 * @return
+	 */
 	public E selectOne(E entity, Boolean like) {
 		List<E> list = new ArrayList<>();
 		if (like) {
@@ -103,19 +106,6 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 		List<E> list = dao.selectLike(entity);
 		page.setData(list);
 		return page;
-	}
-
-	private E preInsert(E entity, Boolean autoAddUUID) {
-		entity.setCreateBy(new SysUser());
-		entity.setCreateDate(new Date());
-		entity.setUpdateBy(new SysUser());
-		entity.setUpdateDate(new Date());
-		entity.setDelFlag("0");
-		if (autoAddUUID) {
-			String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-			entity.setId(uuid);
-		}
-		return entity;
 	}
 
 }

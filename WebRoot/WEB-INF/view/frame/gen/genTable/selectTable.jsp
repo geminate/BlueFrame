@@ -11,7 +11,7 @@
 
 <sitemesh:container>
 
-	<form data-pjax="true" action="${ctx}/frame/gen/genTable/selectTableColumn">
+	<form data-pjax="true" action="${ctx}/frame/gen/genTable/insert" method="get">
 		<select name="name">
 			<c:forEach items="${tableList}" var="item">
 				<option value="${item.name}">${item.name}<c:if test="${not (empty item.comments)}"> ------ ${item.comments}</c:if></option>

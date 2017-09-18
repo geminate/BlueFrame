@@ -4,32 +4,56 @@
 
 	<!-- Select 列 -->
 	<sql id="selectColumnList">
-		gen_table.id AS id,
-		gen_table.name AS name,
-		gen_table.comments AS comments,
-		gen_table.class_name AS className
+		a.*,
+
+		cu.id AS "createBy.id",
+		cu.username AS "createBy.username",
+		uu.id AS "updateBy.id",
+		uu.username AS "updateBy.username"
 	</sql>
 
 	<sql id="leftJoin">
+		LEFT JOIN sys_user cu on cu.id = a.create_by
+		LEFT JOIN sys_user uu on uu.id = a.create_by
 	</sql>
 
 	<!-- 精确查询 Where -->
 	<sql id="dynamicWhere">
 		<where>
-			<if test="id!=null and id!=''">and id = #{id}</if>
-			<if test="name!=null and name!=''">and name = #{name}</if>
-			<if test="comments!=null and comments!=''">and comments = #{comments}</if>
-			<if test="className!=null and className!=''">and class_name = #{className}</if>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">and a.name = #{name}</if>
+			<if test="comments!=null and comments!=''">and a.comments = #{comments}</if>
+			<if test="className!=null and className!=''">and a.class_name = #{className}</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
 		</where>
 	</sql>
 
 	<!-- 模糊查询 Where -->
 	<sql id="dynamicWhereLike">
 		<where>
-			<if test="id!=null and id!=''">and id = #{id}</if>
-			<if test="name!=null and name!=''">and name = #{name}</if>
-			<if test="comments!=null and comments!=''">and comments = #{comments}</if>
-			<if test="className!=null and className!=''">and class_name = #{className}</if>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">
+				and a.name LIKE
+				<if test="dbType == 'oracle'">'%,'||#{name}||',%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{name}, '%')</if>
+			</if>
+			<if test="comments!=null and comments!=''">
+				and a.comments LIKE
+				<if test="dbType == 'oracle'">'%,'||#{comments}||',%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{comments}, '%')</if>
+			</if>
+			<if test="className!=null and className!=''">and a.class_name = #{className}</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
 		</where>
 	</sql>
 
@@ -40,39 +64,57 @@
 		id,
 		name,
 		comments,
-		class_name
+		class_name,
+
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
 		)
 		values
 		(
 		#{id},
 		#{name},
 		#{comments},
-		#{className}
+		#{className},
+
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
 		)
 	</insert>
 
 	<!-- 删 -->
 	<delete id="delete" parameterType="com.blueframe.frame.gen.model.GenTable">
-		delete from gen_table
+		delete from gen_table a
 		<include refid="dynamicWhere" />
 	</delete>
 
+	<!-- 删(逻辑) -->
+	<update id="deleteLogic">
+		update gen_table a SET a.del_flag = '1'
+		<include refid="dynamicWhere" />
+	</update>
+
 	<!-- 改 -->
 	<update id="update" parameterType="com.blueframe.frame.gen.model.GenTable">
-		update gen_table
+		update gen_table a
 		<set>
-			<if test="name!=null and name!=''">and name = #{name,jdbcType=VARCHAR}</if>
-			<if test="comments!=null and comments!=''">and comments = #{comments,jdbcType=VARCHAR}</if>
-			<if test="className!=null and className!=''">and class_name = #{className,jdbcType=VARCHAR}</if>
+			<if test="name!=null and name!=''">a.name = #{name},</if>
+			<if test="comments!=null and comments!=''">a.comments = #{comments},</if>
+			<if test="className!=null and className!=''">a.class_name = #{className}</if>
 		</set>
-		where id = #{id,jdbcType=VARCHAR}
+		where a.id = #{id,jdbcType=VARCHAR}
 	</update>
 
 	<!-- 查(精确) -->
 	<select id="select" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="com.blueframe.frame.gen.model.GenTable">
 		select
 		<include refid="selectColumnList" />
-		from gen_table
+		from gen_table a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhere" />
 		<if test="page !=null and page.order !=null and page.order !='' ">
@@ -85,7 +127,7 @@
 
 	<!-- 数量查询(精确) -->
 	<select id="count" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="java.lang.Integer">
-		select count(*) from gen_table
+		select count(*) from gen_table a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhere" />
 	</select>
@@ -94,7 +136,7 @@
 	<select id="selectLike" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="com.blueframe.frame.gen.model.GenTable">
 		select
 		<include refid="selectColumnList" />
-		from gen_table
+		from gen_table a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhereLike" />
 		<if test="page !=null and page.order !=null and page.order !='' ">
@@ -107,7 +149,7 @@
 
 	<!-- 数量查询(模糊) -->
 	<select id="countLike" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="java.lang.Integer">
-		select count(*) from gen_table
+		select count(*) from gen_table a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhereLike" />
 	</select>
@@ -184,7 +226,7 @@
 			WHERE cu.constraint_name = au.constraint_name
 			AND au.constraint_type = 'P'
 			AND au.table_name = upper(#{name})
-		</if>		
+		</if>
 		<if test="dbType == 'mysql'">
 			SELECT lower(au.COLUMN_NAME) AS columnName
 			FROM information_schema.`COLUMNS` au
