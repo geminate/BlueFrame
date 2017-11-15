@@ -46,7 +46,7 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
 	public Page<SysUser> toPostSysUserList(SysUser sysUser, HttpServletRequest request) {
-		Page<SysUser> page = new Page<SysUser>(request);
+		Page<SysUser> page = new Page<SysUser>(request);		
 		page = sysUserService.selectPage(sysUser, request, page);
 		return page;
 	}

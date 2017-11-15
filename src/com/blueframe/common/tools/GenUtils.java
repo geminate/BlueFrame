@@ -4,17 +4,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import com.blueframe.common.config.Global;
 import com.blueframe.common.mapper.JaxbMapper;
+import com.blueframe.frame.gen.model.GenCategory;
 import com.blueframe.frame.gen.model.GenConfig;
+import com.blueframe.frame.gen.model.GenScheme;
 import com.blueframe.frame.gen.model.GenTable;
 import com.blueframe.frame.gen.model.GenTableColumn;
+import com.blueframe.frame.gen.model.GenTemplate;
 import com.blueframe.frame.sys.model.SysUser;
 
 /**
@@ -151,5 +158,45 @@ public class GenUtils {
 			logger.warn("读取 代码生成器 配置文件错误，文件路径：" + pathName + ",错误信息：" + e.getMessage());
 		}
 		return null;
+	}
+
+	public static List<GenTemplate> getTemplateList(GenConfig config, boolean b) {
+		List<GenTemplate> templateList = new ArrayList<>();
+		if (config != null && config.getCategoryList() != null) {
+			for (GenCategory e : config.getCategoryList()) {
+				List<String> strings = e.getTemplate();
+				for (String s : strings) {
+					GenTemplate template = fileToObject(s, GenTemplate.class);
+					templateList.add(template);
+				}
+			}
+		}
+		return templateList;
+	}
+
+	public static Map<String, Object> getDataModelNew(GenScheme genScheme) {
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		model.put("packageName", StringUtils.lowerCase(genScheme.getPackageName()));
+		model.put("lastPackageName", StringUtils.substringAfterLast((String) model.get("packageName"), "."));
+		model.put("moduleName", StringUtils.lowerCase(genScheme.getModuleName()));
+		//model.put("subModuleName", StringUtils.lowerCase(genScheme.getSubModuleName()));
+
+		model.put("functionName", genScheme.getFunctionName());
+		//model.put("functionNameSimple", genScheme.getFunctionNameSimple());
+		model.put("functionAuthor",  genScheme.getFunctionAuthor());
+		//model.put("functionVersion", DateUtils.getDate());
+		//model.put("className", StringUtils.uncapitalize(genScheme.getGenSpecial().getpTableName()));
+		//model.put("ClassName", StringUtils.capitalize(genScheme.getGenSpecial().getpTableName()));
+		//model.put("urlPrefix",model.get("moduleName")+ (StringUtils.isNotBlank(genScheme.getSubModuleName()) ? "/" + StringUtils.lowerCase(genScheme.getSubModuleName()) : "") + "/"+ model.get("className"));
+		model.put("viewPrefix",model.get("urlPrefix"));
+		//model.put("permissionPrefix",model.get("moduleName")+ (StringUtils.isNotBlank(genScheme.getSubModuleName()) ? ":" + StringUtils.lowerCase(genScheme.getSubModuleName()) : "") + ":"+ model.get("className"));
+		model.put("dbType", Global.getConfig("jdbc.type"));
+		//model.put("table", genScheme.getGenSpecial());
+		return null;
+	}
+
+	public static void generateToFile(GenTemplate tpl, Map<String, Object> model) {
+		String content = FreeMarkers.renderString(StringUtils.trimToEmpty(tpl.getContent()), model);
 	}
 }

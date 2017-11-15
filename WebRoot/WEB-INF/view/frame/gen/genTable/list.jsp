@@ -37,7 +37,7 @@
 							<th>表名</th>
 							<th>注释</th>
 							<th>类名</th>
-							<th>创建时间</th>
+							<th>创建人</th>
 							<th>操作</th>
 						</tr>
 					</thead>

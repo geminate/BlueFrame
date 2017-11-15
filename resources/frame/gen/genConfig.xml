@@ -4,12 +4,14 @@
 	<!-- 生成分类 -->
 	<category>
 		<category value="curd" label="增删改查（单表）">
-			<template>curd/controller.xml</template>
-			<template>curd/service.xml</template>
-			<template>category-ref:dao</template>
-			<template>curd/viewForm.xml</template>
-			<template>curd/viewList.xml</template>
-			<template>curd/viewShow.xml</template>
+			<template>frame/gen/curd/controller.xml</template>
+			<template>frame/gen/curd/service.xml</template>
+			<template>frame/gen/dao/dao.xml</template>
+			<template>frame/gen/dao/entity.xml</template>
+			<template>frame/gen/dao/mapper.xml</template>
+			<template>frame/gen/curd/viewForm.xml</template>
+			<template>frame/gen/curd/viewList.xml</template>
+			<template>frame/gen/curd/viewShow.xml</template>
 		</category>
 	</category>
 

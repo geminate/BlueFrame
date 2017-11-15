@@ -1,5 +1,7 @@
 package com.blueframe.frame.gen.service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.blueframe.common.tools.GenUtils;
 import com.blueframe.common.tools.StringUtils;
 import com.blueframe.frame.base.service.BaseService;
-import com.blueframe.frame.gen.dao.GenTableColumnDao;
 import com.blueframe.frame.gen.dao.GenTableDao;
 import com.blueframe.frame.gen.model.GenTable;
 import com.blueframe.frame.gen.model.GenTableColumn;
@@ -17,7 +18,7 @@ import com.blueframe.frame.gen.model.GenTableColumn;
 public class GenTableService extends BaseService<GenTableDao, GenTable> {
 
 	@Autowired
-	private GenTableColumnDao genTableColumnDao;
+	private GenTableColumnService genTableColumnService;
 
 	public List<GenTable> findTableListFromDb(GenTable genTable) {
 		return dao.findTableListFromDb(genTable);
@@ -97,6 +98,16 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 		GenTable genTable = new GenTable(id);
 		genTable = selectOne(genTable, false);
 		genTable = getTableStorageColumn(genTable);
+
+		//排序
+		Collections.sort(genTable.getTableColumns(), new Comparator<GenTableColumn>() {
+
+			@Override
+			public int compare(GenTableColumn o1, GenTableColumn o2) {
+				return o1.getSort() - o2.getSort();
+			}
+		});
+
 		return genTable;
 	}
 
@@ -109,7 +120,7 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 		genTable = selectOne(new GenTable(genTable.getId()), false);
 		GenTableColumn genTableColumn = new GenTableColumn();
 		genTableColumn.setGenTable(new GenTable(genTable.getId()));
-		genTable.setTableColumns((genTableColumnDao.select(genTableColumn)));
+		genTable.setTableColumns((genTableColumnService.select(genTableColumn, false)));
 		return genTable;
 	}
 
@@ -117,9 +128,8 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 		insert(genTable, true);
 		List<GenTableColumn> columns = genTable.getTableColumns();
 		for (GenTableColumn genTableColumn : columns) {
-			genTableColumn.preInsert(true);
 			genTableColumn.setGenTable(genTable);
-			genTableColumnDao.insert(genTableColumn);
+			genTableColumnService.insert(genTableColumn, true);
 		}
 	}
 
@@ -127,9 +137,8 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 		update(genTable);
 		List<GenTableColumn> columns = genTable.getTableColumns();
 		for (GenTableColumn genTableColumn : columns) {
-			genTableColumn.preInsert(false);
 			genTableColumn.setGenTable(genTable);
-			genTableColumnDao.update(genTableColumn);
+			genTableColumnService.update(genTableColumn);
 		}
 	}
 }

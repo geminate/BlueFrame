@@ -40,12 +40,12 @@
 			<if test="id!=null and id!=''">and a.id = #{id}</if>
 			<if test="name!=null and name!=''">
 				and a.name LIKE
-				<if test="dbType == 'oracle'">'%,'||#{name}||',%'</if>
+				<if test="dbType == 'oracle'">'%'||#{name}||'%'</if>
 				<if test="dbType == 'mysql'">CONCAT('%', #{name}, '%')</if>
 			</if>
 			<if test="comments!=null and comments!=''">
 				and a.comments LIKE
-				<if test="dbType == 'oracle'">'%,'||#{comments}||',%'</if>
+				<if test="dbType == 'oracle'">'%'||#{comments}||'%'</if>
 				<if test="dbType == 'mysql'">CONCAT('%', #{comments}, '%')</if>
 			</if>
 			<if test="className!=null and className!=''">and a.class_name = #{className}</if>

@@ -42,6 +42,7 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 	 * @param entity
 	 */
 	public void update(E entity) {
+		entity.preUpdate();
 		dao.update(entity);
 	}
 
@@ -103,8 +104,11 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 	 */
 	public Page<E> selectPage(E entity, HttpServletRequest request, Page<E> page) {
 		entity.setPage(page);
+		
 		List<E> list = dao.selectLike(entity);
+		
 		page.setData(list);
+		
 		return page;
 	}
 

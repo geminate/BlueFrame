@@ -90,15 +90,27 @@ public class BaseEntity<T> {
 	}
 
 	public void preInsert(Boolean autoAddUUID) {
-		this.setCreateBy(new SysUser());
+		SysUser sysUser = new SysUser();
+		sysUser.setId("1");
+
+		this.setCreateBy(sysUser);
 		this.setCreateDate(new Date());
-		this.setUpdateBy(new SysUser());
+		this.setUpdateBy(sysUser);
 		this.setUpdateDate(new Date());
 		this.setDelFlag("0");
 		if (autoAddUUID) {
 			String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 			this.setId(uuid);
 		}
+	}
+
+	public void preUpdate() {
+		SysUser sysUser = new SysUser();
+		sysUser.setId("1");
+		
+		this.setUpdateBy(sysUser);
+		this.setUpdateDate(new Date());
+		this.setDelFlag("0");
 	}
 
 	@Override

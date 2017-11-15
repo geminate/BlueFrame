@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewForm</name>
+	<filePath>WebRoot/WEB-INF/views/business/organization/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${className}Form.jsp</fileName>
+	<content><![CDATA[
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<html>
+<head>
+	<title>${functionNameSimple}管理</title>
+	<meta name="decorator" content="default"/>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+		$("#btnSubmit").click(function() {
+			$("#inputForm").submit();
+		})
+
+		$("#inputForm").validate(
+			{
+				rules : {
+
+				},
+				messages : {
+
+				},
+				errorPlacement : function(error, element) {
+					error.appendTo(element.parent().next(".errPlace"));
+				}
+			});
+	});
+	</script>
+</head>
+<body>
+	<div class="main">
+		<div class="main-box">
+			<div class="main-box-title">
+				<i class="glyphicon glyphicon-folder-open"></i><span><c:if test="${r"${empty "+className+".id}"}">新增${functionNameSimple}</c:if>
+					<c:if test="${r"${not empty "+className+".id}"}">修改${functionNameSimple}</c:if></span>
+			</div>	
+
+			<form:form id="inputForm" modelAttribute="${className}" action="${r"${ctx}"}/${urlPrefix}/save" method="post" class="form-horizontal view-form">
+				<form:hidden path="id"/>
+				<sys:message content="${r"${message}"}"/>		
+				<#list table.columnList as c>
+					<#if c.isEdit?? && c.isEdit == "1" && (c.isNotBaseField || c.simpleJavaField == 'remarks')>
+				<div class="form-group col-md-6">
+					<label for="${c.javaFieldId}" class="col-md-4 control-label <#if c.isNull != "1"> need </#if>">${c.comments}：</label>
+					<div class="col-md-7">
+					<#if c.showType == "input">
+						<form:input path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control <#if c.isNull != "1">required</#if>" />
+					<#elseif c.showType == "textarea">
+						<form:textarea path="${c.javaFieldId}" htmlEscape="false" rows="4"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-textarea <#if c.isNull != "1">required</#if>" />
+					<#elseif c.showType == "select">
+						<form:select path="${c.javaFieldId}" class="form-select <#if c.isNull != "1">required</#if>" >
+							<form:option value="" label=""/>
+							<form:options items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+						</form:select>
+					<#elseif c.showType == "checkbox">
+						<form:checkboxes path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false" class="form-checkbox <#if c.isNull != "1">required</#if>" />
+					<#elseif c.showType == "radiobox">
+						<form:radiobuttons path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false" class="form-checkbox <#if c.isNull != "1">required</#if>" />
+					<#elseif c.showType == "dateselect">
+						<input name="${c.javaFieldId}" type="text" readonly="readonly" maxlength="20" class="form-control Wdate <#if c.isNull != "1">required</#if>"
+							value="<fmt:formatDate value="${"$"}{${className}.${c.javaFieldId}}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false,position:{left:235,top:108}});"/>
+					<#elseif c.showType == "userselect">
+						<sys:treeselect id="${c.simpleJavaField}" name="${c.javaFieldId}" value="${"$"}{${className}.${c.javaFieldId}}" labelName="${c.javaFieldName}" labelValue="${"$"}{${className}.${c.javaFieldName}}"
+							title="用户" url="/sys/office/treeData?type=3" cssClass="form-control <#if c.isNull != "1">required</#if>" allowClear="true" notAllowSelectParent="true" />
+					<#elseif c.showType == "officeselect">
+						<sys:treeselect id="${c.simpleJavaField}" name="${c.javaFieldId}" value="${"$"}{${className}.${c.javaFieldId}}" labelName="${c.javaFieldName}" labelValue="${"$"}{${className}.${c.javaFieldName}}"
+							title="部门" url="/sys/office/treeData?type=2" cssClass="form-control <#if c.isNull != "1">required</#if>" allowClear="true" notAllowSelectParent="true" />
+					<#elseif c.showType == "areaselect">
+						<sys:treeselect id="${c.simpleJavaField}" name="${c.javaFieldId}" value="${"$"}{${className}.${c.javaFieldId}}" labelName="${c.javaFieldName}" labelValue="${"$"}{${className}.${c.javaFieldName}}"
+							title="区域" url="/sys/area/treeData" cssClass="form-control <#if c.isNull != "1">required</#if>" allowClear="true" notAllowSelectParent="true" />
+					<#elseif c.showType == "fileselect">
+						<input type="file" />
+					</#if>					
+					</div>
+					<div class="col-md-7 col-md-offset-4 errPlace"></div>
+				</div>
+					</#if>
+				</#list>
+			</form:form>
+		</div>
+		<div class="main-box" style="margin-bottom: 0px;">
+			<div class="form-group col-md-12 btn-group" style="min-height: 45px;">
+				<div class="col-md-12">					
+					<input id="btnSubmit" class="btn btn-blue f-right" type="button" value="保存" />&nbsp;					
+					<input id="btnCancel" class="btn btn-gray f-right" type="button" value="取消" onclick="history.go(-1)" />
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>]]>
+	</content>
+</template>
