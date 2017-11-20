@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.blueframe.common.tools.GenUtils;
 import com.blueframe.frame.base.service.BaseService;
+import com.blueframe.frame.common.utils.GenUtils;
 import com.blueframe.frame.gen.dao.GenSchemeDao;
 import com.blueframe.frame.gen.model.GenConfig;
 import com.blueframe.frame.gen.model.GenScheme;

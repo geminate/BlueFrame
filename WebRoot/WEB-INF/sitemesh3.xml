@@ -2,13 +2,14 @@
 <sitemesh>
 
 	<!-- 被装饰路径 -->
-	<mapping path="/frame/*" decorator="/frame/decorators/decorator" />
+	<mapping path="/*" decorator="/decorator" />
 
+	<!-- 不装饰路径 -->
+	<mapping path="/login" exclue="true" />
+
+	<!-- 自定义标签 -->
 	<content-processor>
-		<tag-rule-bundle class="com.blueframe.frame.decorator.util.TitleTagRuleBundle" />
-		<tag-rule-bundle class="com.blueframe.frame.decorator.util.StyleTagRuleBundle" />
-		<tag-rule-bundle class="com.blueframe.frame.decorator.util.ContainerTagRuleBundle" />
-		<tag-rule-bundle class="com.blueframe.frame.decorator.util.ScriptTagRuleBundle" />
+		<tag-rule-bundle class="com.blueframe.frame.common.sitemesh.CustomTagRuleBundle" />
 	</content-processor>
 
 </sitemesh>

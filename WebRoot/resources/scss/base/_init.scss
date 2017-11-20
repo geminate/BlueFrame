@@ -4,114 +4,13 @@
 @import "../helpers/mixin";
 
 /* ----------------------------------- Base - Init ----------------------------------- */
-
-/* --------------- Float -------------------*/
-.fl {
-  float: left;
-}
-
-.fr {
-  float: right;
-}
-
-.cb {
-  clear: both;
-}
-
-/* ---------------- Text --------------------*/
-.tac {
-  text-align: center;
-}
-
-.tal {
-  text-align: left;
-}
-
-.tar {
-  text-align: right;
-}
-
-.b {
-  font-weight: bold;
-}
-
-.n {
-  font-weight: normal;
-  font-style: normal;
-}
-
-/* -------------- Position ------------------*/
-.pr {
-  position: relative;
-}
-
-.pa {
-  position: absolute;
-}
-
-.oh {
-  overflow: hidden;
-}
-
-/* -------------- Display ------------------*/
-.dn {
-  display: none;
-}
-
-.db {
-  display: block;
-}
-
-.dib {
-  display: inline-block;
-}
-
-.di {
-  display: inline;
-}
-
-.cp {
-  cursor: pointer;
-}
-
-/* --------------- Normal -------------------*/
-//设置 body,html 高度 自适应
-body, html {
-  height: 100%;
-  overflow: auto;
-}
-
-//去除a指向时的下划线
-a, a:hover, a:active, a:focus {
-  text-decoration: none;
-  outline: none;
-}
-
-//解决 Chrome 浏览器自动填充 导致的 input黄底问题
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-text-fill-color: #333;
-}
-
-//去掉 li 前面的 黑点
-li {
-  list-style-type: none;
-}
-
-/* --------------- Tool Class ----------------*/
-//清除浮动
-.clear-fix:after {
-  content: "";
-  height: 0;
-  line-height: 0;
-  display: block;
+// 必填项后面 的 “*”
+.control-label::AFTER {
+  content: '*';
+  color: red;
   visibility: hidden;
-  clear: both;
 }
 
-//超出部分显示省略号
-.ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.control-label.need::AFTER {
+  visibility: visible;
 }

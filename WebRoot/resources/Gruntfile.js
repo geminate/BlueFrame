@@ -12,26 +12,26 @@ module.exports = function (grunt) {
                     noCache: true
                 },
                 files: {
-                    'build/sec-main.min.css': './scss/sec-main.scss'
+                    'build/custom.min.css': './scss/custom.scss'
                 }
             }
         },
         //JS 文件检查
         jshint: {
-            all: ['./src/*.js']
+            all: ['./src/*.js', './src/*/*.js']
         },
         //JS 文件合并
         concat: {
             my: {
-                src: ['./src/*.js'],
-                dest: './build/sec-main.js',
+                src: ['./src/*.js', './src/*/*.js'],
+                dest: './build/custom.js',
             }
         },
         //JS 文件压缩
         uglify: {
             compressjs: {
                 files: {
-                    './build/sec-main.min.js': ['./build/sec-main.js']
+                    './build/custom.min.js': ['./build/custom.js']
                 }
             }
         },
@@ -42,17 +42,14 @@ module.exports = function (grunt) {
                 tasks: ['sass']
             },
             scripts: {
-                files: ['./src/*.js'],
+                files: ['./src/*.js', './src/*/*.js'],
                 tasks: ['concat', 'jshint', 'uglify']
-            },
-            html: {
-                files: ['./index.html', "./html/*.html"]
             },
             livereload: {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
                 },
-                files: ['<%= watch.html.files %>', 'build/main.css', 'js/sec-main.min.js']
+                files: ['build/custom.css', 'js/custom.min.js']
             }
         },
         connect: {

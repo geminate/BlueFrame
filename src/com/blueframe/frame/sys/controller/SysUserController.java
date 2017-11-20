@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blueframe.frame.base.controller.BaseController;
-import com.blueframe.frame.base.model.AjaxInfo;
 import com.blueframe.frame.base.model.Page;
+import com.blueframe.frame.common.shiro.SecCredentialsMatcher;
+import com.blueframe.frame.sys.model.SysRole;
+import com.blueframe.frame.sys.model.SysRoleList;
 import com.blueframe.frame.sys.model.SysUser;
+import com.blueframe.frame.sys.service.SysRoleService;
+import com.blueframe.frame.sys.service.SysUserRoleService;
 import com.blueframe.frame.sys.service.SysUserService;
 
 /**
@@ -27,12 +31,18 @@ public class SysUserController extends BaseController {
 	@Autowired
 	private SysUserService sysUserService;
 
+	@Autowired
+	private SysRoleService sysRoleService;
+
+	@Autowired
+	private SysUserRoleService sysUserRoleService;
+
 	/**
 	 * 用户管理-列表页-GET
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView toGetSysUserList() {
+	public ModelAndView toGetList() {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysUser/list");
 		return mov;
 	}
@@ -45,8 +55,8 @@ public class SysUserController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public Page<SysUser> toPostSysUserList(SysUser sysUser, HttpServletRequest request) {
-		Page<SysUser> page = new Page<SysUser>(request);		
+	public Page<SysUser> toPostList(SysUser sysUser, HttpServletRequest request) {
+		Page<SysUser> page = new Page<SysUser>(request);
 		page = sysUserService.selectPage(sysUser, request, page);
 		return page;
 	}
@@ -56,8 +66,10 @@ public class SysUserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
-	public ModelAndView toGetSysUserInsert() {
+	public ModelAndView toGetInsert() {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysUser/insert");
+		List<SysRole> roleList = sysRoleService.select(new SysRole(), false);
+		mov.addObject("roleList", roleList);
 		return mov;
 	}
 
@@ -67,9 +79,11 @@ public class SysUserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public ModelAndView toPostSysUserInsert(SysUser sysUser) {
+	public ModelAndView toPostInsert(SysUser sysUser, SysRoleList sysRoleList) {
 		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysUser/list");
+		sysUser.setPassword(SecCredentialsMatcher.encryptPassword(sysUser.getPassword()));
 		sysUserService.insert(sysUser, true);
+		sysUserRoleService.bundleRolesToUser(sysUser, sysRoleList.getSysRoleList());
 		return mov;
 	}
 
@@ -80,9 +94,10 @@ public class SysUserController extends BaseController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxInfo toPostSysUserDelete(SysUser sysUser) {
+	public String toPostDelete(SysUser sysUser) {
 		sysUserService.delete(sysUser, true);
-		return new AjaxInfo("success");
+		sysUserRoleService.deleteAllRolesByUser(sysUser);
+		return "success";
 	}
 
 	/**
@@ -91,12 +106,11 @@ public class SysUserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public ModelAndView toGetSysUserUpdate(SysUser sysUser) {
+	public ModelAndView toGeUpdate(SysUser sysUser) {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysUser/update");
-		List<SysUser> sysUsers = sysUserService.select(sysUser, false);
-		if (sysUsers != null && sysUsers.size() > 0) {
-			mov.addObject("sysUser", sysUsers.get(0));
-		}
+		mov.addObject("sysUser", sysUserService.selectOne(sysUser, false));
+		mov.addObject("roleList", sysRoleService.select(new SysRole(), false));
+		mov.addObject("haveRoleList", sysRoleService.selectRolesByUser(sysUser.getId()));
 		return mov;
 	}
 
@@ -106,9 +120,11 @@ public class SysUserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ModelAndView toPostSysUserUpdate(SysUser sysUser) {
+	public ModelAndView toPosUpdate(SysUser sysUser, SysRoleList sysRoleList) {
 		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysUser/list");
 		sysUserService.update(sysUser);
+		sysUserRoleService.deleteAllRolesByUser(sysUser);
+		sysUserRoleService.bundleRolesToUser(sysUser, sysRoleList.getSysRoleList());
 		return mov;
 	}
 }

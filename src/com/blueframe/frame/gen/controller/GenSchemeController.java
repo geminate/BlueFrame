@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blueframe.frame.base.controller.BaseController;
-import com.blueframe.frame.base.model.AjaxInfo;
 import com.blueframe.frame.base.model.Page;
 import com.blueframe.frame.gen.model.GenScheme;
 import com.blueframe.frame.gen.model.GenTable;
@@ -60,9 +59,9 @@ public class GenSchemeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public AjaxInfo toPostDelete(GenScheme genScheme) {
+	public String toPostDelete(GenScheme genScheme) {
 		genSchemeService.delete(genScheme, true);
-		return new AjaxInfo("success");
+		return "success";
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)

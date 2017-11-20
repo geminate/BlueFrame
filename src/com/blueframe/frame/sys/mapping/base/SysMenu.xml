@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blueframe.frame.sys.dao.SysMenuDao">
+
+	<!-- Select 列 -->
+	<sql id="selectColumnList">
+		a.*,
+
+		cu.username AS "createBy.username",
+		uu.username AS "updateBy.username"
+	</sql>
+
+	<sql id="leftJoin">
+		LEFT JOIN sys_menu sm on sm.id = a.parent_id
+		LEFT JOIN sys_permission sp on sp.id = a.permission_id
+		LEFT JOIN sys_user cu on cu.id = a.create_by
+		LEFT JOIN sys_user uu on uu.id = a.create_by
+	</sql>
+
+	<!-- 精确查询 Where -->
+	<sql id="dynamicWhere">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">and a.name = #{name}</if>
+			<if test="href!=null and href!=''">and a.href = #{href}</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+		</where>
+	</sql>
+
+	<!-- 模糊查询 Where -->
+	<sql id="dynamicWhereLike">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">and a.name = #{name}</if>
+			<if test="href!=null and href!=''">and a.href = #{href}</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+		</where>
+	</sql>
+
+	<!-- 增 -->
+	<insert id="insert">
+		insert into sys_menu(
+
+		id,
+		name,
+		href,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+
+		)values(
+
+		#{id},
+		#{name},
+		#{href},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+
+		)
+	</insert>
+
+	<!-- 批量插入 -->
+	<insert id="insertBatch">
+		insert into sys_menu(
+
+		id,
+		name,
+		href,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+
+		)
+		<foreach collection="list" item="item" separator=" union all ">
+			SELECT
+			#{item.id},
+			#{item.name},
+			#{item.href},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			FROM dual
+		</foreach>
+	</insert>
+
+	<!-- 删(物理) -->
+	<delete id="delete" parameterType="com.blueframe.frame.sys.model.SysMenu">
+		delete from sys_menu a
+		<include refid="dynamicWhere" />
+	</delete>
+
+	<!-- 删(逻辑) -->
+	<update id="deleteLogic">
+		update sys_menu a SET a.del_flag = '1'
+		<include refid="dynamicWhere" />
+	</update>
+
+	<!-- 改 -->
+	<update id="update" parameterType="com.blueframe.frame.sys.model.SysMenu">
+		update sys_menu a
+		<set>
+			<if test="name!=null and name!=''">a.name = #{name,jdbcType=VARCHAR},</if>
+			<if test="href!=null and href!=''">a.href = #{href,jdbcType=VARCHAR},</if>
+		</set>
+		where a.id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查(精确) -->
+	<select id="select" parameterType="com.blueframe.frame.sys.model.SysMenu" resultType="com.blueframe.frame.sys.model.SysMenu">
+		select
+		<include refid="selectColumnList" />
+		from sys_menu a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 数量查询(精确) -->
+	<select id="count" parameterType="com.blueframe.frame.sys.model.SysMenu" resultType="java.lang.Integer">
+		select count(*) from sys_menu a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 查(模糊) -->
+	<select id="selectLike" parameterType="com.blueframe.frame.sys.model.SysMenu" resultType="com.blueframe.frame.sys.model.SysMenu">
+		select
+		<include refid="selectColumnList" />
+		from sys_menu a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 数量查询(模糊) -->
+	<select id="countLike" parameterType="com.blueframe.frame.sys.model.SysMenu" resultType="java.lang.Integer">
+		select count(*) from sys_menu a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+	</select>
+
+	
+</mapper>

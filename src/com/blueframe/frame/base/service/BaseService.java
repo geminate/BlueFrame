@@ -26,6 +26,18 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 	}
 
 	/**
+	 * 批量增加
+	 * @param entityList
+	 * @param autoAddUUID
+	 */
+	public void insertBatch(List<E> entityList, Boolean autoAddUUID) {
+		for (E entity : entityList) {
+			entity.preInsert(autoAddUUID);
+		}
+		dao.insertBatch(entityList);
+	}
+
+	/**
 	 * 删
 	 * @param entity
 	 */
@@ -104,11 +116,11 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 	 */
 	public Page<E> selectPage(E entity, HttpServletRequest request, Page<E> page) {
 		entity.setPage(page);
-		
+
 		List<E> list = dao.selectLike(entity);
-		
+
 		page.setData(list);
-		
+
 		return page;
 	}
 

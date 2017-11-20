@@ -11,6 +11,12 @@ public interface BaseDao<E> {
 	public void insert(E entity);
 
 	/**
+	 * 批量增加
+	 * @param entityList
+	 */
+	public void insertBatch(List<E> entityList);
+
+	/**
 	 * 删
 	 * @param entity
 	 */

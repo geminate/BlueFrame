@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blueframe.frame.sys.dao.SysPermissionDao">
+
+	<!-- Select 列 -->
+	<sql id="selectColumnList">
+		a.*,
+
+		cu.username AS "createBy.username",
+		uu.username AS "updateBy.username"
+	</sql>
+
+	<sql id="leftJoin">
+		LEFT JOIN sys_user cu on cu.id = a.create_by
+		LEFT JOIN sys_user uu on uu.id = a.create_by
+	</sql>
+
+	<!-- 精确查询 Where -->
+	<sql id="dynamicWhere">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">and a.name = #{name}</if>
+			<if test="permissionStr!=null and permissionStr!=''">and a.permission_str = #{permissionStr}</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+		</where>
+	</sql>
+
+	<!-- 模糊查询 Where -->
+	<sql id="dynamicWhereLike">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">
+				and a.name LIKE
+				<if test="dbType == 'oracle'">'%'||#{name}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{name}, '%')</if>
+			</if>
+			<if test="permissionStr!=null and permissionStr!=''">and a.permission_str = #{permissionStr}</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+		</where>
+	</sql>
+
+	<!-- 增 -->
+	<insert id="insert">
+		insert into sys_permission(
+
+		id,
+		name,
+		permission_str,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+
+		)values(
+
+		#{id},
+		#{name},
+		#{permissionStr},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+
+		)
+	</insert>
+
+	<!-- 批量插入 -->
+	<insert id="insertBatch">
+		insert into sys_permission(
+
+		id,
+		name,
+		permission_str,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+
+		)
+		<foreach collection="list" item="item" separator=" union all ">
+			SELECT
+			#{item.id},
+			#{item.name},
+			#{item.permissionStr},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			FROM dual
+		</foreach>
+	</insert>
+
+	<!-- 删(物理) -->
+	<delete id="delete" parameterType="com.blueframe.frame.sys.model.SysPermission">
+		delete from sys_permission a
+		<include refid="dynamicWhere" />
+	</delete>
+
+	<!-- 删(逻辑) -->
+	<update id="deleteLogic">
+		update sys_permission a SET a.del_flag = '1'
+		<include refid="dynamicWhere" />
+	</update>
+
+	<!-- 改 -->
+	<update id="update" parameterType="com.blueframe.frame.sys.model.SysPermission">
+		update sys_permission a
+		<set>
+			<if test="name!=null and name!=''">a.name = #{name,jdbcType=VARCHAR},</if>
+			<if test="permissionStr!=null and permissionStr!=''">a.permission_str = #{permissionStr,jdbcType=VARCHAR},</if>
+		</set>
+		where a.id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查(精确) -->
+	<select id="select" parameterType="com.blueframe.frame.sys.model.SysPermission" resultType="com.blueframe.frame.sys.model.SysPermission">
+		select
+		<include refid="selectColumnList" />
+		from sys_permission a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 数量查询(精确) -->
+	<select id="count" parameterType="com.blueframe.frame.sys.model.SysPermission" resultType="java.lang.Integer">
+		select count(*) from sys_permission a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 查(模糊) -->
+	<select id="selectLike" parameterType="com.blueframe.frame.sys.model.SysPermission" resultType="com.blueframe.frame.sys.model.SysPermission">
+		select
+		<include refid="selectColumnList" />
+		from sys_permission a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 数量查询(模糊) -->
+	<select id="countLike" parameterType="com.blueframe.frame.sys.model.SysPermission" resultType="java.lang.Integer">
+		select count(*) from sys_permission a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+	</select>
+
+	<!--********************************************** 自定义Sql ********************************************** -->
+
+	<!-- 查询 某个用户 的全部角色 -->
+	<select id="selectPermissionsByUser" resultType="com.blueframe.frame.sys.model.SysPermission">
+		select distinct
+		<include refid="selectColumnList" />
+		from sys_permission a
+		<include refid="leftJoin" />
+		LEFT JOIN sys_role_permission srp on srp.sys_permission_id = a.id
+		LEFT JOIN sys_role sr on sr.id = srp.sys_role_id
+		LEFT JOIN sys_user_role sur on sur.sys_role_id = sr.id
+		LEFT JOIN sys_user su on su.id = sur.sys_user_id
+		where sur.sys_user_id = #{id}
+		and a.del_flag = 0
+		and srp.del_flag = 0
+		and sr.del_flag=
+		0
+		and sur.del_flag = 0
+		and su.del_flag = 0
+	</select>
+
+</mapper>

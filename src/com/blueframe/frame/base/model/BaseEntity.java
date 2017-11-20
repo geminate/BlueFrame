@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import com.blueframe.common.config.Global;
+import com.blueframe.frame.common.config.Global;
 import com.blueframe.frame.sys.model.SysUser;
 
 public class BaseEntity<T> {

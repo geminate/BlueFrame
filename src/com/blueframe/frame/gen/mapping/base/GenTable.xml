@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blueframe.frame.gen.dao.GenTableDao">
+
+	<!-- Select 列 -->
+	<sql id="selectColumnList">
+		a.*,
+
+		cu.id AS "createBy.id",
+		cu.username AS "createBy.username",
+		uu.id AS "updateBy.id",
+		uu.username AS "updateBy.username"
+	</sql>
+
+	<sql id="leftJoin">
+		LEFT JOIN sys_user cu on cu.id = a.create_by
+		LEFT JOIN sys_user uu on uu.id = a.create_by
+	</sql>
+
+	<!-- 精确查询 Where -->
+	<sql id="dynamicWhere">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">and a.name = #{name}</if>
+			<if test="comments!=null and comments!=''">and a.comments = #{comments}</if>
+			<if test="className!=null and className!=''">and a.class_name = #{className}</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+		</where>
+	</sql>
+
+	<!-- 模糊查询 Where -->
+	<sql id="dynamicWhereLike">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">
+				and a.name LIKE
+				<if test="dbType == 'oracle'">'%'||#{name}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{name}, '%')</if>
+			</if>
+			<if test="comments!=null and comments!=''">
+				and a.comments LIKE
+				<if test="dbType == 'oracle'">'%'||#{comments}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{comments}, '%')</if>
+			</if>
+			<if test="className!=null and className!=''">and a.class_name = #{className}</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+		</where>
+	</sql>
+
+	<!-- 增 -->
+	<insert id="insert">
+		insert into gen_table
+		(
+		id,
+		name,
+		comments,
+		class_name,
+
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		)
+		values
+		(
+		#{id},
+		#{name},
+		#{comments},
+		#{className},
+
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+		)
+	</insert>
+
+	<!-- 批量插入 -->
+	<insert id="insertBatch">
+		insert into gen_table
+		(
+		id,
+		name,
+		comments,
+		class_name,
+
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+		)
+		<foreach collection="list" item="item" separator=" union all ">
+			SELECT
+			#{item.id},
+			#{item.name},
+			#{item.comments},
+			#{item.className},
+
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			FROM dual
+		</foreach>
+	</insert>
+
+	<!-- 删 -->
+	<delete id="delete" parameterType="com.blueframe.frame.gen.model.GenTable">
+		delete from gen_table a
+		<include refid="dynamicWhere" />
+	</delete>
+
+	<!-- 删(逻辑) -->
+	<update id="deleteLogic">
+		update gen_table a SET a.del_flag = '1'
+		<include refid="dynamicWhere" />
+	</update>
+
+	<!-- 改 -->
+	<update id="update" parameterType="com.blueframe.frame.gen.model.GenTable">
+		update gen_table a
+		<set>
+			<if test="name!=null and name!=''">a.name = #{name},</if>
+			<if test="comments!=null and comments!=''">a.comments = #{comments},</if>
+			<if test="className!=null and className!=''">a.class_name = #{className}</if>
+		</set>
+		where a.id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查(精确) -->
+	<select id="select" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="com.blueframe.frame.gen.model.GenTable">
+		select
+		<include refid="selectColumnList" />
+		from gen_table a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 数量查询(精确) -->
+	<select id="count" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="java.lang.Integer">
+		select count(*) from gen_table a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 查(模糊) -->
+	<select id="selectLike" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="com.blueframe.frame.gen.model.GenTable">
+		select
+		<include refid="selectColumnList" />
+		from gen_table a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 数量查询(模糊) -->
+	<select id="countLike" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="java.lang.Integer">
+		select count(*) from gen_table a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+	</select>
+
+	<!--********************************************** 自定义Sql ********************************************** -->
+
+	<!-- 获取 数据库中 全部的 表信息 -->
+	<select id="findTableListFromDb" resultType="com.blueframe.frame.gen.model.GenTable">
+		<if test="dbType == 'oracle'">
+			SELECT
+			t.TABLE_NAME AS name,
+			c.COMMENTS AS comments
+			FROM user_tables t, user_tab_comments c
+			WHERE t.table_name = c.table_name
+			<if test="name != null and name != ''">
+				AND t.TABLE_NAME = upper(#{name})
+			</if>
+			ORDER BY t.TABLE_NAME
+		</if>
+		<if test="dbType == 'mysql'">
+			SELECT t.table_name AS name,t.TABLE_COMMENT AS comments
+			FROM information_schema.`TABLES` t
+			WHERE t.TABLE_SCHEMA = (select database())
+			<if test="name != null and name != ''">
+				AND t.TABLE_NAME = (#{name})
+			</if>
+			ORDER BY t.TABLE_NAME
+		</if>
+	</select>
+
+	<!-- 获取某张表的 列信息 -->
+	<select id="findTableColumnFromDb" resultType="com.blueframe.frame.gen.model.GenTableColumn">
+		<if test="dbType == 'oracle'">
+			SELECT
+			t.COLUMN_NAME AS name,
+			(CASE WHEN t.NULLABLE = 'Y' THEN '1' ELSE '0' END) AS isNull,
+			(t.COLUMN_ID * 10) AS sort,
+			c.COMMENTS AS comments,
+			decode(t.DATA_TYPE,'DATE',t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
+			'VARCHAR2', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
+			'VARCHAR', t.DATA_TYPE || '(' ||
+			t.DATA_LENGTH || ')',
+			'NVARCHAR2', t.DATA_TYPE || '(' || t.DATA_LENGTH/2 || ')',
+			'CHAR', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
+			'NUMBER',t.DATA_TYPE || (nvl2(t.DATA_PRECISION,nvl2(decode(t.DATA_SCALE,0,null,t.DATA_SCALE),
+			'(' || t.DATA_PRECISION || ',' || t.DATA_SCALE || ')',
+			'(' ||
+			t.DATA_PRECISION ||
+			')'),'(18)')),t.DATA_TYPE) AS jdbcType
+			FROM user_tab_columns t, user_col_comments c
+			WHERE t.TABLE_NAME = c.table_name
+			AND t.COLUMN_NAME = c.column_name
+			<if test="name != null and name != ''">
+				AND t.TABLE_NAME = upper(#{name})
+			</if>
+			ORDER BY t.COLUMN_ID
+		</if>
+		<if test="dbType == 'mysql'">
+			SELECT t.COLUMN_NAME AS name, (CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull,
+			(t.ORDINAL_POSITION * 10) AS sort,t.COLUMN_COMMENT AS comments,t.COLUMN_TYPE AS jdbcType
+			FROM information_schema.`COLUMNS` t
+			WHERE t.TABLE_SCHEMA = (select database())
+			<if test="name != null and name != ''">
+				AND t.TABLE_NAME = (#{name})
+			</if>
+			ORDER BY t.ORDINAL_POSITION
+		</if>
+	</select>
+
+	<select id="findTablePKListFromDb" resultType="string">
+		<if test="dbType == 'oracle'">
+			SELECT lower(cu.COLUMN_NAME) AS columnName
+			FROM user_cons_columns cu, user_constraints au
+			WHERE cu.constraint_name = au.constraint_name
+			AND au.constraint_type = 'P'
+			AND au.table_name = upper(#{name})
+		</if>
+		<if test="dbType == 'mysql'">
+			SELECT lower(au.COLUMN_NAME) AS columnName
+			FROM information_schema.`COLUMNS` au
+			WHERE au.TABLE_SCHEMA = (select database())
+			AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = (#{name})
+		</if>
+	</select>
+</mapper>

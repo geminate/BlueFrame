@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.blueframe.common.tools.GenUtils;
 import com.blueframe.frame.base.controller.BaseController;
-import com.blueframe.frame.base.model.AjaxInfo;
 import com.blueframe.frame.base.model.Page;
+import com.blueframe.frame.common.utils.GenUtils;
 import com.blueframe.frame.gen.model.GenTable;
 import com.blueframe.frame.gen.service.GenTableService;
 
@@ -127,8 +126,8 @@ public class GenTableController extends BaseController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxInfo toPostDelete(GenTable genTable) {
+	public String toPostDelete(GenTable genTable) {
 		genTableService.delete(genTable, true);
-		return new AjaxInfo("success");
+		return "success";
 	}
 }

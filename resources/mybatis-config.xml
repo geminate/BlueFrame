@@ -41,7 +41,7 @@
 
 	<!-- 插件配置 -->
 	<plugins>
-		<plugin interceptor="com.blueframe.common.db.interceptor.PaginationInterceptor" />
+		<plugin interceptor="com.blueframe.frame.common.pagination.interceptor.PaginationInterceptor" />
 	</plugins>
 
 </configuration>

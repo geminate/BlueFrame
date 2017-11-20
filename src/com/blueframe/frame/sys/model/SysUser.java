@@ -3,15 +3,17 @@ package com.blueframe.frame.sys.model;
 import com.blueframe.frame.base.model.BaseEntity;
 
 public class SysUser extends BaseEntity<SysUser> {
-	private String id;
-	private String username;
 
-	public String getId() {
-		return id;
+	private String name;
+	private String username;
+	private String password;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getUsername() {
@@ -21,4 +23,13 @@ public class SysUser extends BaseEntity<SysUser> {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 }
