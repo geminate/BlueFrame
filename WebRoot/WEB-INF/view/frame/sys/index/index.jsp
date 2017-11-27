@@ -5,25 +5,18 @@
 <!-- 标题 -->
 <sitemesh:title>首页</sitemesh:title>
 
-<!-- 组件 CSS -->
-<sitemesh:page_level_plugins_style></sitemesh:page_level_plugins_style>
-
 <!-- 自定义 CSS -->
-<sitemesh:custom_style></sitemesh:custom_style>
-
-<!-- 组件JS -->
-<sitemesh:page_level_plugins_script></sitemesh:page_level_plugins_script>
-
-<!-- 页面 JS -->
-<sitemesh:page_level_script></sitemesh:page_level_script>
+<sitemesh:custom_style>
+</sitemesh:custom_style>
 
 <!-- 自定义 JS -->
-<sitemesh:custom_script></sitemesh:custom_script>
+<sitemesh:custom_script>
+</sitemesh:custom_script>
 
 <!----------------------------------------------------------------- 以下为主体内容 -------------------------------------------------------------------->
 
 <sitemesh:container>
-	
+
 
 	<shiro:hasRole name="role:admin">  
     	用户拥有角色 系统管理员<br />

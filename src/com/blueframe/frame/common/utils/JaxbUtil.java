@@ -122,8 +122,8 @@ public class JaxbUtil {
 	}
 
 	protected static JAXBContext getJaxbContext(Class clazz) {
-		Assert.notNull(clazz, "'clazz' must not be null");
-		JAXBContext jaxbContext = jaxbContexts.get(clazz);
+		Assert.notNull(clazz, "'clazz' must not be null");		
+		JAXBContext jaxbContext = jaxbContexts.get(clazz);		
 		if (jaxbContext == null) {
 			try {
 				jaxbContext = JAXBContext.newInstance(clazz, CollectionWrapper.class);
@@ -132,6 +132,7 @@ public class JaxbUtil {
 				throw new HttpMessageConversionException("Could not instantiate JAXBContext for class [" + clazz + "]: " + ex.getMessage(), ex);
 			}
 		}
+		System.out.println(jaxbContext);
 		return jaxbContext;
 	}
 

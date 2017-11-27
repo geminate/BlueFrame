@@ -502,8 +502,9 @@ var App = function() {
     var handleFixInputPlaceholderForIE = function() {
         //fix html5 placeholder attribute for ie7 & ie8
         if (isIE8 || isIE9) { // ie8 & ie9
-            // this is html5 placeholder fix for inputs, inputs with placeholder-no-fix class will be skipped(e.g: we need this for password fields)
-            $('input[placeholder]:not(.placeholder-no-fix), textarea[placeholder]:not(.placeholder-no-fix)').each(function() {
+            // Use jquery-placeholder replace it..  By hhLiu
+            /*
+        	$('input[placeholder]:not(.placeholder-no-fix), textarea[placeholder]:not(.placeholder-no-fix)').each(function() {
                 var input = $(this);
 
                 if (input.val() === '' && input.attr("placeholder") !== '') {
@@ -522,6 +523,7 @@ var App = function() {
                     }
                 });
             });
+        	*/
         }
     };
 

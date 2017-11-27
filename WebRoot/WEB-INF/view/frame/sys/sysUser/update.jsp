@@ -5,20 +5,9 @@
 <!-- 标题 -->
 <sitemesh:title>用户管理 - 编辑用户</sitemesh:title>
 
-<!-- 组件 CSS -->
-<sitemesh:page_level_plugins_style>
-</sitemesh:page_level_plugins_style>
-
 <!-- 自定义 CSS -->
-<sitemesh:custom_style></sitemesh:custom_style>
-
-<!-- 组件JS -->
-<sitemesh:page_level_plugins_script>
-</sitemesh:page_level_plugins_script>
-
-<!-- 页面 JS -->
-<sitemesh:page_level_script>
-</sitemesh:page_level_script>
+<sitemesh:custom_style>
+</sitemesh:custom_style>
 
 <!-- 自定义 JS -->
 <sitemesh:custom_script>

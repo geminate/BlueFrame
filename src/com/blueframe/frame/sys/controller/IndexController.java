@@ -72,6 +72,11 @@ public class IndexController extends BaseController {
 		}
 	}
 
+	/**
+	 * 登出请求 GET
+	 * @param mov
+	 * @return
+	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public ModelAndView getLogout(ModelAndView mov) {
 		if (SecurityUtils.getSubject().getPrincipal() != null) {

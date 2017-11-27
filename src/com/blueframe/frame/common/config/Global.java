@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+
+import com.blueframe.frame.sys.model.SysUser;
 
 /**
- * 全局 配置 类
+ * 全局 工具 类
  */
 public class Global {
 
@@ -29,4 +32,10 @@ public class Global {
 		return value;
 	}
 
+	public static SysUser getCurrentUser() {
+		if (SecurityUtils.getSubject() != null) {
+			return (SysUser) SecurityUtils.getSubject().getPrincipal();
+		}
+		return null;
+	}
 }

@@ -25,9 +25,13 @@
 			<if test="password!=null and password!=''">and a.password = #{password}</if>
 
 			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
-			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="createDateBegin != null and createDateEnd != null">
+				and a.create_date BETWEEN #{createDateBegin} AND #{createDateEnd}
+			</if>
 			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
-			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+			<if test="updateDateBegin != null and updateDateEnd != null">
+				and a.update_date BETWEEN #{updateDateBegin} AND #{updateDateEnd}
+			</if>
 		</where>
 	</sql>
 
@@ -47,10 +51,15 @@
 				<if test="dbType == 'mysql'">CONCAT('%', #{username}, '%')</if>
 			</if>
 			<if test="password!=null and password!=''">and a.password = #{password}</if>
+			
 			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
-			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="createDateBegin != null and createDateEnd != null">
+				and a.create_date BETWEEN #{createDateBegin} AND #{createDateEnd}
+			</if>
 			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
-			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+			<if test="updateDateBegin != null and updateDateEnd != null">
+				and a.update_date BETWEEN #{updateDateBegin} AND #{updateDateEnd}
+			</if>
 		</where>
 	</sql>
 

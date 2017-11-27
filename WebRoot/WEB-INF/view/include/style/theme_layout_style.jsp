@@ -1,2 +1,0 @@
-<link href="${ctxStatic}/metronic/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
-<link href="${ctxStatic}/metronic/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />

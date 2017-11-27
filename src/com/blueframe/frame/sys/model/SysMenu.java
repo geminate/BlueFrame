@@ -1,20 +1,12 @@
 package com.blueframe.frame.sys.model;
 
-import com.blueframe.frame.base.model.BaseEntity;
+import com.blueframe.frame.base.model.TreeEntity;
 
-public class SysMenu extends BaseEntity<SysMenu> {
-	private SysMenu parent;
+public class SysMenu extends TreeEntity<SysMenu> {
+
 	private String name;
 	private String href;
 	private SysPermission permission;
-
-	public SysMenu getParent() {
-		return parent;
-	}
-
-	public void setParent(SysMenu parent) {
-		this.parent = parent;
-	}
 
 	public String getName() {
 		return name;
@@ -38,6 +30,16 @@ public class SysMenu extends BaseEntity<SysMenu> {
 
 	public void setPermission(SysPermission permission) {
 		this.permission = permission;
+	}
+
+	@Override
+	public SysMenu getParent() {
+		return parent;
+	}
+
+	@Override
+	public void setParent(SysMenu parent) {
+		this.parent = parent;
 	}
 
 }

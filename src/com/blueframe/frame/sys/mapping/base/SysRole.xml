@@ -25,9 +25,13 @@
 			<if test="description!=null and description!=''">and a.description = #{description}</if>
 
 			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
-			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="createDateBegin != null and createDateEnd != null">
+				and a.create_date BETWEEN #{createDateBegin} AND #{createDateEnd}
+			</if>
 			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
-			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+			<if test="updateDateBegin != null and updateDateEnd != null">
+				and a.update_date BETWEEN #{updateDateBegin} AND #{updateDateEnd}
+			</if>
 		</where>
 	</sql>
 
@@ -41,13 +45,25 @@
 				<if test="dbType == 'oracle'">'%'||#{name}||'%'</if>
 				<if test="dbType == 'mysql'">CONCAT('%', #{name}, '%')</if>
 			</if>
-			<if test="roleStr!=null and roleStr!=''">and a.role_str = #{roleStr}</if>
-			<if test="description!=null and description!=''">and a.description = #{description}</if>
+			<if test="roleStr!=null and roleStr!=''">
+				and a.role_str LIKE
+				<if test="dbType == 'oracle'">'%'||#{roleStr}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{roleStr}, '%')</if>
+			</if>
+			<if test="description!=null and description!=''">
+				and a.description LIKE
+				<if test="dbType == 'oracle'">'%'||#{description}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{description}, '%')</if>
+			</if>			
 
 			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
-			<if test="createDate!=null and createDate!=''">and a.create_date = #{createDate}</if>
+			<if test="createDateBegin != null and createDateEnd != null">
+				and a.create_date BETWEEN #{createDateBegin} AND #{createDateEnd}
+			</if>
 			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
-			<if test="updateDate!=null and updateDate!=''">and a.update_date = #{updateDate}</if>
+			<if test="updateDateBegin != null and updateDateEnd != null">
+				and a.update_date BETWEEN #{updateDateBegin} AND #{updateDateEnd}
+			</if>
 		</where>
 	</sql>
 

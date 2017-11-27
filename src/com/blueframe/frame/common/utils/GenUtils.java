@@ -209,4 +209,8 @@ public class GenUtils {
 		String content = FreeMarkers.renderString(StringUtils.trimToEmpty(tpl.getContent()), model);
 		System.out.println(content);
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(getConfig().getShowTypeList());
+	}
 }

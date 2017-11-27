@@ -14,3 +14,13 @@
 .control-label.need::AFTER {
   visibility: visible;
 }
+
+// 日期选择器 置于最上层
+.datepicker {
+  z-index: 99999;
+}
+
+// 日期选择器 左对齐
+.input-daterange input {
+  text-align: left;
+}

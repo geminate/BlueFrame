@@ -2,10 +2,6 @@
 (function () {
     GLOBAL.namespace("DATATABLE");
 
-    $(function () {
-
-    });
-
     /**
      * 初始化 Datatable
      * @param table table的Dom选择器字符串         (必须)
@@ -56,6 +52,7 @@
                     "next": "下一页",
                     "previous": "上一页"
                 },
+
             }
         };
 

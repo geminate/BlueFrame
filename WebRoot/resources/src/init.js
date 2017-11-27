@@ -11,5 +11,5 @@ GLOBAL.namespace = function (str) {
 };
 
 $(function () {
-
+    GLOBAL.DATEPICKER.initDatePicker();
 });
