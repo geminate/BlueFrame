@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.freemarkers;
+package com.blueframe.frame.common.component.freemarkers;
 
 import java.io.StringReader;
 import java.io.StringWriter;

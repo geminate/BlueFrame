@@ -10,6 +10,7 @@
 <%@ attribute name="title" type="java.lang.String" required="true" description="placeholder 以及 弹出框标题"%>
 <%@ attribute name="cssClass" type="java.lang.String" required="false" description="显示框的css Class"%>
 <%@ attribute name="cssStyle" type="java.lang.String" required="false" description="显示框的css Style"%>
+<%@ attribute name="expandAll" type="java.lang.String" required="false" description="true展开全部节点，false收起全部节点。默认全部展开"%>
 
 <input id="${id}Id" name="${name}" value="${value}" type="hidden">
 <input id="${id}Name" value="${showValue}" type="text" class="${cssClass}" readonly="readonly" placeholder="${title}" data-toggle="modal"
@@ -73,9 +74,26 @@
 				},
 				success : function(data) {
 					treeNodes = data;
-					$.fn.zTree.init($("#${id}Tree"), setting, treeNodes).expandAll(true);
+					var zTree = $.fn.zTree.init($("#${id}Tree"), setting, treeNodes);
+					handleExpand(zTree);
+					handleSelect(zTree);
 				}
 			});
 		});
 	});
+
+	//打开时 是否展开全部节点
+	function handleExpand(zTree) {
+		if ("${expandAll}" != "false") {
+			zTree.expandAll(true);
+		}
+	}
+
+	//打开时 默认选中节点
+	function handleSelect(zTree) {
+		if ("${value}" != "") {
+			var node = zTree.getNodeByParam("id", "${value}");
+			zTree.selectNode(node);
+		}
+	}
 </script>

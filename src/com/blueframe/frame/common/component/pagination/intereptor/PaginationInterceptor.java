@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.pagination.interceptor;
+package com.blueframe.frame.common.component.pagination.intereptor;
 
 import java.util.Properties;
 
@@ -16,7 +16,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import com.blueframe.frame.base.model.Page;
-import com.blueframe.frame.common.utils.ReflectionUtil;
+import com.blueframe.frame.common.tools.ReflectionUtil;
 
 /**
  * Mybatis 分页拦截器

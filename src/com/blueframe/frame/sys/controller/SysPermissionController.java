@@ -52,8 +52,16 @@ public class SysPermissionController extends BaseController {
 	 * @return 权限管理新增页
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
-	public ModelAndView toGetInsert() {
+	public ModelAndView toGetInsert(SysPermission sysPermission) {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysPermission/insert");
+		if (sysPermission != null && sysPermission.getParent() != null) {
+			SysPermission parent = sysPermissionService.selectById(sysPermission.getParent().getId());
+			sysPermission.setParent(parent);
+		} else {
+			SysPermission parent = sysPermissionService.selectById("1");
+			sysPermission.setParent(parent);
+		}
+		mov.addObject("sysPermission", sysPermission);
 		return mov;
 	}
 
@@ -80,7 +88,7 @@ public class SysPermissionController extends BaseController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView toGetDelete(SysPermission sysPermission, RedirectAttributes attributes) {
 		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysPermission/list");
-		sysPermissionService.delete(sysPermission, true);
+		sysPermissionService.deleteById(sysPermission.getId(), true);
 		addRedirectToastr(attributes, "success", "", "删除成功！");
 		return mov;
 	}
@@ -93,7 +101,7 @@ public class SysPermissionController extends BaseController {
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public ModelAndView toGeUpdate(SysPermission sysPermission) {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysPermission/update");
-		mov.addObject("sysPermission", sysPermissionService.selectOne(sysPermission, false));
+		mov.addObject("sysPermission", sysPermissionService.selectById(sysPermission.getId()));
 		return mov;
 	}
 

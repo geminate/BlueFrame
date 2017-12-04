@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.utils;
+package com.blueframe.frame.common.tools;
 
 /**
  * 字符串工具类

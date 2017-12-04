@@ -88,7 +88,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">上级权限</label>
-										<sys:treeSelect id="parentId" name="parent.id" value="1" showName="name" showValue="功能权限" url="${ctx}/frame/sys/sysPermission/treeAjax"
+										<sys:treeSelect id="parentId" name="parent.id" value="${sysPermission.parent.id}" showName="name" showValue="${sysPermission.parent.name}" url="${ctx}/frame/sys/sysPermission/treeAjax"
 											cssClass="form-control" title="请选择上级权限" />
 										<span class="help-block"></span>
 									</div>

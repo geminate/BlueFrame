@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.config;
+package com.blueframe.frame.common.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,13 +6,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 
+import com.blueframe.frame.common.tools.PropertiesReader;
 import com.blueframe.frame.sys.model.SysUser;
 
 /**
  * 全局 工具 类
  * @author hhLiu
  */
-public class Global {
+public class GlobalUtil {
 
 	private static PropertiesReader propertiesReader = new PropertiesReader("config.properties");
 
@@ -35,10 +36,6 @@ public class Global {
 		return value;
 	}
 
-	/**
-	 * 获取当前登录用户
-	 * @return 当前用户对象,未登录返回null
-	 */
 	public static SysUser getCurrentUser() {
 		if (SecurityUtils.getSubject() != null) {
 			return (SysUser) SecurityUtils.getSubject().getPrincipal();

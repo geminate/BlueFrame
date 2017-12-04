@@ -9,7 +9,7 @@
 
 	<!-- 自定义标签 -->
 	<content-processor>
-		<tag-rule-bundle class="com.blueframe.frame.common.sitemesh.CustomTagRuleBundle" />
+		<tag-rule-bundle class="com.blueframe.frame.common.component.sitemesh.CustomTagRuleBundle" />
 	</content-processor>
 
 </sitemesh>

@@ -8,6 +8,7 @@
 
 		a.parent_id AS "parent.id",
 		a.parent_id AS "parentId",
+		sp.name AS "parent.name",
 		cu.username AS "createBy.username",
 		uu.username AS "updateBy.username"
 	</sql>
@@ -147,10 +148,40 @@
 		<include refid="dynamicWhere" />
 	</delete>
 
+	<!-- 删(物理) -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from sys_permission a
+		where a.id = #{id}
+	</delete>
+
+	<!-- 批量删除(物理) -->
+	<delete id="deleteBatch">
+		delete from sys_permission a
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
 	<!-- 删(逻辑) -->
 	<update id="deleteLogic">
 		update sys_permission a SET a.del_flag = '1'
 		<include refid="dynamicWhere" />
+	</update>
+
+	<!-- 删(逻辑) -->
+	<update id="deleteLogicById">
+		update sys_permission a SET a.del_flag = '1'
+		where a.id = #{id}
+	</update>
+
+	<!-- 批量删除(逻辑) -->
+	<update id="deleteLogicBatch">
+		update sys_permission a SET a.del_flag = '1'
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</update>
 
 	<!-- 改 -->
@@ -184,11 +215,13 @@
 		</if>
 	</select>
 
-	<!-- 数量查询(精确) -->
-	<select id="count" parameterType="com.blueframe.frame.sys.model.SysPermission" resultType="java.lang.Integer">
-		select count(*) from sys_permission a
+	<!-- 查(精确) -->
+	<select id="selectById" resultType="com.blueframe.frame.sys.model.SysPermission">
+		select
+		<include refid="selectColumnList" />
+		from sys_permission a
 		<include refid="leftJoin" />
-		<include refid="dynamicWhere" />
+		where a.id = #{id}		
 	</select>
 
 	<!-- 查(模糊) -->
@@ -206,13 +239,6 @@
 		</if>
 	</select>
 
-	<!-- 数量查询(模糊) -->
-	<select id="countLike" parameterType="com.blueframe.frame.sys.model.SysPermission" resultType="java.lang.Integer">
-		select count(*) from sys_permission a
-		<include refid="leftJoin" />
-		<include refid="dynamicWhereLike" />
-	</select>
-
 	<!-- 批量查询 ID List -->
 	<select id="selectBatch" resultType="com.blueframe.frame.sys.model.SysPermission">
 		select
@@ -224,6 +250,22 @@
 			#{item}
 		</foreach>
 	</select>
+
+	<!-- 数量查询(精确) -->
+	<select id="count" parameterType="com.blueframe.frame.sys.model.SysPermission" resultType="java.lang.Integer">
+		select count(*) from sys_permission a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 数量查询(模糊) -->
+	<select id="countLike" parameterType="com.blueframe.frame.sys.model.SysPermission" resultType="java.lang.Integer">
+		select count(*) from sys_permission a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+	</select>
+
+
 
 	<!--********************************************** 自定义Sql ********************************************** -->
 

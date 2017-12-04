@@ -14,8 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import com.blueframe.frame.common.config.Global;
-import com.blueframe.frame.common.freemarkers.FreeMarkers;
+import com.blueframe.frame.common.component.freemarkers.FreeMarkers;
+import com.blueframe.frame.common.tools.JaxbUtil;
+import com.blueframe.frame.common.tools.StringUtils;
 import com.blueframe.frame.gen.model.GenCategory;
 import com.blueframe.frame.gen.model.GenConfig;
 import com.blueframe.frame.gen.model.GenScheme;
@@ -202,7 +203,7 @@ public class GenUtils {
 		// (StringUtils.isNotBlank(genScheme.getSubModuleName()) ? ":" +
 		// StringUtils.lowerCase(genScheme.getSubModuleName()) : "") + ":"+
 		// model.get("className"));
-		model.put("dbType", Global.getConfig("jdbc.type"));
+		model.put("dbType", GlobalUtil.getConfig("jdbc.type"));
 		// model.put("table", genScheme.getGenSpecial());
 		return null;
 	}
@@ -211,7 +212,7 @@ public class GenUtils {
 		String content = FreeMarkers.renderString(StringUtils.trimToEmpty(tpl.getContent()), model);
 		System.out.println(content);
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(getConfig().getShowTypeList());
 	}

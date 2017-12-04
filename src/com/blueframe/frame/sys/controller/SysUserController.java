@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.blueframe.frame.base.controller.BaseController;
 import com.blueframe.frame.base.model.Page;
 import com.blueframe.frame.base.model.ReturnMessage;
-import com.blueframe.frame.common.shiro.SecCredentialsMatcher;
+import com.blueframe.frame.common.component.shiro.SecCredentialsMatcher;
 import com.blueframe.frame.sys.model.SysRole;
 import com.blueframe.frame.sys.model.SysRoleList;
 import com.blueframe.frame.sys.model.SysUser;
@@ -98,7 +98,7 @@ public class SysUserController extends BaseController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ReturnMessage toPostDelete(SysUser sysUser) {
-		sysUserService.delete(sysUser, true);
+		sysUserService.deleteById(sysUser.getId(), true);
 		sysUserRoleService.deleteAllRolesByUser(sysUser);
 		return buildReturnMessage("success", "", "删除成功！");
 	}
@@ -111,7 +111,7 @@ public class SysUserController extends BaseController {
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public ModelAndView toGeUpdate(SysUser sysUser) {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysUser/update");
-		mov.addObject("sysUser", sysUserService.selectOne(sysUser, false));
+		mov.addObject("sysUser", sysUserService.selectById(sysUser.getId()));
 		mov.addObject("roleList", sysRoleService.select(new SysRole(), false));
 		mov.addObject("haveRoleList", sysRoleService.selectRolesByUser(sysUser.getId()));
 		return mov;

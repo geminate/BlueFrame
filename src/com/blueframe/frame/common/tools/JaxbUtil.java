@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.utils;
+package com.blueframe.frame.common.tools;
 
 import java.io.StringReader;
 import java.util.Collection;

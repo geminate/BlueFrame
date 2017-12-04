@@ -28,6 +28,18 @@ public abstract class TreeService<D extends TreeDao<E>, E extends TreeEntity<E>>
 	 * @param entityList 插入对象列表
 	 * @param autoAddUUID 是否自动生成ID
 	 */
+	public void treeInsertBatch(List<E> entityList, boolean autoAddUUID) {
+		for (E entity : entityList) {
+			handleParentIds(entity);
+		}
+		insertBatch(entityList, autoAddUUID);
+	}
+
+	/**
+	 * 树状数据 批量插入
+	 * @param entityList 插入对象列表
+	 * @param autoAddUUID 是否自动生成ID
+	 */
 	public void treeInsertBatch(List<E> entityList, Boolean autoAddUUID) {
 		for (E entity : entityList) {
 			handleParentIds(entity);
@@ -175,4 +187,5 @@ public abstract class TreeService<D extends TreeDao<E>, E extends TreeEntity<E>>
 			entity.setParentIds(parent.getParentIds() + parent.getId() + ",");
 		}
 	}
+
 }

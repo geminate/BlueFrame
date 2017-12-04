@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blueframe.frame.base.service.BaseService;
+import com.blueframe.frame.common.tools.StringUtils;
 import com.blueframe.frame.common.utils.GenUtils;
-import com.blueframe.frame.common.utils.StringUtils;
 import com.blueframe.frame.gen.dao.GenTableDao;
 import com.blueframe.frame.gen.model.GenTable;
 import com.blueframe.frame.gen.model.GenTableColumn;

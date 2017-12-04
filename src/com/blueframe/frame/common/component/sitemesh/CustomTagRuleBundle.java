@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.sitemesh;
+package com.blueframe.frame.common.component.sitemesh;
 
 import org.sitemesh.SiteMeshContext;
 import org.sitemesh.content.ContentProperty;

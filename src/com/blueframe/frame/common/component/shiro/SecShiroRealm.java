@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.shiro;
+package com.blueframe.frame.common.component.shiro;
 
 import java.util.List;
 

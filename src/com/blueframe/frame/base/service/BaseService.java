@@ -1,6 +1,5 @@
 package com.blueframe.frame.base.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +55,32 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 	}
 
 	/**
+	 * 根据ID 删除
+	 * @param id 删除对象的 ID
+	 * @param logicDelete 是否是逻辑删除
+	 */
+	public void deleteById(String id, Boolean logicDelete) {
+		if (logicDelete) {
+			dao.deleteLogicById(id);
+		} else {
+			dao.deleteById(id);
+		}
+	}
+
+	/**
+	 * 批量删除
+	 * @param ids 删除对象的ID列表
+	 * @param logicDelete 是否是逻辑删除
+	 */
+	public void deleteBatch(List<String> ids, Boolean logicDelete) {
+		if (logicDelete) {
+			dao.deleteLogicBatch(ids);
+		} else {
+			dao.deleteBatch(ids);
+		}
+	}
+
+	/**
 	 * 修改
 	 * @param entity 修改对象
 	 */
@@ -85,18 +110,30 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 	 * @return 查询结果
 	 */
 	public E selectOne(E entity, Boolean like) {
-		List<E> list = new ArrayList<>();
-		if (like) {
-			list = dao.selectLike(entity);
-		} else {
-			list = dao.select(entity);
-		}
-
+		List<E> list = select(entity, like);
 		if (list.size() > 0) {
 			return list.get(0);
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * 根据ID查找单条数据
+	 * @param id 对象ID
+	 * @return 查询结果对象
+	 */
+	public E selectById(String id) {
+		return dao.selectById(id);
+	}
+
+	/**
+	 * 批量查询
+	 * @param ids 要查询的ID列表
+	 * @return 查询结果列表
+	 */
+	public List<E> selectBatch(List<String> ids) {
+		return dao.selectBatch(ids);
 	}
 
 	/**
@@ -125,14 +162,5 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 		List<E> list = dao.selectLike(entity);
 		page.setData(list);
 		return page;
-	}
-
-	/**
-	 * 批量查询
-	 * @param ids 要查询的ID列表
-	 * @return 查询结果列表
-	 */
-	public List<E> selectBatch(List<String> ids) {
-		return dao.selectBatch(ids);
 	}
 }

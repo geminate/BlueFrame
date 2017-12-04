@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.config;
+package com.blueframe.frame.common.tools;
 
 import java.io.IOException;
 import java.io.InputStream;

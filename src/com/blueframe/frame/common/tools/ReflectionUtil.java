@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.utils;
+package com.blueframe.frame.common.tools;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

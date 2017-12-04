@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.pagination.dialect;
+package com.blueframe.frame.common.component.pagination.dialect;
 
 /**
  * Oracle 数据库方言

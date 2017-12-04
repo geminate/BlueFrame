@@ -38,14 +38,14 @@
 		<property name="sessionManager" ref="sessionManager"></property>
 	</bean>
 
-	<bean id="SecShiroRealm" class="com.blueframe.frame.common.shiro.SecShiroRealm">
+	<bean id="SecShiroRealm" class="com.blueframe.frame.common.component.shiro.SecShiroRealm">
 		<property name="credentialsMatcher" ref="credentialsMatcher"></property>
 	</bean>
 	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<property name="sessionIdUrlRewritingEnabled" value="false"></property>
 		<property name="globalSessionTimeout" value="-1000"></property>
 	</bean>
-	<bean id="credentialsMatcher" class="com.blueframe.frame.common.shiro.SecCredentialsMatcher"></bean>
+	<bean id="credentialsMatcher" class="com.blueframe.frame.common.component.shiro.SecCredentialsMatcher"></bean>
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
 	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean>
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>

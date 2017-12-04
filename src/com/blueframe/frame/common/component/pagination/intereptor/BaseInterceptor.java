@@ -1,4 +1,4 @@
-package com.blueframe.frame.common.pagination.interceptor;
+package com.blueframe.frame.common.component.pagination.intereptor;
 
 import java.io.Serializable;
 import java.util.Properties;
@@ -8,11 +8,11 @@ import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.plugin.Interceptor;
 
 import com.blueframe.frame.base.model.Page;
-import com.blueframe.frame.common.config.Global;
-import com.blueframe.frame.common.pagination.dialect.Dialect;
-import com.blueframe.frame.common.pagination.dialect.MySQLDialect;
-import com.blueframe.frame.common.pagination.dialect.OracleDialect;
-import com.blueframe.frame.common.utils.ReflectionUtil;
+import com.blueframe.frame.common.component.pagination.dialect.Dialect;
+import com.blueframe.frame.common.component.pagination.dialect.MySQLDialect;
+import com.blueframe.frame.common.component.pagination.dialect.OracleDialect;
+import com.blueframe.frame.common.tools.ReflectionUtil;
+import com.blueframe.frame.common.utils.GlobalUtil;
 
 /**
  * Mybatis 分页拦截器
@@ -54,7 +54,7 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
 	 */
 	protected void initProperties(Properties p) {
 		Dialect dialect = null;
-		String dbType = Global.getConfig("db.type");
+		String dbType = GlobalUtil.getConfig("db.type");
 		if ("mysql".equals(dbType)) {
 			dialect = new MySQLDialect();
 		} else if ("oracle".equals(dbType)) {

@@ -143,8 +143,9 @@
 										<td>${item.permissionStr}</td>
 										<td>${item.type}</td>
 										<td>
-											<a class="btn btn-xs blue" href="${ctx}/frame/sys/sysPermission/update?id=${item.id}">编辑</a> <a class="btn btn-xs red del-btn" href="javascript:">删除</a>
-											<a class="btn btn-xs green" href="javascript:">添加下级菜单</a>
+											<a class="btn btn-xs blue" href="${ctx}/frame/sys/sysPermission/update?id=${item.id}">编辑</a>
+											<a class="btn btn-xs red del-btn" href="javascript:">删除</a>
+											<a class="btn btn-xs green" href="${ctx}/frame/sys/sysPermission/insert?parent.id=${item.id}">添加下级菜单</a>
 										</td>
 									</tr>
 								</c:forEach>
