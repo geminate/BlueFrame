@@ -17,7 +17,6 @@
 
 <sitemesh:container>
 
-
 	<shiro:hasRole name="role:admin">  
     	用户拥有角色 系统管理员<br />
 	</shiro:hasRole>

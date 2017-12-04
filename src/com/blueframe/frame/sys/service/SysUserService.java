@@ -7,13 +7,17 @@ import com.blueframe.frame.base.service.BaseService;
 import com.blueframe.frame.sys.dao.SysUserDao;
 import com.blueframe.frame.sys.model.SysUser;
 
+/**
+ * 用户 Service
+ * @author hhLiu
+ */
 @Service
 public class SysUserService extends BaseService<SysUserDao, SysUser> {
 
 	/**
-	 * 根据 用户名 查询 单个 用户
-	 * @param username
-	 * @return
+	 * 根据用户名获取用户对象
+	 * @param username 用户名
+	 * @return 用户对象
 	 */
 	public SysUser selectOneByUsername(String username) {
 		if (StringUtils.isNotEmpty(username)) {

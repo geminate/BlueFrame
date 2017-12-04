@@ -19,6 +19,7 @@ import com.blueframe.frame.gen.service.GenTableService;
 
 /**
  * 代码生成器-生成方案 Controller
+ * @author hhLiu
  */
 @RestController
 @RequestMapping(value = "/frame/gen/genScheme")

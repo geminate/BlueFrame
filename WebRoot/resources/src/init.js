@@ -12,4 +12,7 @@ GLOBAL.namespace = function (str) {
 
 $(function () {
     GLOBAL.DATEPICKER.initDatePicker();
+    GLOBAL.TOASTR.initRedirectToastr();
+    GLOBAL.TREETABLE.initTreeTable();
+    GLOBAL.FORM.initResetBtn();
 });

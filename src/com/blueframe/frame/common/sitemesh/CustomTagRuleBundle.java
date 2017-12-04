@@ -7,7 +7,8 @@ import org.sitemesh.content.tagrules.html.ExportTagToContentRule;
 import org.sitemesh.tagprocessor.State;
 
 /**
- * 自定义 SiteMesh 标签
+ * 自定义 SiteMesh 标签 类
+ * @author hhLiu
  */
 public class CustomTagRuleBundle implements TagRuleBundle {
 

@@ -16,6 +16,10 @@
 <link href="${ctxStatic}/metronic/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
 
 <link href="${ctxStatic}/plugins/treeTable/vsStyle/jquery.treeTable.css" rel="stylesheet" type="text/css">
+<link href="${ctxStatic}/plugins/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css">
+
+<link href="${ctxStatic}/plugins/jquery-confirm/jquery-confirm.css" rel="stylesheet" type="text/css">
+<link href="${ctxStatic}/metronic/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css" />
 <!-- END PAGE LEVEL PLUGINS -->
 
 <!-- BEGIN THEME GLOBAL STYLES -->

@@ -11,13 +11,17 @@ import com.blueframe.frame.sys.model.SysRole;
 import com.blueframe.frame.sys.model.SysUser;
 import com.blueframe.frame.sys.model.SysUserRole;
 
+/**
+ * 用户 - 角色 Service
+ * @author hhLiu
+ */
 @Service
 public class SysUserRoleService extends BaseService<SysUserRoleDao, SysUserRole> {
 
 	/**
-	 * 将 多个 角色 绑定到 指定用户
-	 * @param sysUser
-	 * @param roleList
+	 * 为指定角色添加角色列表
+	 * @param sysUser 用户对象
+	 * @param roleList 要添加的角色列表
 	 */
 	public void bundleRolesToUser(SysUser sysUser, List<SysRole> roleList) {
 		List<SysUserRole> sysUserRoleList = new ArrayList<>();
@@ -35,8 +39,8 @@ public class SysUserRoleService extends BaseService<SysUserRoleDao, SysUserRole>
 	}
 
 	/**
-	 * 删除一个用户的 全部角色
-	 * @param sysUser
+	 * 删除指定用户的全部角色
+	 * @param sysUser 用户对象
 	 */
 	public void deleteAllRolesByUser(SysUser sysUser) {
 		SysUserRole sysUserRole = new SysUserRole();

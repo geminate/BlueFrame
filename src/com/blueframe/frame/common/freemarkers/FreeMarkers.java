@@ -9,6 +9,7 @@ import freemarker.template.Template;
 
 /**
  * FreeMarker 工具类
+ * @author hhLiu
  */
 public class FreeMarkers {
 

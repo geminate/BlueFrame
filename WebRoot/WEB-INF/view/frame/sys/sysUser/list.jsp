@@ -12,7 +12,7 @@
 <!-- 自定义 JS -->
 <sitemesh:custom_script>
 	<script>
-		$(function() {
+		$(function() {			
 			initTable();
 		});
 
@@ -45,7 +45,7 @@
 					{
 						"render" : function(data, type, row, meta) {
 							var updateA = "<a class='btn btn-xs blue' href='${ctx}/frame/sys/sysUser/update?id=" + row.id + "'>编辑</a>";
-							var deleteA = "<a class='btn btn-xs red' href='javascript:' onclick='GLOBAL.DATATABLE.deleteRow(this)'" + " data-datatable-url='${ctx}/frame/sys/sysUser/delete'" + " data-datatable-param='" + row.id + "'"
+							var deleteA = "<a class='btn btn-xs red'  href='javascript:' onclick='GLOBAL.DATATABLE.deleteRow(this)'" + " data-datatable-url='${ctx}/frame/sys/sysUser/delete'" + " data-datatable-param='" + row.id + "'"
 									+ " data-datatable-table='#sysUserTable'>删除</a>";
 							return updateA + deleteA;
 						},

@@ -1,18 +1,14 @@
 package com.blueframe.frame.common.utils;
 
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.namespace.QName;
 
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.util.Assert;
@@ -23,60 +19,11 @@ public class JaxbUtil {
 	private static ConcurrentMap<Class, JAXBContext> jaxbContexts = new ConcurrentHashMap<Class, JAXBContext>();
 
 	/**
-	 * Java Object->Xml without encoding.
-	 */
-	public static String toXml(Object root) {
-		Class clazz = ReflectionUtil.getUserClass(root);
-		return toXml(root, clazz, null);
-	}
-
-	/**
-	 * Java Object->Xml with encoding.
-	 */
-	public static String toXml(Object root, String encoding) {
-		Class clazz = ReflectionUtil.getUserClass(root);
-		return toXml(root, clazz, encoding);
-	}
-
-	/**
-	 * Java Object->Xml with encoding.
-	 */
-	public static String toXml(Object root, Class clazz, String encoding) {
-		StringWriter writer = new StringWriter();
-		try {
-			createMarshaller(clazz, encoding).marshal(root, writer);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		return writer.toString();
-	}
-
-	/**
-	 * Java Collection->Xml without encoding, 特别支持Root Element是Collection的情形.
-	 */
-	public static String toXml(Collection<?> root, String rootName, Class clazz) {
-		return toXml(root, rootName, clazz, null);
-	}
-
-	/**
-	 * Java Collection->Xml with encoding, 特别支持Root Element是Collection的情形.
-	 */
-	public static String toXml(Collection<?> root, String rootName, Class clazz, String encoding) {
-		StringWriter writer = new StringWriter();
-		try {
-			CollectionWrapper wrapper = new CollectionWrapper();
-			wrapper.collection = root;
-			JAXBElement<CollectionWrapper> wrapperElement = new JAXBElement<CollectionWrapper>(new QName(rootName), CollectionWrapper.class, wrapper);
-			createMarshaller(clazz, encoding).marshal(wrapperElement, writer);
-
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		return writer.toString();
-	}
-
-	/**
-	 * Xml->Java Object.
+	 * 将 XML 转换成 对象
+	 * @param xml XML 字符串
+	 * @param clazz 对象类
+	 * @param <T> T
+	 * @return 转换后对象
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T fromXml(String xml, Class<T> clazz) {
@@ -91,25 +38,9 @@ public class JaxbUtil {
 	}
 
 	/**
-	 * 创建Marshaller并设定encoding(可为null). 线程不安全，需要每次创建或pooling。
-	 */
-	public static Marshaller createMarshaller(Class clazz, String encoding) {
-		try {
-			JAXBContext jaxbContext = getJaxbContext(clazz);
-			Marshaller marshaller = jaxbContext.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			if (StringUtils.isNotBlank(encoding)) {
-				marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
-			}
-			return marshaller;
-		} catch (JAXBException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
 	 * 创建UnMarshaller. 线程不安全，需要每次创建或pooling。
+	 * @param clazz 对象类
+	 * @return Unmarshaller
 	 */
 	public static Unmarshaller createUnmarshaller(Class clazz) {
 		try {
@@ -122,8 +53,8 @@ public class JaxbUtil {
 	}
 
 	protected static JAXBContext getJaxbContext(Class clazz) {
-		Assert.notNull(clazz, "'clazz' must not be null");		
-		JAXBContext jaxbContext = jaxbContexts.get(clazz);		
+		Assert.notNull(clazz, "'clazz' must not be null");
+		JAXBContext jaxbContext = jaxbContexts.get(clazz);
 		if (jaxbContext == null) {
 			try {
 				jaxbContext = JAXBContext.newInstance(clazz, CollectionWrapper.class);
@@ -138,6 +69,7 @@ public class JaxbUtil {
 
 	/**
 	 * 封装Root Element 是 Collection的情况.
+	 * @author hhLiu
 	 */
 	public static class CollectionWrapper {
 

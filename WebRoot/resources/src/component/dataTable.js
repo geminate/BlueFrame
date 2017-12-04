@@ -93,8 +93,8 @@
                         var param = $(element).attr("data-datatable-param");
 
                         $.post(url, {id: param}, function (re) {
-                            if (re != null && re.info != null && re.info == "success") {
-                                $.alert("删除成功");
+                            if (re != null && re.type != null && re.type != "") {
+                                toastr[re.type](re.title, re.message);
                                 $(table).DataTable().draw();
                             }
                         });
@@ -105,5 +105,4 @@
             }
         });
     };
-
 })();

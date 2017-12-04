@@ -4,16 +4,20 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.blueframe.frame.base.dao.BaseDao;
+import com.blueframe.frame.base.dao.TreeDao;
 import com.blueframe.frame.sys.model.SysPermission;
 
+/**
+ * 权限 Dao
+ * @author hhLiu
+ */
 @Repository
-public interface SysPermissionDao extends BaseDao<SysPermission> {
+public interface SysPermissionDao extends TreeDao<SysPermission> {
 
 	/**
-	 * 获取 某个用户 的全部 权限
-	 * @param sysUserId 用户 ID
-	 * @return
+	 * 根据用户ID获得其权限列表
+	 * @param sysUserId 用户ID
+	 * @return 权限列表
 	 */
 	List<SysPermission> selectPermissionsByUser(String sysUserId);
 

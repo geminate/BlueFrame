@@ -2,6 +2,10 @@ package com.blueframe.frame.sys.model;
 
 import com.blueframe.frame.base.model.BaseEntity;
 
+/**
+ * 角色 - 权限 对象
+ * @author hhLiu
+ */
 public class SysRolePermission extends BaseEntity<SysRolePermission> {
 	private SysRole sysRole;
 	private SysPermission sysPermission;

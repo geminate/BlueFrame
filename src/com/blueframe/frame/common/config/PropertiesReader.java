@@ -13,6 +13,7 @@ import org.springframework.core.io.ResourceLoader;
 
 /**
  * 配置文件 读取 工具类
+ * @author hhLiu
  */
 public class PropertiesReader {
 
@@ -45,7 +46,7 @@ public class PropertiesReader {
 	/**
 	 * 载入配置文件
 	 * @param resourcesPaths 配置文件路径
-	 * @return
+	 * @return 配置文件对象
 	 */
 	private Properties loadProperties(String... resourcesPaths) {
 		Properties props = new Properties();

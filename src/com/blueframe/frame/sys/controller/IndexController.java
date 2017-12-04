@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.blueframe.frame.base.controller.BaseController;
@@ -24,66 +23,61 @@ public class IndexController extends BaseController {
 	private SysPermissionService sysPermissionService;
 
 	/**
-	 * 模板路径
+	 * 模板页 - GET,POST
+	 * @return 模板页面
 	 */
-	@RequestMapping(value = "/decorator", method = RequestMethod.GET)
-	public ModelAndView getDecorator() {
+	@RequestMapping(value = "/decorator")
+	public ModelAndView decorator() {
 		ModelAndView mov = new ModelAndView("/frame/sys/index/decorator");
 		return mov;
 	}
 
 	/**
-	 * 工作台首页 GET
-	 * @param mov
-	 * @return
+	 * 工作台 - 首页 - GET
+	 * @return 工作台页面
 	 */
 	@RequestMapping("/")
-	public ModelAndView getIndex(ModelAndView mov) {
-		// System.out.println(SecurityUtils.getSubject().hasRole("0001"));
-		mov.setViewName("/frame/sys/index/index");
+	public ModelAndView getIndex() {
+		ModelAndView mov = new ModelAndView("/frame/sys/index/index");
 		return mov;
 	}
 
 	/**
-	 * 登录页 GET
-	 * @param mov
-	 * @param servlet
-	 * @return
+	 * 登录页 - GET
+	 * @return 登录页
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView getLogin(ModelAndView mov, DispatcherServlet servlet) {
-		mov.setViewName("/frame/sys/index/login");
+	public ModelAndView getLogin() {
+		ModelAndView mov = new ModelAndView("/frame/sys/index/login");
 		return mov;
 	}
 
 	/**
-	 * 登录请求 POST
-	 * @param sysUser
-	 * @return
+	 * 登录页 - 登录请求 - POST
+	 * @param sysUser 登录请求对象
+	 * @return 返回信息
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ReturnMessage postLogin(SysUser sysUser) {
 		UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
 		try {
 			SecurityUtils.getSubject().login(usernamePasswordToken);
-			return buildReturnMessage("0", "登陆成功");
+			return buildReturnMessage("success", "", "登陆成功");
 		} catch (Exception e) {
-			return buildReturnMessage("1", "用户名密码错误");
+			return buildReturnMessage("fail", "", "用户名密码错误");
 		}
 	}
 
 	/**
-	 * 登出请求 GET
-	 * @param mov
-	 * @return
+	 * 登出请求 - GET
+	 * @return 重定向至登录页
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public ModelAndView getLogout(ModelAndView mov) {
+	public ModelAndView getLogout() {
 		if (SecurityUtils.getSubject().getPrincipal() != null) {
 			SecurityUtils.getSubject().logout();
 		}
-		mov.setViewName("redirect:/login");
+		ModelAndView mov = new ModelAndView("redirect:/login");
 		return mov;
-
 	}
 }

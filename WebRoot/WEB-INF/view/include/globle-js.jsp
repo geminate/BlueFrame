@@ -34,6 +34,10 @@
 <script src="${ctxStatic}/metronic/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js" type="text/javascript"></script>
 
 <script src="${ctxStatic}/plugins/treeTable/jquery.treeTable.js" type="text/javascript"></script>
+<script src="${ctxStatic}/plugins/zTree/js/jquery.ztree.all.min.js" type="text/javascript"></script>
+
+<script src="${ctxStatic}/plugins/jquery-confirm/jquery-confirm.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/metronic/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 
 <!-- BEGIN THEME LAYOUT SCRIPTS -->

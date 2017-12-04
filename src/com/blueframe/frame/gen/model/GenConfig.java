@@ -10,6 +10,7 @@ import com.blueframe.frame.sys.model.Dict;
 
 /**
  * 代码生成器 配置文件 对象
+ * @author hhLiu
  */
 @XmlRootElement(name = "config")
 public class GenConfig {

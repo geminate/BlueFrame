@@ -192,6 +192,18 @@
 		<include refid="leftJoin" />
 		<include refid="dynamicWhereLike" />
 	</select>
+	
+	<!-- 批量查询 ID List -->
+	<select id="selectBatch" resultType="com.blueframe.frame.sys.model.SysRole">
+		select
+		<include refid="selectColumnList" />
+		from sys_role a
+		<include refid="leftJoin" />
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 
 	<!--********************************************** 自定义Sql ********************************************** -->
 

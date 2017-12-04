@@ -19,6 +19,7 @@ import com.blueframe.frame.gen.service.GenTableService;
 
 /**
  * 代码生成器-业务表 Controller
+ * @author hhLiu
  */
 @Controller
 @RequestMapping(value = "/frame/gen/genTable")
@@ -29,7 +30,7 @@ public class GenTableController extends BaseController {
 
 	/**
 	 * 业务表配置-列表页-GET
-	 * @return
+	 * @return 业务表配置页
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView toGetList() {
@@ -39,9 +40,9 @@ public class GenTableController extends BaseController {
 
 	/**
 	 * 业务表配置-列表页-表格数据AJAx
-	 * @param genTable
-	 * @param request
-	 * @return
+	 * @param genTable 查询对象
+	 * @param request 请求对象
+	 * @return 业务表分页数据
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
@@ -53,7 +54,7 @@ public class GenTableController extends BaseController {
 
 	/**
 	 * 业务表配置-添加业务表-GET
-	 * @return
+	 * @return 添加页面
 	 */
 	@RequestMapping(value = "/selectTable", method = RequestMethod.GET)
 	public ModelAndView toGetSelectTable() {
@@ -65,8 +66,8 @@ public class GenTableController extends BaseController {
 
 	/**
 	 * 业务表配置-业务表列信息添加-GET
-	 * @param genTable
-	 * @return
+	 * @param genTable 要添加的业务表对象
+	 * @return 添加页面
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
 	public ModelAndView toGetInsert(GenTable genTable) {
@@ -79,8 +80,8 @@ public class GenTableController extends BaseController {
 
 	/**
 	 * 业务表配置-保存业务表字段信息-POST
-	 * @param genTable
-	 * @return
+	 * @param genTable 要添加的业务表对象
+	 * @return 重定向至列表页
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public ModelAndView toPostInsert(GenTable genTable) {
@@ -89,11 +90,6 @@ public class GenTableController extends BaseController {
 		return mov;
 	}
 
-	/**
-	 * 业务表配置-业务表信息编辑-GET
-	 * @param genTable
-	 * @return
-	 */
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public ModelAndView toGetUpdate(GenTable genTable) {
 		ModelAndView mov = new ModelAndView("/frame/gen/genTable/update");
@@ -107,11 +103,6 @@ public class GenTableController extends BaseController {
 		return mov;
 	}
 
-	/**
-	 * 业务表配置-业务表信息编辑操作-POST
-	 * @param genTable
-	 * @return
-	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ModelAndView toPostUpdate(GenTable genTable) {
 		ModelAndView mov = new ModelAndView("redirect:/frame/gen/genTable/list");
@@ -119,11 +110,6 @@ public class GenTableController extends BaseController {
 		return mov;
 	}
 
-	/**
-	 * 业务表配置-业务表删除操作-POST
-	 * @param genTable
-	 * @return
-	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public String toPostDelete(GenTable genTable) {

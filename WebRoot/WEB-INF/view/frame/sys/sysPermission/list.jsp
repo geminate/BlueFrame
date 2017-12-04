@@ -13,40 +13,37 @@
 <sitemesh:custom_script>
 	<script>
 		$(function() {
-			initTable();
+			initListener();
 		});
 
-		function initTable() {
-			var columns = [
-					{
-						"render" : function(data, type, row, meta) {
-							return meta.row + 1;
+		function initListener() {
+			$("#permissionTable").on("click", ".del-btn", function() {
+				var url = $(this).parents("table").attr("delUrl");
+				var id = $(this).parents("tr").attr("id");
+				$.confirm({
+					title : "确定删除？",
+					type : "orange",
+					backgroundDismiss : true,
+					content : "",
+					buttons : {
+						"确定" : {
+							btnClass : "btn-success",
+							action : function() {
+								window.location.href = url + "?id=" + id
+							}
 						},
-						"orderable" : false
-					},
-					{
-						"data" : "name",
-						"name" : "a.name",
-						"defaultContent" : "",
-						"orderable" : true
-					},
-					{
-						"data" : "permissionStr",
-						"name" : "a.permission_str",
-						"defaultContent" : "",
-						"orderable" : true
-					},
-					{
-						"render" : function(data, type, row, meta) {
-							var updateA = "<a class='btn btn-xs blue' href='${ctx}/frame/sys/sysPermission/update?id=" + row.id + "'>编辑</a>";
-							var deleteA = "<a class='btn btn-xs red' href='javascript:' onclick='GLOBAL.DATATABLE.deleteRow(this)'" + " data-datatable-url='${ctx}/frame/sys/sysPermission/delete'" + " data-datatable-param='" + row.id + "'"
-									+ " data-datatable-table='#sysPermissionTable'>删除</a>";
-							return updateA + deleteA;
-						},
-						"orderable" : false
-					} ];
+						"取消" : {
+							btnClass : 'btn-danger'
+						}
+					}
+				});
+			});
 
-			GLOBAL.DATATABLE.initDatatable("#sysPermissionTable", "${ctx}/frame/sys/sysPermission/list", "#searchForm", columns, "#searchBtn", "#resetBtn");
+			$("#resetBtn").click(function() {
+				var $form = $(this).parents("form");
+				$form.find(":input").not(':button,:submit,:reset,:hidden').val('').removeAttr('checked').removeAttr('selected');
+				$form[0].submit();
+			});
 		}
 	</script>
 </sitemesh:custom_script>
@@ -78,7 +75,6 @@
 
 	<div class="row">
 		<div class="col-md-12">
-
 			<div class="portlet box green">
 				<div class="portlet-title">
 					<div class="caption">
@@ -89,27 +85,27 @@
 					</div>
 				</div>
 				<div class="portlet-body form">
-					<form id="searchForm" class="horizontal-form">
+					<form id="searchForm" class="horizontal-form" action="${ctx}/frame/sys/sysPermission/list" method="post">
 						<div class="form-body">
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-group">
 										<label class="control-label">名称</label>
-										<input name="name" type="text" class="form-control" placeholder="按权限名称查询(模糊)">
+										<input name="name" type="text" class="form-control" placeholder="按权限名称查询(模糊)" value="${sysPermission.name}">
 										<span class="help-block"></span>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label class="control-label">标记</label>
-										<input name="PermissionStr" type="text" class="form-control" placeholder="按权限标记查询(模糊)">
+										<input name="PermissionStr" type="text" class="form-control" placeholder="按权限标记查询(模糊)" value="${sysPermission.permissionStr}">
 										<span class="help-block"></span>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="form-actions right">
-							<button id="searchBtn" type="button" class="btn green">查询</button>
+							<button id="searchBtn" type="submit" class="btn green">查询</button>
 							<button id="resetBtn" type="button" class="btn default">重置</button>
 						</div>
 					</form>
@@ -128,21 +124,32 @@
 					</div>
 				</div>
 				<div class="portlet-body">
-					<div class="table-container">
-						<form id="searchForm">
-							<table class="table table-striped table-bordered table-hover table-checkable" id="sysPermissionTable">
-								<thead>
-									<tr role="row" class="heading">
-										<th>序号</th>
-										<th>权限名称</th>
-										<th>权限标记</th>
-										<th>操作</th>
+					<div class="table-scrollable">
+						<table id="permissionTable" class="table tree-table table-striped table-hover" delUrl="${ctx}/frame/sys/sysPermission/delete">
+							<thead>
+								<tr>
+									<th>名称</th>
+									<th>菜单地址</th>
+									<th>权限标识</th>
+									<th>菜单标识</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${sysPermissionList}" var="item">
+									<tr id="${item.id}" pId="${item.parent.id}">
+										<td>${item.name}</td>
+										<td>${item.href}</td>
+										<td>${item.permissionStr}</td>
+										<td>${item.type}</td>
+										<td>
+											<a class="btn btn-xs blue" href="${ctx}/frame/sys/sysPermission/update?id=${item.id}">编辑</a> <a class="btn btn-xs red del-btn" href="javascript:">删除</a>
+											<a class="btn btn-xs green" href="javascript:">添加下级菜单</a>
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</form>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>

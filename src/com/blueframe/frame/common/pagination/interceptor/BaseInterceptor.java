@@ -16,6 +16,7 @@ import com.blueframe.frame.common.utils.ReflectionUtil;
 
 /**
  * Mybatis 分页拦截器
+ * @author hhLiu
  */
 public abstract class BaseInterceptor implements Interceptor, Serializable {
 
@@ -28,13 +29,10 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
 	protected Dialect DIALECT;
 
 	/**
-	 * 将参数对象 转换成 Page 对象
-	 * 如果参数对象本身为Page对象 则直接返回，否则获取 参数对象中的 page 属性并将其返回
-	 * 
+	 * 将参数对象 转换成 Page 对象 如果参数对象本身为Page对象 则直接返回，否则获取 参数对象中的 page 属性并将其返回
 	 * @param parameterObject 参数对象
-	 * @param page            分页对象
+	 * @param page 分页对象
 	 * @return 分页对象
-	 * @throws NoSuchFieldException 无法找到参数
 	 */
 	@SuppressWarnings("unchecked")
 	protected static Page<Object> convertParameter(Object parameterObject, Page<Object> page) {
@@ -50,10 +48,8 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
 	}
 
 	/**
-	 * 设置属性，支持自定义方言类和制定数据库的方式
-	 * <code>dialectClass</code>,自定义方言类。可以不配置这项
-	 * <ode>dbms</ode> 数据库类型，插件支持的数据库
-	 * <code>sqlPattern</code> 需要拦截的SQL ID
+	 * 设置属性，支持自定义方言类和制定数据库的方式 <code>dialectClass</code>,自定义方言类。可以不配置这项
+	 * <code>dbms</code> 数据库类型，插件支持的数据库 <code>sqlPattern</code> 需要拦截的SQL ID
 	 * @param p 属性
 	 */
 	protected void initProperties(Properties p) {

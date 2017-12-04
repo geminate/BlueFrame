@@ -2,6 +2,10 @@ package com.blueframe.frame.sys.model;
 
 import com.blueframe.frame.base.model.BaseEntity;
 
+/**
+ * 用户 对象
+ * @author hhLiu
+ */
 public class SysUser extends BaseEntity<SysUser> {
 
 	private String name;

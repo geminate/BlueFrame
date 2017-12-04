@@ -7,9 +7,15 @@ import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
+/**
+ * 密码加密类
+ * @author hhLiu
+ */
 public class SecCredentialsMatcher extends SimpleCredentialsMatcher {
 
-	// 密码加密盐
+	/**
+	 * 加密盐
+	 */
 	public static String salt = "SEC";
 
 	@Override
@@ -22,8 +28,8 @@ public class SecCredentialsMatcher extends SimpleCredentialsMatcher {
 
 	/**
 	 * 密码加密方法
-	 * @param password
-	 * @return
+	 * @param password 密码
+	 * @return 加密后的密码
 	 */
 	public static String encryptPassword(String password) {
 		String newPassword = new SimpleHash("md5", password, ByteSource.Util.bytes(salt), 2).toHex();

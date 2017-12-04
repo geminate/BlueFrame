@@ -2,60 +2,75 @@ package com.blueframe.frame.base.dao;
 
 import java.util.List;
 
+/**
+ * Dao 基类
+ * @author hhLiu
+ */
 public interface BaseDao<E> {
 
 	/**
-	 * 增
-	 * @param entity
+	 * 插入
+	 * @param entity 插入对象
 	 */
 	public void insert(E entity);
 
 	/**
-	 * 批量增加
-	 * @param entityList
+	 * 批量插入
+	 * @param entityList 批量插入对象
 	 */
 	public void insertBatch(List<E> entityList);
 
 	/**
-	 * 删
-	 * @param entity
+	 * 物理删除
+	 * @param entity 删除对象
 	 */
 	public void delete(E entity);
 
+	/**
+	 * 逻辑删除
+	 * @param entity 删除对象
+	 */
 	public void deleteLogic(E entity);
 
 	/**
-	 * 改
-	 * @param entity
+	 * 修改
+	 * @param entity 修改对象
 	 */
 	public void update(E entity);
 
 	/**
-	 * 查-精确
-	 * @param entity
-	 * @return
+	 * 查找-精确
+	 * @param entity 筛选对象
+	 * @return 查询结果列表
 	 */
 	public List<E> select(E entity);
 
 	/**
-	 * 查-模糊
-	 * @param entity
-	 * @return
+	 * 查找-模糊
+	 * @param entity 筛选对象
+	 * @return 查询结果列表
 	 */
 	public List<E> selectLike(E entity);
 
 	/**
 	 * 查询数量-精确
-	 * @param entity
-	 * @return
+	 * @param entity 筛选对象
+	 * @return 查询结果数量
 	 */
 	public Integer count(E entity);
 
 	/**
 	 * 查询数量-模糊
-	 * @param entity
-	 * @return
+	 * @param entity 筛选对象
+	 * @return 查询结果数量
 	 */
 	public Integer countLike(E entity);
+
+	/**
+	 * 批量查询
+	 * @param ids 要查询的ID列表
+	 * @return 批量查询结果列表
+	 */
+	public List<E> selectBatch(List<String> ids);
 
 }

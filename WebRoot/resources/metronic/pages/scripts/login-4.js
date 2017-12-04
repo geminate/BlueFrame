@@ -80,7 +80,7 @@ var Login = function() {
 				url : ctx + "/login",
 				data : $(".login-form").serialize(),
 				success : function(res) {
-					if (res.flag == "0") {
+					if (res.type == "success") {
 						window.location.href = ctx + "/"
 					} else {
 						$(".alert-danger span").text(res.message);

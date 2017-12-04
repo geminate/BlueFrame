@@ -20,6 +20,7 @@ import com.blueframe.frame.common.utils.ReflectionUtil;
 
 /**
  * Mybatis 分页拦截器
+ * @author hhLiu
  */
 @Intercepts({ @Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }) })
 public class PaginationInterceptor extends BaseInterceptor {
@@ -30,11 +31,11 @@ public class PaginationInterceptor extends BaseInterceptor {
 	public Object intercept(Invocation invocation) throws Throwable {
 		final MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
 		Object parameter = invocation.getArgs()[1];
-		BoundSql boundSql = mappedStatement.getBoundSql(parameter);//源Sql
-		Object parameterObject = boundSql.getParameterObject();//参数对象
+		BoundSql boundSql = mappedStatement.getBoundSql(parameter);// 源Sql
+		Object parameterObject = boundSql.getParameterObject();// 参数对象
 
 		Page<Object> page = null;
-		if (parameterObject != null) {			
+		if (parameterObject != null) {
 			page = convertParameter(parameterObject, page);
 		}
 
@@ -44,28 +45,28 @@ public class PaginationInterceptor extends BaseInterceptor {
 			}
 			String originalSql = boundSql.getSql().trim();
 
-			//获取 查询 总数
+			// 获取 查询 总数
 			Integer count = SQLHelper.getCount(originalSql, null, mappedStatement, parameterObject, boundSql, log);
 			page.setRecordsFiltered(count);
 			page.setRecordsTotal(count);
 
-			//获取 查询语句
+			// 获取 查询语句
 			String pageSql = SQLHelper.generatePageSql(originalSql, page, DIALECT);
-			
+
 			if (log.isDebugEnabled()) {
 				log.debug("COUNT SQL: " + StringUtils.replaceEach(pageSql, new String[] { "\n", "\t" }, new String[] { " ", " " }));
 			}
-			
+
 			invocation.getArgs()[2] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
 			BoundSql newBoundSql = new BoundSql(mappedStatement.getConfiguration(), pageSql, boundSql.getParameterMappings(), boundSql.getParameterObject());
-			
-			//解决MyBatis 分页foreach 参数失效 start
+
+			// 解决MyBatis 分页foreach 参数失效 start
 			if (ReflectionUtil.getFieldValue(boundSql, "metaParameters") != null) {
 				MetaObject mo = (MetaObject) ReflectionUtil.getFieldValue(boundSql, "metaParameters");
 				ReflectionUtil.setFieldValue(newBoundSql, "metaParameters", mo);
 			}
-			
-			//解决MyBatis 分页foreach 参数失效 end
+
+			// 解决MyBatis 分页foreach 参数失效 end
 			MappedStatement newMs = copyFromMappedStatement(mappedStatement, new BoundSqlSqlSource(newBoundSql));
 
 			invocation.getArgs()[0] = newMs;

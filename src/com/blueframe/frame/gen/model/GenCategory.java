@@ -10,6 +10,7 @@ import com.blueframe.frame.sys.model.Dict;
 
 /**
  * 模板 类型 对象
+ * @author hhLiu
  */
 @XmlRootElement(name = "category")
 public class GenCategory extends Dict {

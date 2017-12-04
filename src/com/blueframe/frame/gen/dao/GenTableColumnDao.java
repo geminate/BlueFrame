@@ -7,5 +7,4 @@ import com.blueframe.frame.gen.model.GenTableColumn;
 
 @Repository
 public interface GenTableColumnDao extends BaseDao<GenTableColumn> {
-
 }

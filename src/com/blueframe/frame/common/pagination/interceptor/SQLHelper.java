@@ -30,15 +30,16 @@ import com.blueframe.frame.common.utils.ReflectionUtil;
 
 /**
  * Sql 工具类
+ * @author hhLiu
  */
 public class SQLHelper {
 
 	/**
-	 * 对SQL参数(?)设值,参考org.apache.ibatis.executor.parameter.DefaultParameterHandler
-	 *
-	 * @param ps              表示预编译的 SQL 语句的对象。
+	 * 对SQL参数(?)设值,参考org.apache.ibatis.executor.parameter.
+	 * DefaultParameterHandler
+	 * @param ps 表示预编译的 SQL 语句的对象。
 	 * @param mappedStatement MappedStatement
-	 * @param boundSql        SQL
+	 * @param boundSql SQL
 	 * @param parameterObject 参数对象
 	 * @throws java.sql.SQLException 数据库异常
 	 */
@@ -83,12 +84,13 @@ public class SQLHelper {
 
 	/**
 	 * 查询总纪录数
-	 * @param sql             SQL语句
-	 * @param connection      数据库连接
+	 * @param sql SQL语句
+	 * @param connection 数据库连接
 	 * @param mappedStatement mapped
 	 * @param parameterObject 参数
-	 * @param boundSql        boundSql
-	 * @return 总记录数
+	 * @param boundSql boundSql
+	 * @param log log对象
+	 * @return 总纪录数
 	 * @throws SQLException sql查询错误
 	 */
 	public static int getCount(final String sql, final Connection connection, final MappedStatement mappedStatement, final Object parameterObject,
@@ -112,12 +114,12 @@ public class SQLHelper {
 			}
 			ps = conn.prepareStatement(countSql);
 			BoundSql countBS = new BoundSql(mappedStatement.getConfiguration(), countSql, boundSql.getParameterMappings(), parameterObject);
-			//解决MyBatis 分页foreach 参数失效 start
+			// 解决MyBatis 分页foreach 参数失效 start
 			if (ReflectionUtil.getFieldValue(boundSql, "metaParameters") != null) {
 				MetaObject mo = (MetaObject) ReflectionUtil.getFieldValue(boundSql, "metaParameters");
 				ReflectionUtil.setFieldValue(countBS, "metaParameters", mo);
 			}
-			//解决MyBatis 分页foreach 参数失效 end 
+			// 解决MyBatis 分页foreach 参数失效 end
 			SQLHelper.setParameters(ps, mappedStatement, countBS, parameterObject);
 			rs = ps.executeQuery();
 			int count = 0;
@@ -140,8 +142,8 @@ public class SQLHelper {
 
 	/**
 	 * 根据数据库方言，生成特定的分页sql
-	 * @param sql     Mapper中的Sql语句
-	 * @param page    分页对象
+	 * @param sql Mapper中的Sql语句
+	 * @param page 分页对象
 	 * @param dialect 方言类型
 	 * @return 分页SQL
 	 */
@@ -153,10 +155,10 @@ public class SQLHelper {
 		}
 	}
 
-	/** 
-	 * 去除qlString的select子句。 
-	 * @param hql 
-	 * @return 
+	/**
+	 * 去除qlString的select子句。
+	 * @param qlString 处理前字符串
+	 * @return 去除结果
 	 */
 	@SuppressWarnings("unused")
 	private static String removeSelect(String qlString) {
@@ -164,10 +166,10 @@ public class SQLHelper {
 		return qlString.substring(beginPos);
 	}
 
-	/** 
-	 * 去除hql的orderBy子句。 
-	 * @param hql 
-	 * @return 
+	/**
+	 * 去除hql的orderBy子句。
+	 * @param qlString 处理前字符串
+	 * @return 去除结果
 	 */
 	private static String removeOrders(String qlString) {
 		Pattern p = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);

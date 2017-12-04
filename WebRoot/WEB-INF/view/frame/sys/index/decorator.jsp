@@ -16,7 +16,6 @@
 <%@ include file="/WEB-INF/view/include/globle-js.jsp"%>
 <sitemesh:write property='sitemesh:custom_script' />
 </head>
-
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-fixed">
 	<%@ include file="/WEB-INF/view/include/page-top.jsp"%>
 	<div class="clearfix"></div>
@@ -29,7 +28,5 @@
 		</div>
 	</div>
 	<%@ include file="/WEB-INF/view/include/page-footer.jsp"%>
-
-
 </body>
 </html>

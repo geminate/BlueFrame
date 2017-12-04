@@ -4,21 +4,17 @@
 <%@ include file="/WEB-INF/view/include/taglib.jsp"%>
 
 <!DOCTYPE html>
-<!--[if IE 8]> <html class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
 <html>
 <!--<![endif]-->
 <head>
-<meta charset="utf-8" />
+<%@ include file="/WEB-INF/view/include/meta.jsp"%>
 <title>请登录</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta content="width=device-width, initial-scale=1" name="viewport" />
-<script type="text/javascript">
-	var ctx = '${ctx}', ctxStatic = '${ctxStatic}';
-</script>
 <%@ include file="/WEB-INF/view/include/globle-css.jsp"%>
 <link href="${ctxStatic}/metronic/pages/css/login-4.css" rel="stylesheet" type="text/css" />
+<%@ include file="/WEB-INF/view/include/globle-js.jsp"%>
+<script src="${ctxStatic}/metronic/pages/scripts/login-4.js" type="text/javascript"></script>
 </head>
 <body class="login">
 	<div class="logo">
@@ -51,13 +47,6 @@
 			</div>
 		</form>
 	</div>
-
 	<div class="copyright">2017-2017 Sec.ac.cn 相关版权说明</div>
-	<!--[if lt IE 9]>
-		<script src="static/metronic/global/plugins/respond.min.js"></script>
-		<script src="static/metronic/global/plugins/excanvas.min.js"></script> 
-	<![endif]-->
-	<%@ include file="/WEB-INF/view/include/globle-js.jsp"%>
-	<script src="${ctxStatic}/metronic/pages/scripts/login-4.js" type="text/javascript"></script>
 </body>
 </html>

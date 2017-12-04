@@ -26,6 +26,7 @@ import com.blueframe.frame.sys.model.SysUser;
 
 /**
  * 代码生成 工具类
+ * @author hhLiu
  */
 public class GenUtils {
 
@@ -121,7 +122,7 @@ public class GenUtils {
 
 	/**
 	 * 获取代码生成配置对象
-	 * @return
+	 * @return 配置对象
 	 */
 	public static GenConfig getConfig() {
 		return fileToObject("/frame/gen/genConfig.xml", GenConfig.class);
@@ -129,9 +130,10 @@ public class GenUtils {
 
 	/**
 	 * XML文件转换为对象
-	 * @param fileName
-	 * @param clazz
-	 * @return
+	 * @param pathName XML文件地址
+	 * @param clazz 对象类
+	 * @param <T> T
+	 * @return 转换后的对象
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T fileToObject(String pathName, Class<?> clazz) {

@@ -6,18 +6,58 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
 
+/**
+ * 分页对象
+ * @author hhLiu
+ */
 public class Page<T> {
 
-	private Integer length; // 页面数据数量
+	/**
+	 * 每页显示的数据条数
+	 */
+	private Integer length;
+
+	/**
+	 * 页面起始数据序号<br>
+	 * 从0开始
+	 */
 	private Integer start; // 起始数据
+
+	/**
+	 * dataTable 唯一标识符
+	 */
 	private Integer draw;
 
+	/**
+	 * 查询结果List
+	 */
 	private List<T> data;
+
+	/**
+	 * 数据总量
+	 */
 	private Integer recordsTotal;
+
+	/**
+	 * 筛选后数据量
+	 */
 	private Integer recordsFiltered;
+
+	/**
+	 * 排序的属性名
+	 */
 	private String order;
+
+	/**
+	 * 排序方式<br>
+	 * asc 或 desc
+	 */
 	private String orderDir;
 
+	/**
+	 * 构造方法 将Datatable的请求参数 转换为 Page对象
+	 * @param request 请求对象
+	 */
 	public Page(HttpServletRequest request) {
 		this.length = Integer.parseInt(request.getParameter("length"));
 		this.start = Integer.parseInt(request.getParameter("start"));

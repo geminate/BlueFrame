@@ -8,13 +8,17 @@ import com.blueframe.frame.base.service.BaseService;
 import com.blueframe.frame.sys.dao.SysRoleDao;
 import com.blueframe.frame.sys.model.SysRole;
 
+/**
+ * 角色 Service
+ * @author hhLiu
+ */
 @Service
 public class SysRoleService extends BaseService<SysRoleDao, SysRole> {
 
 	/**
-	 * 获取 某个用户的 全部角色
+	 * 根据用户ID获取其角色列表
 	 * @param sysUserId 用户ID
-	 * @return
+	 * @return 角色列表
 	 */
 	public List<SysRole> selectRolesByUser(String sysUserId) {
 		return dao.selectRolesByUser(sysUserId);

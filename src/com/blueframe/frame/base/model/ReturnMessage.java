@@ -1,23 +1,40 @@
 package com.blueframe.frame.base.model;
 
 /**
- * Ajax 返回对象
+ * AJAX 返回信息对象
+ * @author hhLiu
  */
 public class ReturnMessage {
 
-	// 信息内容
+	/**
+	 * 返回信息类型<br>
+	 * "success","info","warning","error"
+	 */
+	private String type;
+
+	/**
+	 * 返回信息标题
+	 */
+	private String title;
+
+	/**
+	 * 返回信息内容
+	 */
 	private String message;
 
-	// 信息标识符
-	private String flag;
-
 	public ReturnMessage() {
-
 	}
 
-	public ReturnMessage(String message, String flag) {
+	/**
+	 * 构造方法
+	 * @param type 返回信息类型
+	 * @param title 返回信息标题
+	 * @param message 返回信息内容
+	 */
+	public ReturnMessage(String type, String title, String message) {
+		this.type = type;
+		this.title = title;
 		this.message = message;
-		this.flag = flag;
 	}
 
 	public String getMessage() {
@@ -28,11 +45,19 @@ public class ReturnMessage {
 		this.message = message;
 	}
 
-	public String getFlag() {
-		return flag;
+	public String getType() {
+		return type;
 	}
 
-	public void setFlag(String flag) {
-		this.flag = flag;
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

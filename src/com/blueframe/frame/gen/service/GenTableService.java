@@ -56,8 +56,8 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 
 	/**
 	 * 获取 表 的 最新 信息
-	 * @param genTable
-	 * @return
+	 * @param tableName 表名
+	 * @return 表对象
 	 */
 	public GenTable getTableNewInfo(String tableName) {
 
@@ -78,8 +78,8 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 
 	/**
 	 * 获取 表 的 最新 列信息
-	 * @param genTable
-	 * @return
+	 * @param genTable 表对象
+	 * @return 表对象
 	 */
 	public GenTable getTableNewColumn(GenTable genTable) {
 		List<GenTableColumn> tableColumns = dao.findTableColumnFromDb(genTable);
@@ -91,15 +91,15 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 
 	/**
 	 * 获取 表 的 存储 信息
-	 * @param genTable
-	 * @return
+	 * @param id 表ID
+	 * @return 表对象
 	 */
 	public GenTable getTableStorageInfo(String id) {
 		GenTable genTable = new GenTable(id);
 		genTable = selectOne(genTable, false);
 		genTable = getTableStorageColumn(genTable);
 
-		//排序
+		// 排序
 		Collections.sort(genTable.getTableColumns(), new Comparator<GenTableColumn>() {
 
 			@Override
@@ -111,11 +111,6 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 		return genTable;
 	}
 
-	/**
-	 * 获取 表 的 存储 列信息
-	 * @param genTable
-	 * @return
-	 */
 	public GenTable getTableStorageColumn(GenTable genTable) {
 		genTable = selectOne(new GenTable(genTable.getId()), false);
 		GenTableColumn genTableColumn = new GenTableColumn();

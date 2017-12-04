@@ -7,6 +7,7 @@ import com.blueframe.frame.base.model.BaseEntity;
 
 /**
  * 业务表 对象
+ * @author hhLiu
  */
 public class GenTable extends BaseEntity<GenTable> {
 	private String name;// 名称

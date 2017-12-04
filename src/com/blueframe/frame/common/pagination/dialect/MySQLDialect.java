@@ -1,7 +1,8 @@
 package com.blueframe.frame.common.pagination.dialect;
 
 /**
- * MySql 数据库方言
+ * MySql 数据库方言 类
+ * @author hhLiu
  */
 public class MySQLDialect implements Dialect {
 
@@ -15,11 +16,6 @@ public class MySQLDialect implements Dialect {
 
 	/**
 	 * 获取 分页 Sql 语句
-	 *
-	 * @param sql    	原 Sql 语句
-	 * @param start 	开始条数
-	 * @param length  	每页显示条数
-	 * @return 			分页查询的sql
 	 */
 	@Override
 	public String getLimitString(String sql, int offset, int limit) {

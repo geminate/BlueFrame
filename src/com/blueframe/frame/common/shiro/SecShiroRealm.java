@@ -23,6 +23,10 @@ import com.blueframe.frame.sys.service.SysPermissionService;
 import com.blueframe.frame.sys.service.SysRoleService;
 import com.blueframe.frame.sys.service.SysUserService;
 
+/**
+ * Shiro 登录验证类
+ * @author hhLiu
+ */
 public class SecShiroRealm extends AuthorizingRealm {
 
 	@Autowired
@@ -34,6 +38,9 @@ public class SecShiroRealm extends AuthorizingRealm {
 	@Autowired
 	private SysPermissionService sysPermissionService;
 
+	/**
+	 * 权限、角色获取方法
+	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SysUser token = (SysUser) SecurityUtils.getSubject().getPrincipal();
@@ -49,6 +56,9 @@ public class SecShiroRealm extends AuthorizingRealm {
 		return authorizationInfo;
 	}
 
+	/**
+	 * 登录验证方法
+	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		UsernamePasswordToken utoken = (UsernamePasswordToken) token;

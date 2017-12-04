@@ -4,6 +4,7 @@ import com.blueframe.frame.base.model.BaseEntity;
 
 /**
  * 业务表 对象
+ * @author hhLiu
  */
 public class GenScheme extends BaseEntity<GenScheme> {
 

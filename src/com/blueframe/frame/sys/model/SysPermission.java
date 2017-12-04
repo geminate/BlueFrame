@@ -1,18 +1,23 @@
 package com.blueframe.frame.sys.model;
 
-import com.blueframe.frame.base.model.BaseEntity;
+import com.blueframe.frame.base.model.TreeEntity;
 
-public class SysPermission extends BaseEntity<SysPermission> {
+/**
+ * 权限 对象
+ * @author hhLiu
+ */
+public class SysPermission extends TreeEntity<SysPermission> {
 
-	private String name;
+	private String href;
 	private String permissionStr;
+	private String type;
 
-	public String getName() {
-		return name;
+	public String getHref() {
+		return href;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setHref(String href) {
+		this.href = href;
 	}
 
 	public String getPermissionStr() {
@@ -21,6 +26,24 @@ public class SysPermission extends BaseEntity<SysPermission> {
 
 	public void setPermissionStr(String permissionStr) {
 		this.permissionStr = permissionStr;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Override
+	public SysPermission getParent() {
+		return parent;
+	}
+
+	@Override
+	public void setParent(SysPermission parent) {
+		this.parent = parent;
 	}
 
 }
