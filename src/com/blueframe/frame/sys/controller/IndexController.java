@@ -35,10 +35,14 @@ public class IndexController extends BaseController {
 	/**
 	 * 工作台 - 首页 - GET
 	 * @return 工作台页面
+	 * @throws Exception
 	 */
 	@RequestMapping("/")
-	public ModelAndView getIndex() {
+	public ModelAndView getIndex() throws Exception {
 		ModelAndView mov = new ModelAndView("/frame/sys/index/index");
+		/*
+		 * if(true){ throw new Exception(""); }
+		 */
 		return mov;
 	}
 
@@ -80,4 +84,17 @@ public class IndexController extends BaseController {
 		ModelAndView mov = new ModelAndView("redirect:/login");
 		return mov;
 	}
+
+	@RequestMapping(value = "/error-404")
+	public ModelAndView error404() {
+		ModelAndView mov = new ModelAndView("/error/404");
+		return mov;
+	}
+
+	@RequestMapping(value = "/error-500")
+	public ModelAndView error500() {
+		ModelAndView mov = new ModelAndView("/error/500");
+		return mov;
+	}
+
 }
