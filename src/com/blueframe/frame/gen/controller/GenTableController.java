@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.blueframe.frame.base.controller.BaseController;
 import com.blueframe.frame.base.model.Page;
-import com.blueframe.frame.common.utils.GenUtils;
+import com.blueframe.frame.common.utils.GenUtil;
 import com.blueframe.frame.gen.model.GenTable;
 import com.blueframe.frame.gen.service.GenTableService;
 
@@ -73,7 +73,7 @@ public class GenTableController extends BaseController {
 	public ModelAndView toGetInsert(GenTable genTable) {
 		ModelAndView mov = new ModelAndView("/frame/gen/genTable/insert");
 		genTable = genTableService.getTableNewInfo(genTable.getName());
-		mov.addObject("config", GenUtils.getConfig());
+		mov.addObject("config", GenUtil.getConfig());
 		mov.addObject("genTable", genTable);
 		return mov;
 	}
@@ -98,7 +98,7 @@ public class GenTableController extends BaseController {
 		GenTable newGenTable = genTableService.getTableNewInfo(storageGenTable.getName());
 
 		genTable = genTableService.mixNewAndStorageColumn(newGenTable, storageGenTable);
-		mov.addObject("config", GenUtils.getConfig());
+		mov.addObject("config", GenUtil.getConfig());
 		mov.addObject("genTable", genTable);
 		return mov;
 	}

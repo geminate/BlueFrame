@@ -8,9 +8,36 @@
 	<short-name>fns</short-name>
 	<uri>http://java.sun.com/jsp/jstl/functionss</uri>
 
+	<function>
+		<description>获取配置文件值</description>
+		<name>getConfig</name>
+		<function-class>com.blueframe.frame.common.tlds.Fns</function-class>
+		<function-signature>java.lang.String getConfig(java.lang.String)</function-signature>
+		<example>${fns:getConfig(key)}</example>
+	</function>
 
-	
-	
-	
+	<function>
+		<description>获取当前登录用户对象</description>
+		<name>getCurrentUser</name>
+		<function-class>com.blueframe.frame.common.tlds.Fns</function-class>
+		<function-signature>com.blueframe.frame.sys.model.SysUser getCurrentUser()</function-signature>
+		<example>${fns:getCurrentUser()}</example>
+	</function>
+
+	<function>
+		<description>获取当前登录用户角色列表</description>
+		<name>getCurrentRoleList</name>
+		<function-class>com.blueframe.frame.common.tlds.Fns</function-class>
+		<function-signature>java.util.list getCurrentRoleList()</function-signature>
+		<example>${fns:getCurrentRoleList()}</example>
+	</function>
+
+	<function>
+		<description>获取当前登录用户权限列表</description>
+		<name>getCurrentPermissionList</name>
+		<function-class>com.blueframe.frame.common.tlds.Fns</function-class>
+		<function-signature>java.util.list getCurrentPermissionList()</function-signature>
+		<example>${fns:getCurrentPermissionList()}</example>
+	</function>
 
 </taglib>

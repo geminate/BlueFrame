@@ -1,11 +1,14 @@
 package com.blueframe.frame.common.tools;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
-public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
+@Service
+@Lazy(false)
+public class SpringContextHolder implements ApplicationContextAware {
 
 	private static ApplicationContext applicationContext = null;
 
@@ -16,11 +19,6 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 
 	public static <T> T getBean(Class<T> requiredType) {
 		return applicationContext.getBean(requiredType);
-	}
-
-	@Override
-	public void destroy() throws Exception {
-		applicationContext = null;
 	}
 
 }

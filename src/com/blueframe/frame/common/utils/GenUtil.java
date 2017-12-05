@@ -29,9 +29,9 @@ import com.blueframe.frame.sys.model.SysUser;
  * 代码生成 工具类
  * @author hhLiu
  */
-public class GenUtils {
+public class GenUtil {
 
-	private static Logger logger = LoggerFactory.getLogger(GenUtils.class);
+	private static Logger logger = LoggerFactory.getLogger(GenUtil.class);
 
 	public static void initColumnField(GenTable genTable) {
 
@@ -203,7 +203,7 @@ public class GenUtils {
 		// (StringUtils.isNotBlank(genScheme.getSubModuleName()) ? ":" +
 		// StringUtils.lowerCase(genScheme.getSubModuleName()) : "") + ":"+
 		// model.get("className"));
-		model.put("dbType", GlobalUtil.getConfig("jdbc.type"));
+		model.put("dbType", ConfigUtil.getConfig("jdbc.type"));
 		// model.put("table", genScheme.getGenSpecial());
 		return null;
 	}

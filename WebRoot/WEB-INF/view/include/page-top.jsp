@@ -11,6 +11,7 @@
 			</div>
 		</div>
 		<div class="hor-menu hidden-sm hidden-xs">
+			
 			<ul class="nav navbar-nav">
 				<li class="classic-menu-dropdown active">
 					<a href="#"> 业务菜单 <span class="selected"> </span>
@@ -28,7 +29,8 @@
 			<ul class="nav navbar-nav pull-right">
 				<li class="dropdown dropdown-user ">
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <img alt="" class="img-circle"
-							src="${ctxStatic}/metronic/layouts/layout/img/avatar3_small.jpg" /> <span class="username username-hide-on-mobile">  </span> <i class="fa fa-angle-down"></i>
+							src="${ctxStatic}/metronic/layouts/layout/img/avatar3_small.jpg" /> <span class="username username-hide-on-mobile"> ${fns:getCurrentUser().name}
+					</span> <i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-default">
 						<li>
@@ -36,7 +38,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="page_user_profile_1.html"> <i class="icon-key"></i> 修改密码 
+							<a href="page_user_profile_1.html"> <i class="icon-key"></i> 修改密码
 							</a>
 						</li>
 						<li class="divider"></li>

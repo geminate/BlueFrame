@@ -12,7 +12,7 @@ import com.blueframe.frame.common.component.pagination.dialect.Dialect;
 import com.blueframe.frame.common.component.pagination.dialect.MySQLDialect;
 import com.blueframe.frame.common.component.pagination.dialect.OracleDialect;
 import com.blueframe.frame.common.tools.ReflectionUtil;
-import com.blueframe.frame.common.utils.GlobalUtil;
+import com.blueframe.frame.common.utils.ConfigUtil;
 
 /**
  * Mybatis 分页拦截器
@@ -54,7 +54,7 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
 	 */
 	protected void initProperties(Properties p) {
 		Dialect dialect = null;
-		String dbType = GlobalUtil.getConfig("db.type");
+		String dbType = ConfigUtil.getConfig("db.type");
 		if ("mysql".equals(dbType)) {
 			dialect = new MySQLDialect();
 		} else if ("oracle".equals(dbType)) {

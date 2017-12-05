@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.blueframe.frame.base.service.BaseService;
 import com.blueframe.frame.common.tools.StringUtils;
-import com.blueframe.frame.common.utils.GenUtils;
+import com.blueframe.frame.common.utils.GenUtil;
 import com.blueframe.frame.gen.dao.GenTableDao;
 import com.blueframe.frame.gen.model.GenTable;
 import com.blueframe.frame.gen.model.GenTableColumn;
@@ -85,7 +85,7 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 		List<GenTableColumn> tableColumns = dao.findTableColumnFromDb(genTable);
 		genTable.setTableColumns(tableColumns);
 		genTable.setPkList(dao.findTablePKListFromDb(genTable));
-		GenUtils.initColumnField(genTable);
+		GenUtil.initColumnField(genTable);
 		return genTable;
 	}
 

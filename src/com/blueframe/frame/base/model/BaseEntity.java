@@ -6,7 +6,8 @@ import java.util.UUID;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.blueframe.frame.common.utils.GlobalUtil;
+import com.blueframe.frame.common.utils.ConfigUtil;
+import com.blueframe.frame.common.utils.UserUtil;
 import com.blueframe.frame.sys.model.SysUser;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -193,7 +194,7 @@ public class BaseEntity<T> {
 	 * @return 配置文件中数据库类型
 	 */
 	public String getDbType() {
-		return GlobalUtil.getConfig("db.type");
+		return ConfigUtil.getConfig("db.type");
 	}
 
 	/**
@@ -202,9 +203,9 @@ public class BaseEntity<T> {
 	 * @param autoAddUUID 是否自动生成ID
 	 */
 	public void preInsert(Boolean autoAddUUID) {
-		this.setCreateBy(GlobalUtil.getCurrentUser());
+		this.setCreateBy(UserUtil.getCurrentUser());
 		this.setCreateDate(new Date());
-		this.setUpdateBy(GlobalUtil.getCurrentUser());
+		this.setUpdateBy(UserUtil.getCurrentUser());
 		this.setUpdateDate(new Date());
 		this.setDelFlag("0");
 		if (autoAddUUID) {
@@ -218,7 +219,7 @@ public class BaseEntity<T> {
 	 * 添加 更新人、更新日期、删除标记为0
 	 */
 	public void preUpdate() {
-		this.setUpdateBy(GlobalUtil.getCurrentUser());
+		this.setUpdateBy(UserUtil.getCurrentUser());
 		this.setUpdateDate(new Date());
 		this.setDelFlag("0");
 	}
