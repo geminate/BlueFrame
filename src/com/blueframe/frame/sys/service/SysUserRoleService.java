@@ -43,8 +43,10 @@ public class SysUserRoleService extends BaseService<SysUserRoleDao, SysUserRole>
 	 * @param sysUser 用户对象
 	 */
 	public void deleteAllRolesByUser(SysUser sysUser) {
-		SysUserRole sysUserRole = new SysUserRole();
-		sysUserRole.setSysUser(sysUser);
-		delete(sysUserRole, true);
+		if (sysUser != null && sysUser.getId() != null && sysUser.getId() != "") {
+			SysUserRole sysUserRole = new SysUserRole();
+			sysUserRole.setSysUser(sysUser);
+			delete(sysUserRole, true);
+		}
 	}
 }

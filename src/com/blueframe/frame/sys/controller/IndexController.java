@@ -40,9 +40,6 @@ public class IndexController extends BaseController {
 	@RequestMapping("/")
 	public ModelAndView getIndex() throws Exception {
 		ModelAndView mov = new ModelAndView("/frame/sys/index/index");
-		/*
-		 * if(true){ throw new Exception(""); }
-		 */
 		return mov;
 	}
 
@@ -85,12 +82,20 @@ public class IndexController extends BaseController {
 		return mov;
 	}
 
+	/**
+	 * 404页面 - GET,POST
+	 * @return 404页面
+	 */
 	@RequestMapping(value = "/error-404")
 	public ModelAndView error404() {
 		ModelAndView mov = new ModelAndView("/error/404");
 		return mov;
 	}
 
+	/**
+	 * 500页面 - GET,POST
+	 * @return 500页面
+	 */
 	@RequestMapping(value = "/error-500")
 	public ModelAndView error500() {
 		ModelAndView mov = new ModelAndView("/error/500");

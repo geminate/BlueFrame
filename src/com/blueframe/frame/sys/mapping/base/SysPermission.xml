@@ -221,7 +221,7 @@
 		<include refid="selectColumnList" />
 		from sys_permission a
 		<include refid="leftJoin" />
-		where a.id = #{id}		
+		where a.id = #{id}
 	</select>
 
 	<!-- 查(模糊) -->
@@ -269,7 +269,7 @@
 
 	<!--********************************************** 自定义Sql ********************************************** -->
 
-	<!-- 查询 某个用户 的全部角色 -->
+	<!-- 查询 某个用户 的全部权限 -->
 	<select id="selectPermissionsByUser" resultType="com.blueframe.frame.sys.model.SysPermission">
 		select distinct
 		<include refid="selectColumnList" />
@@ -286,6 +286,20 @@
 		0
 		and sur.del_flag = 0
 		and su.del_flag = 0
+	</select>
+
+	<!-- 查询 某个角色的全部权限 -->
+	<select id="selectPermissionsByRole" resultType="com.blueframe.frame.sys.model.SysPermission">
+		select distinct
+		<include refid="selectColumnList" />
+		from sys_permission a
+		<include refid="leftJoin" />
+		LEFT JOIN sys_role_permission srp on srp.sys_permission_id = a.id
+		LEFT JOIN sys_role sr on sr.id = srp.sys_role_id
+		where sr.id = #{id}
+		and a.del_flag = 0
+		and srp.del_flag = 0
+		and sr.del_flag= 0
 	</select>
 
 </mapper>

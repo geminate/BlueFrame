@@ -23,4 +23,13 @@ public class SysPermissionService extends TreeService<SysPermissionDao, SysPermi
 	public List<SysPermission> selectPermissionsByUser(String sysUserId) {
 		return dao.selectPermissionsByUser(sysUserId);
 	}
+
+	/**
+	 * 根据角色ID获取其权限列表
+	 * @param sysRoleId
+	 * @return
+	 */
+	public List<SysPermission> selectPermissionsByRole(String sysRoleId) {
+		return dao.selectPermissionsByRole(sysRoleId);
+	}
 }

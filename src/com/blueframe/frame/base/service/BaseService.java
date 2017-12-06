@@ -163,4 +163,22 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 		page.setData(list);
 		return page;
 	}
+
+	/**
+	 * 将对象List 转换成 用逗号分隔的ID字符串：1,2,3
+	 * @param entityList 对象List
+	 * @return 用逗号分隔的ID字符串
+	 */
+	public String entityListToIdsStr(List<E> entityList) {
+		StringBuffer reBuffer = new StringBuffer("");
+		if (entityList != null && !entityList.isEmpty()) {
+			for (int i = 0; i < entityList.size(); i++) {
+				reBuffer.append(entityList.get(i).getId());
+				if (i < entityList.size() - 1) {
+					reBuffer.append(",");
+				}
+			}
+		}
+		return reBuffer.toString();
+	}
 }

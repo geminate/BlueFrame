@@ -21,4 +21,6 @@ public interface SysPermissionDao extends TreeDao<SysPermission> {
 	 */
 	List<SysPermission> selectPermissionsByUser(String sysUserId);
 
+	List<SysPermission> selectPermissionsByRole(String sysRoleId);
+
 }
