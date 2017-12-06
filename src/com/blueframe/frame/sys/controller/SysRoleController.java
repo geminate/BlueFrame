@@ -93,6 +93,7 @@ public class SysRoleController extends BaseController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ReturnMessage toPostDelete(SysRole sysRole) {
 		sysRoleService.deleteById(sysRole.getId(), true);
+		sysRolePermissionService.deleteAllPermissionsByRole(sysRole);
 		return buildReturnMessage("success", "", "删除成功！");
 	}
 

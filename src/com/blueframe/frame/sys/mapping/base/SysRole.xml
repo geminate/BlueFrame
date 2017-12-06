@@ -175,6 +175,8 @@
 			<if test="name!=null and name!=''">a.name = #{name,jdbcType=VARCHAR},</if>
 			<if test="roleStr!=null and roleStr!=''">a.role_str = #{roleStr,jdbcType=VARCHAR},</if>
 			<if test="description!=null and description!=''">a.description = #{description,jdbcType=VARCHAR},</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">a.update_by = #{updateBy.id},</if>
+			<if test="updateDate!=null and updateDate!=''">a.update_date = #{updateDate},</if>
 		</set>
 		where a.id = #{id,jdbcType=VARCHAR}
 	</update>

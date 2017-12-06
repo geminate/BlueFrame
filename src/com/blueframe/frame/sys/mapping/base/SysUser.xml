@@ -171,6 +171,8 @@
 			<if test="name!=null and name!=''">a.name = #{name,jdbcType=VARCHAR},</if>
 			<if test="username!=null and username!=''">a.username = #{username,jdbcType=VARCHAR},</if>
 			<if test="password!=null and password!=''">a.password = #{password,jdbcType=VARCHAR},</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">a.update_by = #{updateBy.id},</if>
+			<if test="updateDate!=null and updateDate!=''">a.update_date = #{updateDate},</if>
 		</set>
 		where a.id = #{id,jdbcType=VARCHAR}
 	</update>

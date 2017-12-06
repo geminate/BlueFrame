@@ -2,6 +2,7 @@ package com.blueframe.frame.common.tlds;
 
 import java.util.List;
 
+import com.blueframe.frame.common.tools.SessionCacheTool;
 import com.blueframe.frame.common.utils.ConfigUtil;
 import com.blueframe.frame.common.utils.UserUtil;
 import com.blueframe.frame.sys.model.SysPermission;
@@ -12,6 +13,7 @@ import com.blueframe.frame.sys.model.SysUser;
  * JSP TLD 实现类
  * @author hhLiu
  */
+@SuppressWarnings("unchecked")
 public class Fns {
 
 	/**
@@ -28,7 +30,8 @@ public class Fns {
 	 * @return 当前登录用户对象
 	 */
 	public static SysUser getCurrentUser() {
-		return UserUtil.getCurrentUser();
+		SysUser currentUser = UserUtil.getCurrentUser();
+		return currentUser;
 	}
 
 	/**
@@ -36,7 +39,14 @@ public class Fns {
 	 * @return 当前登录用户的角色列表
 	 */
 	public static List<SysRole> getCurrentRoleList() {
-		return UserUtil.getCurrentRoleList();
+		if (SessionCacheTool.getCache("currentRoleList") != null) {
+			return (List<SysRole>) SessionCacheTool.getCache("currentRoleList");
+		} else {
+			List<SysRole> currentRoleList = UserUtil.getCurrentRoleList();
+			SessionCacheTool.setCache("currentRoleList", currentRoleList);
+			return currentRoleList;
+		}
+
 	}
 
 	/**
@@ -44,6 +54,12 @@ public class Fns {
 	 * @return 当前登录用户的权限列表
 	 */
 	public static List<SysPermission> getCurrentPermissionList() {
-		return UserUtil.getCurrentPermissionList();
+		if (SessionCacheTool.getCache("currentPermissionList") != null) {
+			return (List<SysPermission>) SessionCacheTool.getCache("currentPermissionList");
+		} else {
+			List<SysPermission> currentPermissionList = UserUtil.getCurrentPermissionList();
+			SessionCacheTool.setCache("currentPermissionList", currentPermissionList);
+			return currentPermissionList;
+		}
 	}
 }

@@ -11,15 +11,16 @@
 			</div>
 		</div>
 		<div class="hor-menu hidden-sm hidden-xs">
-			
 			<ul class="nav navbar-nav">
+				<c:forEach items="${fns:getCurrentPermissionList()}" var="item" varStatus="i">
+					<c:if test="${item.parentId eq '1'}">
+						<li class="classic-menu-dropdown">
+							<a href="javascript:;">${item.name}</a>
+						</li>
+					</c:if>
+				</c:forEach>
 				<li class="classic-menu-dropdown active">
-					<a href="#"> 业务菜单 <span class="selected"> </span>
-					</a>
-				</li>
-				<li class="classic-menu-dropdown">
-					<a href="#"> 系统管理 <span class="selected"> </span>
-					</a>
+					<a href="#"> 业务菜单 <span class="selected"> </span></a>
 				</li>
 			</ul>
 		</div>

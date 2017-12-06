@@ -2,7 +2,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/include/taglib.jsp"%>
-
 <!DOCTYPE html>
 <!--[if IE 9]> <html class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->

@@ -35,7 +35,7 @@ public class UserUtil {
 	 * 获取当前登录用户的角色列表
 	 * @return 当前登录用户的角色列表
 	 */
-	public static List<SysRole> getCurrentRoleList() {
+	public static List<SysRole> getCurrentRoleList() {		
 		return sysRoleService.selectRolesByUser(getCurrentUser().getId());
 	}
 

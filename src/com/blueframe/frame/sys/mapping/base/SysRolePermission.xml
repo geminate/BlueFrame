@@ -156,6 +156,8 @@
 		<set>			
 			<if test="sysRole!=null and sysRole.id!=null and sysRole.id!=''">a.sys_role_id = #{sysRole.id,jdbcType=VARCHAR},</if>
 			<if test="sysPermission!=null and sysPermission.id!=null and sysPermission.id!=''">a.sys_permission_id = #{sysPermission.id,jdbcType=VARCHAR},</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">a.update_by = #{updateBy.id},</if>
+			<if test="updateDate!=null and updateDate!=''">a.update_date = #{updateDate},</if>
 		</set>
 		where a.id = #{id,jdbcType=VARCHAR}
 	</update>
