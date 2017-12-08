@@ -15,4 +15,6 @@ $(function () {
     GLOBAL.TOASTR.initRedirectToastr();
     GLOBAL.TREETABLE.initTreeTable();
     GLOBAL.FORM.initResetBtn();
+    GLOBAL.NAV.initNAVSelect();
+    GLOBAL.NAV.initRememberStatus();
 });

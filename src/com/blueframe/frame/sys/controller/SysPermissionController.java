@@ -29,7 +29,7 @@ public class SysPermissionController extends BaseController {
 	 * @param sysPermission 筛选条件
 	 * @return 权限管理列表页
 	 */
-	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = { "", "/list" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView toList(SysPermission sysPermission) {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysPermission/list");
 		List<SysPermission> sysPermissionList = sysPermissionService.treeSelect(sysPermission, true);

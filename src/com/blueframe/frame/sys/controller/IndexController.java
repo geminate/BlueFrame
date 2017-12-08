@@ -38,8 +38,19 @@ public class IndexController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/")
-	public ModelAndView getIndex() throws Exception {
-		ModelAndView mov = new ModelAndView("/frame/sys/index/index");
+	public ModelAndView getIndex() {
+		ModelAndView mov = new ModelAndView("redirect:/desktop");
+		return mov;
+	}
+
+	/**
+	 * 工作台 - 首页 - GET
+	 * @return 工作台页面
+	 * @throws Exception
+	 */
+	@RequestMapping("/desktop")
+	public ModelAndView getDesktop() {
+		ModelAndView mov = new ModelAndView("/frame/sys/index/desktop");
 		return mov;
 	}
 
