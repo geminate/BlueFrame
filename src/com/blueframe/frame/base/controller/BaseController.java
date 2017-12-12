@@ -1,5 +1,16 @@
 package com.blueframe.frame.base.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.blueframe.frame.base.model.ReturnMessage;
@@ -9,6 +20,13 @@ import com.blueframe.frame.base.model.ReturnMessage;
  * @author hhLiu
  */
 public class BaseController {
+
+	@ModelAttribute
+	public void setHeader(HttpServletResponse response) {
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-store");
+		response.setDateHeader("Expires", 0);
+	}
 
 	/**
 	 * 添加 AJAX 返回对象
@@ -32,5 +50,44 @@ public class BaseController {
 		attributes.addFlashAttribute("toastrType", type);
 		attributes.addFlashAttribute("toastrTitle", title);
 		attributes.addFlashAttribute("toastrMessage", message);
+	}
+
+	/**
+	 * Java 后台验证
+	 * @param entity 验证对象
+	 * @param groups 验证组
+	 * @return 验证返回信息列表
+	 */
+	public static <T> List<String> validate(T entity, Class<?>... groups) {
+		List<String> validateErrors = new ArrayList<>();
+		ValidatorFactory vFactory = Validation.buildDefaultValidatorFactory();
+		Validator validator = vFactory.getValidator();
+		Set<ConstraintViolation<T>> set = validator.validate(entity, groups);
+		if (set.size() > 0) {
+			for (ConstraintViolation<T> val : set) {
+				validateErrors.add(val.getMessage());
+			}
+		}
+		return validateErrors;
+	}
+
+	/**
+	 * 验证对象的单独属性
+	 * @param entity 验证对象
+	 * @param propertyName 属性名
+	 * @param groups 验证组
+	 * @return 验证返回信息列表
+	 */
+	public static <T> List<String> validateProp(T entity, String propertyName, Class<?>... groups) {
+		List<String> validateErrors = new ArrayList<>();
+		ValidatorFactory vFactory = Validation.buildDefaultValidatorFactory();
+		Validator validator = vFactory.getValidator();
+		Set<ConstraintViolation<T>> set = validator.validateProperty(entity, propertyName, groups);
+		if (set.size() > 0) {
+			for (ConstraintViolation<T> val : set) {
+				validateErrors.add(val.getMessage());
+			}
+		}
+		return validateErrors;
 	}
 }

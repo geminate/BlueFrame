@@ -14,6 +14,7 @@
 	<script>
 		$(function() {
 			initListener();
+			refreshTypeSelect();
 		});
 
 		function initListener() {
@@ -81,58 +82,70 @@
 					</div>
 				</div>
 				<div class="portlet-body form">
-					<form action="${ctx}/frame/sys/sysPermission/update" class="horizontal-form" method="post">
+					<form action="${ctx}/frame/sys/sysPermission/update" class="horizontal-form" method="post" data-validate>
 						<input type="hidden" name="id" value="${sysPermission.id}">
 						<div class="form-body">
 							<h3 class="form-section">权限信息</h3>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="control-label need">上级权限</label>
-										<sys:treeSelectModal checkable="false" id="parentId" name="parent.id" value="${sysPermission.parent.id}" showName="name" showValue="${sysPermission.parent.name}" url="${ctx}/frame/sys/sysPermission/treeAjax"
-											cssClass="form-control" title="请选择上级权限" expandAll="true" />
-										<span class="help-block"></span>
+										<label class="control-label">上级权限</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<sys:treeSelectModal checkable="false" id="parentId" name="parent.id" value="${sysPermission.parent.id}" showName="name"
+												showValue="${sysPermission.parent.name}" url="${ctx}/frame/sys/sysPermission/treeAjax" cssClass="form-control" title="请选择上级权限" expandAll="true" />
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">名称</label>
-										<input name="name" type="text" class="form-control" placeholder="请输入名称" value="${sysPermission.name}">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="name" type="text" class="form-control required" maxlength="20" placeholder="请输入名称" value="${sysPermission.name}">
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">权限字符串</label>
-										<input name="permissionStr" type="text" class="form-control" placeholder="请输入权限字符串" value="${sysPermission.permissionStr}">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="permissionStr" type="text" class="form-control" placeholder="请输入权限字符串" value="${sysPermission.permissionStr}">
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">类型</label>
-										<select class="form-control" name="type" id="typeSelect">
-											<option value="0" <c:if test="${sysPermission.type eq '0'}">selected="selected"</c:if>>菜单</option>
-											<option value="1" <c:if test="${sysPermission.type eq '1'}">selected="selected"</c:if>>权限</option>
-										</select>
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<select class="form-control" name="type" id="typeSelect">
+												<option value="0" <c:if test="${sysPermission.type eq '0'}">selected="selected"</c:if>>菜单</option>
+												<option value="1" <c:if test="${sysPermission.type eq '1'}">selected="selected"</c:if>>权限</option>
+											</select>
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6" id="menuTypeDiv">
 									<div class="form-group">
 										<label class="control-label need">菜单类型</label>
-										<select class="form-control" id="menuTypeSelect">
-											<option value="0" <c:if test="${not empty sysPermission.href}">selected="selected"</c:if>>叶子菜单</option>
-											<option value="1" <c:if test="${empty sysPermission.href}">selected="selected"</c:if>>父级菜单</option>
-										</select>
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<select class="form-control" id="menuTypeSelect">
+												<option value="0" <c:if test="${not empty sysPermission.href}">selected="selected"</c:if>>叶子菜单</option>
+												<option value="1" <c:if test="${empty sysPermission.href}">selected="selected"</c:if>>父级菜单</option>
+											</select>
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6" id="hrefDiv">
 									<div class="form-group">
 										<label class="control-label need">地址</label>
-										<input name="href" type="text" class="form-control" placeholder="请输入地址" value="${sysPermission.href}">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="href" type="text" class="form-control required" maxlength="500" placeholder="请输入地址" value="${sysPermission.href}">
+										</div>
 									</div>
 								</div>
 							</div>
@@ -143,7 +156,7 @@
 									<div class="row">
 										<div class="col-md-offset-3 col-md-9">
 											<button type="submit" class="btn green">保存</button>
-											<button type="button" class="btn default" onclick="history.back(-1)">返回</button>
+											<button type="button" class="btn default" onclick="window.history.back(-1);">返回</button>
 										</div>
 									</div>
 								</div>

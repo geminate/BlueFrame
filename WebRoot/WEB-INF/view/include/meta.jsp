@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	//系统目录参数
 	var ctx = '${ctx}', ctxStatic = '${ctxStatic}';
-	
+
 	//重定向提示信息参数
 	var toastrType = '${toastrType}', toastrTitle = '${toastrTitle}', toastrMessage = '${toastrMessage}';
 </script>

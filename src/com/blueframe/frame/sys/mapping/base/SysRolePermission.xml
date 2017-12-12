@@ -84,7 +84,7 @@
 	<insert id="insertBatch">
 		insert into sys_role_permission(
 
-		id,		
+		id,
 		sys_role_id,
 		sys_permission_id,
 		create_by,
@@ -96,7 +96,7 @@
 		)
 		<foreach collection="list" item="item" separator=" union all ">
 			SELECT
-			#{item.id},			
+			#{item.id},
 			#{item.sysRole.id},
 			#{item.sysPermission.id},
 			#{item.createBy.id},
@@ -110,19 +110,17 @@
 
 	<!-- 删(物理) -->
 	<delete id="delete" parameterType="com.blueframe.frame.sys.model.SysRolePermission">
-		delete a from sys_role_permission a
+		delete
+		<if test="dbType == 'mysql'">a</if>
+		from sys_role_permission a
 		<include refid="dynamicWhere" />
-	</delete>
-
-	<!-- 删(物理) -->
-	<delete id="deleteById" parameterType="java.lang.String">
-		delete a from sys_role_permission a
-		where a.id = #{id}
 	</delete>
 
 	<!-- 批量删除(物理) -->
 	<delete id="deleteBatch">
-		delete a from sys_role_permission a
+		delete
+		<if test="dbType == 'mysql'">a</if>
+		from sys_role_permission a
 		where a.id in
 		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
 			#{item}
@@ -133,12 +131,6 @@
 	<update id="deleteLogic">
 		update sys_role_permission a SET a.del_flag = '1'
 		<include refid="dynamicWhere" />
-	</update>
-
-	<!-- 删(逻辑) -->
-	<update id="deleteLogicById">
-		update sys_role_permission a SET a.del_flag = '1'
-		where a.id = #{id}
 	</update>
 
 	<!-- 批量删除(逻辑) -->
@@ -153,11 +145,11 @@
 	<!-- 改 -->
 	<update id="update" parameterType="com.blueframe.frame.sys.model.SysRolePermission">
 		update sys_role_permission a
-		<set>			
-			<if test="sysRole!=null and sysRole.id!=null and sysRole.id!=''">a.sys_role_id = #{sysRole.id,jdbcType=VARCHAR},</if>
-			<if test="sysPermission!=null and sysPermission.id!=null and sysPermission.id!=''">a.sys_permission_id = #{sysPermission.id,jdbcType=VARCHAR},</if>
-			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">a.update_by = #{updateBy.id},</if>
-			<if test="updateDate!=null and updateDate!=''">a.update_date = #{updateDate},</if>
+		<set>
+			<if test="sysRole!=null and sysRole.id!=null">a.sys_role_id = #{sysRole.id,jdbcType=VARCHAR},</if>
+			<if test="sysPermission!=null and sysPermission.id!=null">a.sys_permission_id = #{sysPermission.id,jdbcType=VARCHAR},</if>
+			<if test="updateBy!=null and updateBy.id!=null">a.update_by = #{updateBy.id},</if>
+			<if test="updateDate!=null">a.update_date = #{updateDate},</if>
 		</set>
 		where a.id = #{id,jdbcType=VARCHAR}
 	</update>
@@ -175,15 +167,6 @@
 				${page.orderDir}
 			</if>
 		</if>
-	</select>
-
-	<!-- 查(精确) -->
-	<select id="selectById" resultType="com.blueframe.frame.sys.model.SysRolePermission">
-		select
-		<include refid="selectColumnList" />
-		from sys_role_permission a
-		<include refid="leftJoin" />
-		where a.id = #{id}
 	</select>
 
 	<!-- 查(模糊) -->
@@ -226,7 +209,5 @@
 		<include refid="leftJoin" />
 		<include refid="dynamicWhereLike" />
 	</select>
-
-	<!--********************************************** 自定义Sql ********************************************** -->
 
 </mapper>

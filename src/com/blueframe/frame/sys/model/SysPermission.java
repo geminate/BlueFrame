@@ -1,5 +1,7 @@
 package com.blueframe.frame.sys.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.blueframe.frame.base.model.TreeEntity;
 
 /**
@@ -9,6 +11,8 @@ import com.blueframe.frame.base.model.TreeEntity;
 public class SysPermission extends TreeEntity<SysPermission> {
 
 	private String href;
+
+	@NotEmpty(message = "权限标识不能为空")
 	private String permissionStr;
 	private String type;
 

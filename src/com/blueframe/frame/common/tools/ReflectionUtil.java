@@ -2,10 +2,8 @@ package com.blueframe.frame.common.tools;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-
-import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * 反射工具类
@@ -13,77 +11,100 @@ import org.slf4j.LoggerFactory;
  */
 public class ReflectionUtil {
 
-	private static Logger logger = LoggerFactory.getLogger(ReflectionUtil.class);
+	/**
+	 * 获取指定Class的实例
+	 * @param cls Class
+	 * @return 实例
+	 */
+	public static Object getClassInstance(Class<?> cls) {
+		try {
+			return cls.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	/**
-	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
+	 * 获得对象属性
 	 * @param obj 对象
 	 * @param fieldName 属性名
 	 * @return 属性值
 	 */
 	public static Object getFieldValue(final Object obj, final String fieldName) {
 		Field field = getAccessibleField(obj, fieldName);
-
 		if (field == null) {
-			throw new IllegalArgumentException("Could not find field [" + fieldName + "] on target [" + obj + "]");
+			throw new IllegalArgumentException("对象[" + obj + "]中不存在[" + fieldName + "]属性");
 		}
-
-		Object result = null;
 		try {
-			result = field.get(obj);
-		} catch (IllegalAccessException e) {
-			logger.error("不可能抛出的异常{}", e.getMessage());
+			return field.get(obj);
+		} catch (Exception e) {
+			return null;
 		}
-		return result;
 	}
 
 	/**
-	 * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.
+	 * 设置对象属性
 	 * @param obj 对象
 	 * @param fieldName 属性名
 	 * @param value 属性值
 	 */
 	public static void setFieldValue(final Object obj, final String fieldName, final Object value) {
 		Field field = getAccessibleField(obj, fieldName);
-
 		if (field == null) {
-			throw new IllegalArgumentException("Could not find field [" + fieldName + "] on target [" + obj + "]");
+			throw new IllegalArgumentException("对象[" + obj + "]中不存在[" + fieldName + "]属性");
 		}
-
 		try {
 			field.set(obj, value);
-		} catch (IllegalAccessException e) {
-			logger.error("不可能抛出的异常:{}", e.getMessage());
+		} catch (Exception e) {
 		}
 	}
 
 	/**
-	 * 循环向上转型, 获取对象的DeclaredField, 并强制设置为可访问.如向上转型到Object仍无法找到, 返回null.
+	 * 循环向上转型(查找对应属性)
 	 * @param obj 对象
 	 * @param fieldName 属性名
 	 * @return 属性对象
 	 */
 	public static Field getAccessibleField(final Object obj, final String fieldName) {
-		Validate.notNull(obj, "object can't be null");
-		Validate.notBlank(fieldName, "fieldName can't be blank");
 		for (Class<?> superClass = obj.getClass(); superClass != Object.class; superClass = superClass.getSuperclass()) {
 			try {
 				Field field = superClass.getDeclaredField(fieldName);
 				makeAccessible(field);
 				return field;
-			} catch (NoSuchFieldException e) {// NOSONAR
-				// Field不在当前类定义,继续向上转型
-				continue;// new add
+			} catch (NoSuchFieldException e) {
+				continue;
 			}
 		}
 		return null;
 	}
 
 	/**
-	 * 改变private/protected的成员变量为public，尽量不调用实际改动的语句，避免JDK的SecurityManager抱怨。
-	 * @param field 属性
+	 * 获取某个Class的父类的泛型参数的类型
+	 * @param cls Class 
+	 * @param index 参数索引
+	 * @return 泛型参数Class
 	 */
-	public static void makeAccessible(Field field) {
+	public static Class<?> getClassGenricType(Class<?> cls, int index) {
+		Type genType = cls.getGenericSuperclass();
+		if (!(genType instanceof ParameterizedType)) {
+			return Object.class;
+		}
+		Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+		if (index >= params.length || index < 0) {
+			return Object.class;
+		}
+		if (!(params[index] instanceof Class)) {
+			return Object.class;
+		}
+		return (Class<?>) params[index];
+	}
+
+	/**
+	 * 将指定属性设置为可访问
+	 * @param field 属性对象
+	 */
+	private static void makeAccessible(Field field) {
 		if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(field.getModifiers()))
 				&& !field.isAccessible()) {
 			field.setAccessible(true);

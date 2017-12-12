@@ -55,7 +55,7 @@ public class SysUserController extends BaseController {
 	 * @param request 请求对象
 	 * @return 带分页的查询结果列表
 	 */
-	@RequestMapping(value = { "", "/list" }, method = RequestMethod.POST)
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public Page<SysUser> toPostList(SysUser sysUser, HttpServletRequest request) {
 		Page<SysUser> page = new Page<SysUser>(request);
 		page = sysUserService.selectPage(sysUser, request, page);

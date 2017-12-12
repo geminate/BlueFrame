@@ -7,6 +7,12 @@
 	<!-- 不装饰路径 -->
 	<mapping path="/login" exclue="true" />
 
+	<!-- 不装饰路径 -->
+	<mapping path="/error-404" exclue="true" />
+
+	<!-- 不装饰路径 -->
+	<mapping path="/error-500" exclue="true" />
+
 	<!-- 自定义标签 -->
 	<content-processor>
 		<tag-rule-bundle class="com.blueframe.frame.common.component.sitemesh.CustomTagRuleBundle" />

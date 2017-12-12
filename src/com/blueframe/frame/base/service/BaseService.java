@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.blueframe.frame.base.dao.BaseDao;
 import com.blueframe.frame.base.model.BaseEntity;
 import com.blueframe.frame.base.model.Page;
+import com.blueframe.frame.common.tools.ReflectionUtil;
 
 /**
  * Service 基类
@@ -59,11 +60,15 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 	 * @param id 删除对象的 ID
 	 * @param logicDelete 是否是逻辑删除
 	 */
+	@SuppressWarnings("unchecked")
 	public void deleteById(String id, Boolean logicDelete) {
+		Class<?> cls = ReflectionUtil.getClassGenricType(getClass(), 1);
+		E entity = (E) ReflectionUtil.getClassInstance(cls);
+		ReflectionUtil.setFieldValue(entity, "id", id);
 		if (logicDelete) {
-			dao.deleteLogicById(id);
+			dao.deleteLogic(entity);
 		} else {
-			dao.deleteById(id);
+			dao.delete(entity);
 		}
 	}
 
@@ -123,8 +128,12 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 	 * @param id 对象ID
 	 * @return 查询结果对象
 	 */
+	@SuppressWarnings("unchecked")
 	public E selectById(String id) {
-		return dao.selectById(id);
+		Class<?> cls = ReflectionUtil.getClassGenricType(getClass(), 1);
+		E entity = (E) ReflectionUtil.getClassInstance(cls);
+		ReflectionUtil.setFieldValue(entity, "id", id);
+		return selectOne(entity, false);
 	}
 
 	/**
@@ -180,5 +189,41 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 			}
 		}
 		return reBuffer.toString();
+	}
+
+	/**
+	 * 检查 是否重复
+	 * @param cls 对象类
+	 * @param propName 属性名
+	 * @param value 属性值
+	 * @return 是否重复
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean checkIsExist(Class<?> cls, String propName, String value) {
+		E entity = (E) ReflectionUtil.getClassInstance(cls);
+		ReflectionUtil.setFieldValue(entity, propName, value);
+		if (count(entity, false) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 检查 是否重复 使用第二个泛型参数作为Class
+	 * @param propName 属性名
+	 * @param value 属性值
+	 * @return 是否重复
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean checkIsExist(String propName, String value) {
+		Class<?> cls = ReflectionUtil.getClassGenricType(getClass(), 1);
+		E entity = (E) ReflectionUtil.getClassInstance(cls);
+		ReflectionUtil.setFieldValue(entity, propName, value);
+		if (count(entity, false) > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

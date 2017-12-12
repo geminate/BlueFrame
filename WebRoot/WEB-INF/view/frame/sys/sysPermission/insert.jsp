@@ -32,13 +32,13 @@
 				if ($("#menuTypeSelect").val() == 0) {
 					$("#hrefDiv").show();
 				} else {
-					$("#hrefDiv").val();
 					$("#hrefDiv").hide();
+					$("#hrefDiv input").val("");
 				}
 			} else {
 				$("#menuTypeDiv").hide();
 				$("#hrefDiv").hide();
-				$("#hrefDiv").val();
+				$("#hrefDiv input").val("");
 			}
 		}
 	</script>
@@ -81,57 +81,77 @@
 					</div>
 				</div>
 				<div class="portlet-body form">
-					<form action="${ctx}/frame/sys/sysPermission/insert" class="horizontal-form" method="post">
+					<form action="${ctx}/frame/sys/sysPermission/insert" class="horizontal-form" method="post" data-validate>
 						<div class="form-body">
 							<h3 class="form-section">权限信息</h3>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="control-label need">上级权限</label>
-										<sys:treeSelectModal checkable="false" id="parentId" name="parent.id" value="${sysPermission.parent.id}" showName="name" showValue="${sysPermission.parent.name}" url="${ctx}/frame/sys/sysPermission/treeAjax"
-											cssClass="form-control" title="请选择上级权限" />											
-										<span class="help-block"></span>
+										<label class="control-label">上级权限</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<sys:treeSelectModal checkable="false" id="parentId" name="parent.id" value="${sysPermission.parent.id}" showName="name"
+												showValue="${sysPermission.parent.name}" url="${ctx}/frame/sys/sysPermission/treeAjax" cssClass="form-control" title="请选择上级权限" />
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">名称</label>
-										<input name="name" type="text" class="form-control" placeholder="请输入名称">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<!-- 名称：必填、长度最大为20 -->
+											<input name="name" type="text" class="form-control required" maxlength="20" placeholder="请输入名称">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label need">权限标识</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<!-- 权限标识：必填、唯一、长度最大为100 -->
+											<input name="permissionStr" type="text" class="form-control required validate-remote" maxlength="100"
+												data-remote="${ctx}/frame/sys/sysPermission/checkIsExist" data-remote-info="权限标识已存在" placeholder="请输入权限字符串">
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="control-label need">权限字符串</label>
-										<input name="permissionStr" type="text" class="form-control" placeholder="请输入权限字符串">
-										<span class="help-block"></span>
+										<label class="control-label">类型</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<select class="form-control" name="type" id="typeSelect">
+												<option value="0">菜单</option>
+												<option value="1">权限</option>
+											</select>
+										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="control-label need">类型</label>
-										<select class="form-control" name="type" id="typeSelect">
-											<option value="0">菜单</option>
-											<option value="1">权限</option>
-										</select>
-										<span class="help-block"></span>
-									</div>
-								</div>
+							</div>
+							<div class="row">
 								<div class="col-md-6" id="menuTypeDiv">
 									<div class="form-group">
-										<label class="control-label need">菜单类型</label>
-										<select class="form-control" id="menuTypeSelect">
-											<option value="0">叶子菜单</option>
-											<option value="1">父级菜单</option>
-										</select>
-										<span class="help-block"></span>
+										<label class="control-label">菜单类型</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<select class="form-control" id="menuTypeSelect">
+												<option value="0">叶子菜单</option>
+												<option value="1">父级菜单</option>
+											</select>
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6" id="hrefDiv">
 									<div class="form-group">
-										<label class="control-label need">地址</label>
-										<input name="href" type="text" class="form-control" placeholder="请输入地址">
-										<span class="help-block"></span>
+										<label class="control-label need">菜单地址</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<!-- 菜单地址：必填、唯一、长度最大为500 -->
+											<input name="href" type="text" class="form-control required" maxlength="500" placeholder="请输入地址">
+										</div>
 									</div>
 								</div>
 							</div>
@@ -142,7 +162,7 @@
 									<div class="row">
 										<div class="col-md-offset-3 col-md-9">
 											<button type="submit" class="btn green">保存</button>
-											<button type="button" class="btn default" onclick="window.location.href='${ctx}/frame/sys/sysPermission/list';">返回</button>
+											<button type="button" class="btn default" onclick="window.history.back(-1);">返回</button>
 										</div>
 									</div>
 								</div>

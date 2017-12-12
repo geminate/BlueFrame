@@ -53,7 +53,7 @@ public class SysRoleController extends BaseController {
 	 * @param request 请求对象
 	 * @return 带分页的查询结果列表
 	 */
-	@RequestMapping(value = { "", "/list" }, method = RequestMethod.POST)
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public Page<SysRole> toPostList(SysRole sysRole, HttpServletRequest request) {
 		Page<SysRole> page = new Page<SysRole>(request);
 		page = sysRoleService.selectPage(sysRole, request, page);

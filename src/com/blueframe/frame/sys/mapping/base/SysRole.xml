@@ -128,19 +128,17 @@
 
 	<!-- 删(物理) -->
 	<delete id="delete" parameterType="com.blueframe.frame.sys.model.SysRole">
-		delete from sys_role a
+		delete
+		<if test="dbType == 'mysql'">a</if>
+		from sys_role a
 		<include refid="dynamicWhere" />
-	</delete>
-
-	<!-- 删(物理) -->
-	<delete id="deleteById" parameterType="java.lang.String">
-		delete from sys_role a
-		where a.id = #{id}
 	</delete>
 
 	<!-- 批量删除(物理) -->
 	<delete id="deleteBatch">
-		delete from sys_role a
+		delete
+		<if test="dbType == 'mysql'">a</if>
+		from sys_role a
 		where a.id in
 		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
 			#{item}
@@ -151,12 +149,6 @@
 	<update id="deleteLogic">
 		update sys_role a SET a.del_flag = '1'
 		<include refid="dynamicWhere" />
-	</update>
-
-	<!-- 删(逻辑) -->
-	<update id="deleteLogicById">
-		update sys_role a SET a.del_flag = '1'
-		where a.id = #{id}
 	</update>
 
 	<!-- 批量删除(逻辑) -->
@@ -172,11 +164,11 @@
 	<update id="update" parameterType="com.blueframe.frame.sys.model.SysRole">
 		update sys_role a
 		<set>
-			<if test="name!=null and name!=''">a.name = #{name,jdbcType=VARCHAR},</if>
-			<if test="roleStr!=null and roleStr!=''">a.role_str = #{roleStr,jdbcType=VARCHAR},</if>
-			<if test="description!=null and description!=''">a.description = #{description,jdbcType=VARCHAR},</if>
-			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">a.update_by = #{updateBy.id},</if>
-			<if test="updateDate!=null and updateDate!=''">a.update_date = #{updateDate},</if>
+			<if test="name!=null">a.name = #{name,jdbcType=VARCHAR},</if>
+			<if test="roleStr!=null">a.role_str = #{roleStr,jdbcType=VARCHAR},</if>
+			<if test="description!=null">a.description = #{description,jdbcType=VARCHAR},</if>
+			<if test="updateBy!=null and updateBy.id!=null">a.update_by = #{updateBy.id},</if>
+			<if test="updateDate!=null">a.update_date = #{updateDate},</if>
 		</set>
 		where a.id = #{id,jdbcType=VARCHAR}
 	</update>
@@ -194,15 +186,6 @@
 				${page.orderDir}
 			</if>
 		</if>
-	</select>
-
-	<!-- 查(精确) -->
-	<select id="selectById" resultType="com.blueframe.frame.sys.model.SysRole">
-		select
-		<include refid="selectColumnList" />
-		from sys_role a
-		<include refid="leftJoin" />
-		where a.id = #{id}		
 	</select>
 
 	<!-- 查(模糊) -->

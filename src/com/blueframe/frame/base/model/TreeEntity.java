@@ -1,5 +1,7 @@
 package com.blueframe.frame.base.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * 树结构对象 基类<br>
  * 数据库中 需至少包含 name,parent_id,parent_ids 字段<br>
@@ -11,6 +13,7 @@ public abstract class TreeEntity<T> extends BaseEntity<T> {
 	/**
 	 * 节点名称
 	 */
+	@NotEmpty(message = "名称不能为空")
 	protected String name;
 
 	/**
@@ -20,7 +23,7 @@ public abstract class TreeEntity<T> extends BaseEntity<T> {
 
 	/**
 	 * 父节点对象
-	 */
+	 */	
 	protected T parent;
 
 	/**

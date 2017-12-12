@@ -21,7 +21,7 @@
 	<div class="page-container">
 		<%@ include file="/WEB-INF/view/include/page-left.jsp"%>
 		<div class="page-content-wrapper">
-			<div id="pjaxContainer" class="page-content">				
+			<div class="page-content">				
 				<sitemesh:write property='sitemesh:container' />
 			</div>
 		</div>

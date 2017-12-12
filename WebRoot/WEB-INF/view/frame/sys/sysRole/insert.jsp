@@ -50,29 +50,35 @@
 					</div>
 				</div>
 				<div class="portlet-body form">
-					<form action="${ctx}/frame/sys/sysRole/insert" class="horizontal-form" method="post">
+					<form action="${ctx}/frame/sys/sysRole/insert" class="horizontal-form" method="post" data-validate>
 						<div class="form-body">
 							<h3 class="form-section">角色信息</h3>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">名称</label>
-										<input name="name" type="text" class="form-control" placeholder="请输入名称">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="name" type="text" class="form-control" placeholder="请输入名称">
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">角色标识</label>
-										<input name="roleStr" type="text" class="form-control" placeholder="请输入角色标识">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="roleStr" type="text" class="form-control" placeholder="请输入角色标识">
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">简介</label>
-										<input name="description" type="text" class="form-control" placeholder="请输入简介">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="description" type="text" class="form-control" placeholder="请输入简介">
+										</div>
 									</div>
 								</div>
 							</div>
@@ -85,7 +91,7 @@
 									<div class="row">
 										<div class="col-md-offset-3 col-md-9">
 											<button type="submit" class="btn green">保存</button>
-											<button type="button" class="btn default" onclick="history.back(-1)">返回</button>
+											<button type="button" class="btn default" onclick="window.history.back(-1);">返回</button>
 										</div>
 									</div>
 								</div>

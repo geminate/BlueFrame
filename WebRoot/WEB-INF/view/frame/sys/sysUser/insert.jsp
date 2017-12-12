@@ -50,36 +50,44 @@
 					</div>
 				</div>
 				<div class="portlet-body form">
-					<form action="${ctx}/frame/sys/sysUser/insert" class="horizontal-form" method="post">
+					<form action="${ctx}/frame/sys/sysUser/insert" class="horizontal-form" method="post" data-validate>
 						<div class="form-body">
 							<h3 class="form-section">用户信息</h3>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">姓名</label>
-										<input name="name" type="text" class="form-control" placeholder="请输入姓名">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="name" type="text" class="form-control" placeholder="请输入姓名">
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">用户名</label>
-										<input name="username" type="text" class="form-control" placeholder="请输入用户名">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="username" type="text" class="form-control" placeholder="请输入用户名">
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">密码</label>
-										<input name="password" type="text" class="form-control" placeholder="请输入密码">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="password" type="text" class="form-control" placeholder="请输入密码">
+										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">确认密码</label>
-										<input type="text" class="form-control" placeholder="请确认密码">
-										<span class="help-block"></span>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input type="text" class="form-control" placeholder="请确认密码">
+										</div>
 									</div>
 								</div>
 							</div>
@@ -104,7 +112,7 @@
 									<div class="row">
 										<div class="col-md-offset-3 col-md-9">
 											<button type="submit" class="btn green">保存</button>
-											<button type="button" class="btn default" onclick="history.back(-1)">返回</button>
+											<button type="button" class="btn default" onclick="window.history.back(-1);">返回</button>
 										</div>
 									</div>
 								</div>

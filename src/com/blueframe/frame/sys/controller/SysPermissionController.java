@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.blueframe.frame.base.controller.BaseController;
+import com.blueframe.frame.base.model.ReturnMessage;
 import com.blueframe.frame.sys.model.SysPermission;
 import com.blueframe.frame.sys.service.SysPermissionService;
 
@@ -30,7 +31,7 @@ public class SysPermissionController extends BaseController {
 	 * @return 权限管理列表页
 	 */
 	@RequestMapping(value = { "", "/list" }, method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView toList(SysPermission sysPermission) {
+	public ModelAndView list(SysPermission sysPermission) {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysPermission/list");
 		List<SysPermission> sysPermissionList = sysPermissionService.treeSelect(sysPermission, true);
 		mov.addObject("sysPermissionList", sysPermissionList);
@@ -42,7 +43,7 @@ public class SysPermissionController extends BaseController {
 	 * @return 菜单列表
 	 */
 	@RequestMapping(value = "/treeAjax", method = RequestMethod.POST)
-	public List<SysPermission> toPostTreeAjax() {
+	public List<SysPermission> postTreeAjax() {
 		List<SysPermission> sysPermissionList = sysPermissionService.treeSelect(new SysPermission(), true);
 		return sysPermissionList;
 	}
@@ -52,7 +53,7 @@ public class SysPermissionController extends BaseController {
 	 * @return 权限管理新增页
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
-	public ModelAndView toGetInsert(SysPermission sysPermission) {
+	public ModelAndView getInsert(SysPermission sysPermission) {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysPermission/insert");
 		if (sysPermission != null && sysPermission.getParent() != null) {
 			SysPermission parent = sysPermissionService.selectById(sysPermission.getParent().getId());
@@ -72,7 +73,7 @@ public class SysPermissionController extends BaseController {
 	 * @return 重定向至列表页
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public ModelAndView toPostInsert(SysPermission sysPermission, RedirectAttributes attributes) {
+	public ModelAndView postInsert(SysPermission sysPermission, RedirectAttributes attributes) {
 		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysPermission/list");
 		sysPermissionService.treeInsert(sysPermission, true);
 		addRedirectToastr(attributes, "success", "", "添加成功！");
@@ -86,7 +87,7 @@ public class SysPermissionController extends BaseController {
 	 * @return 重定向至列表页
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView toGetDelete(SysPermission sysPermission, RedirectAttributes attributes) {
+	public ModelAndView getDelete(SysPermission sysPermission, RedirectAttributes attributes) {
 		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysPermission/list");
 		sysPermissionService.deleteById(sysPermission.getId(), true);
 		addRedirectToastr(attributes, "success", "", "删除成功！");
@@ -99,7 +100,7 @@ public class SysPermissionController extends BaseController {
 	 * @return 更新页
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public ModelAndView toGeUpdate(SysPermission sysPermission) {
+	public ModelAndView getUpdate(SysPermission sysPermission) {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysPermission/update");
 		mov.addObject("sysPermission", sysPermissionService.selectById(sysPermission.getId()));
 		return mov;
@@ -112,11 +113,27 @@ public class SysPermissionController extends BaseController {
 	 * @return 重定向至列表页
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ModelAndView toPosUpdate(SysPermission sysPermission, RedirectAttributes attributes) {
+	public ModelAndView postUpdate(SysPermission sysPermission, RedirectAttributes attributes) {
 		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysPermission/list");
 		sysPermissionService.treeUpdate(sysPermission);
 		addRedirectToastr(attributes, "success", "", "编辑成功！");
 		return mov;
+	}
+
+	/**
+	 * 检查 是否重复
+	 * @param propName 属性名
+	 * @param value 属性值
+	 * @return 是否重复
+	 */
+	@RequestMapping(value = "/checkIsExist", method = RequestMethod.POST)
+	public ReturnMessage postCheckIsExist(String propName, String value) {
+		Boolean isExist = sysPermissionService.checkIsExist(propName, value);
+		if (isExist) {
+			return buildReturnMessage("fail", "", "");
+		} else {
+			return buildReturnMessage("success", "", "");
+		}
 	}
 
 }

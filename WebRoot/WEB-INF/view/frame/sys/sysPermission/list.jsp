@@ -13,7 +13,7 @@
 <sitemesh:custom_script>
 	<script>
 		$(function() {
-			initListener();
+			initListener();			
 		});
 
 		function initListener() {
@@ -102,6 +102,17 @@
 										<span class="help-block"></span>
 									</div>
 								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label class="control-label">类型</label>
+										<select name="type" class="form-control">
+											<option value="">全部</option>
+											<option value="0">菜单</option>
+											<option value="1">权限</option>
+										</select>
+										<span class="help-block"></span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="form-actions right">
@@ -137,15 +148,19 @@
 							</thead>
 							<tbody>
 								<c:forEach items="${sysPermissionList}" var="item">
-									<tr id="${item.id}" pId="${item.parent.id}">
+									<tr id="${item.id}" pId="${item.parent.id}" class="${(item.type eq '1')?'font-blue':''}">
 										<td>${item.name}</td>
 										<td>${item.href}</td>
 										<td>${item.permissionStr}</td>
 										<td>${item.type}</td>
 										<td>
-											<a class="btn btn-xs blue" href="${ctx}/frame/sys/sysPermission/update?id=${item.id}">编辑</a>
-											<a class="btn btn-xs red del-btn" href="javascript:">删除</a>
-											<a class="btn btn-xs green" href="${ctx}/frame/sys/sysPermission/insert?parent.id=${item.id}">添加下级菜单</a>
+											<c:if test="${not (item.id eq '1')}">
+												<a class="btn btn-xs blue" href="${ctx}/frame/sys/sysPermission/update?id=${item.id}">编辑</a>
+												<a class="btn btn-xs red del-btn" href="javascript:">删除</a>
+											</c:if>
+											<c:if test="${(item.type eq '0')}">
+												<a class="btn btn-xs green" href="${ctx}/frame/sys/sysPermission/insert?parent.id=${item.id}">添加下级权限</a>
+											</c:if>
 										</td>
 									</tr>
 								</c:forEach>

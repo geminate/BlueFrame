@@ -17,4 +17,8 @@ $(function () {
     GLOBAL.FORM.initResetBtn();
     GLOBAL.NAV.initNAVSelect();
     GLOBAL.NAV.initRememberStatus();
+    GLOBAL.VALIDATE.changeLanguage();
+    GLOBAL.VALIDATE.addMethod();
+    GLOBAL.VALIDATE.init();
+    GLOBAL.MAXLENGTH.init();
 });

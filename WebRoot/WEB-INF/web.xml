@@ -62,6 +62,11 @@
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 
+	<!-- 防XSS攻击监听器 -->
+	<listener>
+		<listener-class>com.github.pukkaone.jsp.EscapeXmlELResolverListener</listener-class>
+	</listener>
+
 	<!-- Spring MVC servlet -->
 	<servlet>
 		<servlet-name>SpringMVC</servlet-name>
@@ -93,7 +98,7 @@
 		<error-code>500</error-code>
 		<location>/error-500</location>
 	</error-page>
-	
+
 	<error-page>
 		<error-code>404</error-code>
 		<location>/error-404</location>

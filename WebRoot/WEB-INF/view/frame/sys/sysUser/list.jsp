@@ -144,7 +144,6 @@
 
 				<div class="portlet-body">
 					<div class="table-container">
-
 						<table class="table table-striped table-bordered table-hover table-checkable" id="sysUserTable">
 							<thead>
 								<tr role="row" class="heading">
@@ -163,5 +162,4 @@
 			</div>
 		</div>
 	</div>
-
 </sitemesh:container>
