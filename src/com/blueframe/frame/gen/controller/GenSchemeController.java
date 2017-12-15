@@ -16,7 +16,9 @@ import com.blueframe.frame.base.model.Page;
 import com.blueframe.frame.base.model.ReturnMessage;
 import com.blueframe.frame.gen.model.GenScheme;
 import com.blueframe.frame.gen.model.GenTable;
+import com.blueframe.frame.gen.model.GenTableColumn;
 import com.blueframe.frame.gen.service.GenSchemeService;
+import com.blueframe.frame.gen.service.GenTableColumnService;
 import com.blueframe.frame.gen.service.GenTableService;
 
 /**
@@ -32,6 +34,9 @@ public class GenSchemeController extends BaseController {
 
 	@Autowired
 	private GenTableService genTableService;
+
+	@Autowired
+	private GenTableColumnService genTableColumnService;
 
 	/**
 	 * 生成方案配置 - 列表页 - GET
@@ -128,7 +133,13 @@ public class GenSchemeController extends BaseController {
 	 */
 	@RequestMapping(value = "/build")
 	public ModelAndView toBuild(GenScheme genScheme, RedirectAttributes attributes) {
-		genSchemeService.build(genSchemeService.selectById(genScheme.getId()));
+		genScheme = genSchemeService.selectById(genScheme.getId());// 获取生成方案信息
+		GenTable genTable = genTableService.selectById(genScheme.getGenTable().getId());
+		genScheme.setGenTable(genTable);// 添加表信息
+		GenTableColumn genTableColumn = new GenTableColumn();
+		genTableColumn.setGenTable(genTable);
+		genTable.setTableColumns(genTableColumnService.select(genTableColumn, false));//添加列信息
+		genSchemeService.build(genScheme);
 		ModelAndView mov = new ModelAndView("redirect:/frame/gen/genScheme/list");
 		addRedirectToastr(attributes, "success", "", "生成成功！");
 		return mov;

@@ -6,7 +6,9 @@
 	<sql id="selectColumnList">
 		a.*,
 
+		cu.id AS "createBy.id",
 		cu.username AS "createBy.username",
+		uu.id AS "updateBy.id",
 		uu.username AS "updateBy.username"
 	</sql>
 
@@ -20,7 +22,7 @@
 		<where>
 			a.del_flag = 0
 			<if test="id!=null and id!=''">and a.id = #{id}</if>
-			<if test="name!=null and username!=''">and a.name = #{name}</if>
+			<if test="name!=null and name!=''">and a.name = #{name}</if>
 			<if test="username!=null and username!=''">and a.username = #{username}</if>
 			<if test="password!=null and password!=''">and a.password = #{password}</if>
 
@@ -132,10 +134,9 @@
 
 	<!-- 批量删除(物理) -->
 	<delete id="deleteBatch">
-		delete
-		<if test="dbType == 'mysql'">a</if>
-		from sys_user a
-		where a.id in
+		delete		
+		from sys_user
+		where id in
 		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
 			#{item}
 		</foreach>

@@ -6,7 +6,9 @@
 	<sql id="selectColumnList">
 		a.*,
 
+		cu.id AS "createBy.id",
 		cu.username AS "createBy.username",
+		uu.id AS "updateBy.id",
 		uu.username AS "updateBy.username"
 	</sql>
 
@@ -136,10 +138,9 @@
 
 	<!-- 批量删除(物理) -->
 	<delete id="deleteBatch">
-		delete
-		<if test="dbType == 'mysql'">a</if>
-		from sys_role a
-		where a.id in
+		delete		
+		from sys_role
+		where id in
 		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
 			#{item}
 		</foreach>
@@ -228,20 +229,5 @@
 		<include refid="leftJoin" />
 		<include refid="dynamicWhereLike" />
 	</select>
-
-	<!--********************************************** 自定义Sql ********************************************** -->
-
-	<!-- 查询 某个用户 的全部角色 -->
-	<select id="selectRolesByUser" resultType="com.blueframe.frame.sys.model.SysRole">
-		select distinct
-		<include refid="selectColumnList" />
-		from sys_role a
-		<include refid="leftJoin" />
-		LEFT JOIN sys_user_role sur on sur.sys_role_id = a.id
-		LEFT JOIN sys_user su on su.id = sur.sys_user_id
-		where sur.sys_user_id = #{id}
-		and a.del_flag = 0
-		and sur.del_flag = 0
-		and su.del_flag = 0
-	</select>
+	
 </mapper>

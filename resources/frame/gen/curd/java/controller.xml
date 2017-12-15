@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>controller</name>
+	<filePath>src\${packagePath}\${modulePath}\controller</filePath>
+	<fileName>${ClassName}Controller.java</fileName>
+	<content>
+	
+
+<![CDATA[
+package ${packagePath}.${modulePath}.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import ${packagePath}.${modulePath}.model.${ClassName};
+import ${packagePath}.${modulePath}.service.${ClassName}Service;
+
+import com.blueframe.frame.base.controller.BaseController;
+import com.blueframe.frame.base.model.Page;
+import com.blueframe.frame.base.model.ReturnMessage;
+
+/**
+ * ${moduleName} Controller
+ * @author ${moduleAuthor}
+ */
+@RestController
+@RequestMapping(value = "/${url}")
+public class ${ClassName}Controller extends BaseController {
+
+	@Autowired
+	private ${ClassName}Service ${className}Service;
+	
+	/**
+	 * ${moduleName} - 列表页 - GET
+	 * @return 列表页
+	 */
+	@RequestMapping(value = { "", "/list" }, method = RequestMethod.GET)
+	public ModelAndView getList() {
+		ModelAndView mov = new ModelAndView("/${url}/list");
+		return mov;
+	}
+	
+	/**
+	 * ${moduleName} - 列表页表格数据Ajax - POST
+	 * @param ${className} 筛选对象
+	 * @param request 请求对象
+	 * @return 带分页的查询结果列表
+	 */
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	public Page<${ClassName}> postList(${ClassName} ${className}, HttpServletRequest request) {
+		Page<${ClassName}> page = new Page<${ClassName}>(request);
+		page = ${className}Service.selectPage(${className}, request, page);
+		return page;
+	}
+	
+	/**
+	 * ${moduleName} - 新增页 - GET
+	 * @return 新增页
+	 */
+	@RequestMapping(value = "/insert", method = RequestMethod.GET)
+	public ModelAndView getInsert() {
+		ModelAndView mov = new ModelAndView("/${url}/insert");
+		return mov;
+	}
+	
+	/**
+	 * ${moduleName} - 新增操作 - POST
+	 * @param ${className} 新增对象
+	 * @param attributes 重定向对象
+	 * @return 重定向至列表页
+	 */
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public ModelAndView postInsert(${ClassName} ${className}, RedirectAttributes attributes) {
+		ModelAndView mov = new ModelAndView("redirect:/${url}/list");		
+		${className}Service.insert(${className}, true);		
+		addRedirectToastr(attributes, "success", "", "添加成功！");
+		return mov;
+	}
+	
+	/**
+	 * ${moduleName} - 删除操作- POST
+	 * @param ${className} 删除对象
+	 * @return 返回信息
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public ReturnMessage postDelete(${ClassName} ${className}) {
+		${className}Service.deleteById(${className}.getId(), true);
+		return buildReturnMessage("success", "", "删除成功！");
+	}
+
+	/**
+	 * ${moduleName} - 编辑页 - GET
+	 * @param ${className} 编辑对象
+	 * @return 编辑页
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ModelAndView getUpdate(${ClassName} ${className}) {
+		ModelAndView mov = new ModelAndView("/${url}/update");
+		mov.addObject("${className}", ${className}Service.selectById(${className}.getId()));		
+		return mov;
+	}
+
+	/**
+	 * ${moduleName} - 编辑操作 - POST
+	 * @param ${className} 要编辑的用户对象
+	 * @param attributes 重定向对象
+	 * @return 重定向至列表页
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ModelAndView postUpdate(${ClassName} ${className}, RedirectAttributes attributes) {
+		ModelAndView mov = new ModelAndView("redirect:/${url}/list");
+		${className}Service.update(${className});
+		addRedirectToastr(attributes, "success", "", "编辑成功！");
+		return mov;
+	}
+}
+
+]]>
+	
+	
+	
+	</content>
+</template>

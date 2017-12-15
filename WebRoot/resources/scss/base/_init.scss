@@ -29,3 +29,18 @@
 .table-checkbox.mt-checkbox, .table-checkbox.mt-radio {
   padding-left: 18px;
 }
+
+//Select 2 右侧副标题
+.select2-container .text-muted {
+  float: right;
+}
+
+.select2-selection__rendered .text-muted {
+  position: relative;
+  top: 2px;
+  right: 2px;
+}
+
+.select2-results__option--highlighted .text-muted {
+  color: white;
+}

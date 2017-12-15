@@ -64,7 +64,7 @@
 	<div class="page-bar">
 		<ul class="page-breadcrumb">
 			<li>
-				<a href="index.html">首页</a> <i class="fa fa-angle-right"></i>
+				<a href="${ctx}/">首页</a> <i class="fa fa-angle-right"></i>
 			</li>
 			<li>
 				<span>系统管理</span><i class="fa fa-angle-right"></i>

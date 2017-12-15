@@ -51,6 +51,7 @@
 				</div>
 				<div class="portlet-body form">
 					<form action="${ctx}/frame/gen/genScheme/update" method="post" class="horizontal-form" data-validate>
+						<input type="hidden" name="id" value="${genScheme.id}">
 						<div class="form-body">
 							<h3 class="form-section">权限信息</h3>
 							<div class="row">
@@ -59,36 +60,16 @@
 										<label class="control-label need" for="name">方案名称</label>
 										<div class="input-icon right">
 											<i class="fa"></i>
-											<input type="text" class="form-control required" id="name" name="name" placeholder="请输入方案名称" value="${genScheme.name}">
+											<input type="text" class="form-control required" id="name" name="name" placeholder="例如：人员表单表配置方案" value="${genScheme.name}">
 										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="control-label need" for="packageName">包路径</label>
+										<label class="control-label need" for="packagePath">包路径</label>
 										<div class="input-icon right">
 											<i class="fa"></i>
-											<input type="text" class="form-control required" id="packageName" name="packageName" placeholder="请输入包路径" value="${genScheme.packageName}">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="control-label need" for="moduleName">模块名</label>
-										<div class="input-icon right">
-											<i class="fa"></i>
-											<input type="text" class="form-control required" id="packageName" name="moduleName" placeholder="请输入模块名" value="${genScheme.moduleName}">
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="control-label need" for="functionName">功能名</label>
-										<div class="input-icon right">
-											<i class="fa"></i>
-											<input type="text" class="form-control required" id="functionName" name="functionName" placeholder="请输入功能名" value="${genScheme.functionName}">
+											<input type="text" class="form-control required" id="packagePath" name="packagePath" placeholder="例如：cn.ac.sec" value="${genScheme.packagePath}">
 										</div>
 									</div>
 								</div>
@@ -96,10 +77,40 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="control-label need" for="functionName">业务表</label>
+										<label class="control-label need" for="modulePath">模块路径</label>
 										<div class="input-icon right">
 											<i class="fa"></i>
-											<select name="genTable.id" class="form-control">
+											<input type="text" class="form-control required" id="modulePath" name="modulePath" placeholder="例如：personal" value="${genScheme.modulePath}">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label need" for="moduleName">模块说明</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input type="text" class="form-control required" id="moduleName" name="moduleName" placeholder="例如：人员管理" value="${genScheme.moduleName}">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label need" for="entityName">对象说明</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input type="text" class="form-control required" id="entityName" name="entityName" placeholder="例如：人员" value="${genScheme.entityName}">
+										</div>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label need" for="genTable.id">业务表</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<select name="genTable.id" class="form-control" id="genTable.id">
 												<option>请选择</option>
 												<c:forEach items="${genTables}" var="item">
 													<option value="${item.id}" <c:if test="${item.id eq genScheme.genTable.id}">selected="selected"</c:if>>${item.name}</option>
@@ -108,12 +119,14 @@
 										</div>
 									</div>
 								</div>
+							</div>
+							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="control-label need" for="functionAuth">功能作者</label>
+										<label class="control-label need" for="moduleAuth">模块作者</label>
 										<div class="input-icon right">
 											<i class="fa"></i>
-											<input type="text" class="form-control required" id="functionAuthor" name="functionAuthor" placeholder="请输入功能作者" value="${genScheme.functionAuthor}">
+											<input type="text" class="form-control required" id="moduleAuthor" name="moduleAuthor" placeholder="请输入功能作者" value="${genScheme.moduleAuthor}">
 										</div>
 									</div>
 								</div>

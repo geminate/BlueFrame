@@ -8,4 +8,5 @@ import com.blueframe.frame.gen.model.GenTableColumn;
 
 @Service
 public class GenTableColumnService extends BaseService<GenTableColumnDao, GenTableColumn> {
+
 }

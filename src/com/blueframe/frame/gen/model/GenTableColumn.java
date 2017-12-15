@@ -1,5 +1,8 @@
 package com.blueframe.frame.gen.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.blueframe.frame.base.model.BaseEntity;
 
 public class GenTableColumn extends BaseEntity<GenTableColumn> {
@@ -20,6 +23,7 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
 	private String showType; // 字段生成方案（文本框、文本域、下拉框、复选框、单选框、字典选择、人员选择、部门选择、区域选择）
 	private String dictType; // 字典类型
 	private Integer sort; // 排序（升序）
+	private String isSystem;// 是否是系统字段
 
 	public GenTable getGenTable() {
 		return genTable;
@@ -149,4 +153,33 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
 		this.sort = sort;
 	}
 
+	public String getIsSystem() {
+		return isSystem;
+	}
+
+	public void setIsSystem(String isSystem) {
+		this.isSystem = isSystem;
+	}
+
+	/**
+	 * 获得简写的 JAVA 类型<br>
+	 * java.util.Date --> Date
+	 * @return 简写的 JAVA 类型
+	 */
+	public String getSimpleJavaType() {
+		if (getJavaType().indexOf(".") != -1) {
+			String reString[] = getJavaType().split("\\.");
+			return reString[reString.length - 1];
+		}
+		return getJavaType();
+	}
+
+	public List<String> getAnnotationList() {
+		List<String> list = new ArrayList<>();
+		if ("java.util.Date".equals(getJavaType())) {
+			list.add("@JsonFormat(pattern = \"yyyy-MM-dd\", timezone = \"GMT+8\")");
+			list.add("@DateTimeFormat(pattern = \"yyyy-MM-dd\")");
+		}
+		return list;
+	}
 }

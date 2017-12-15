@@ -30,8 +30,13 @@
 						"orderable" : true
 					},
 					{
-						"data" : "packageName",
-						"name" : "a.package_name",
+						"data" : "packagePath",
+						"name" : "a.package_path",
+						"orderable" : true
+					},					
+					{
+						"data" : "modulePath",
+						"name" : "a.module_path",
 						"orderable" : true
 					},
 					{
@@ -40,13 +45,8 @@
 						"orderable" : true
 					},
 					{
-						"data" : "functionName",
-						"name" : "a.function_name",
-						"orderable" : true
-					},
-					{
-						"data" : "functionAuthor",
-						"name" : "a.function_author",
+						"data" : "moduleAuthor",
+						"name" : "a.module_author",
 						"orderable" : true
 					},
 					{
@@ -136,10 +136,10 @@
 								<tr role="row" class="heading">
 									<th>序号</th>
 									<th>方案名称</th>
-									<th>生成模块</th>
-									<th>模块名</th>
-									<th>功能名</th>
-									<th>功能作者</th>
+									<th>包路径</th>
+									<th>模块路径</th>
+									<th>模块说明</th>
+									<th>模块作者</th>
 									<th>操作</th>
 								</tr>
 							</thead>

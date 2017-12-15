@@ -21,4 +21,5 @@ $(function () {
     GLOBAL.VALIDATE.addMethod();
     GLOBAL.VALIDATE.init();
     GLOBAL.MAXLENGTH.init();
+    GLOBAL.SELECT2.initSelect2();
 });

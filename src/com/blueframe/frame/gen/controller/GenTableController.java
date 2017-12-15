@@ -61,7 +61,7 @@ public class GenTableController extends BaseController {
 	@RequestMapping(value = "/selectTable", method = RequestMethod.GET)
 	public ModelAndView toGetSelectTable() {
 		ModelAndView mov = new ModelAndView("/frame/gen/genTable/selectTable");
-		List<GenTable> tableList = genTableService.findTableListFromDb(new GenTable());
+		List<GenTable> tableList = genTableService.findAllTableList();
 		mov.addObject("tableList", tableList);
 		return mov;
 	}

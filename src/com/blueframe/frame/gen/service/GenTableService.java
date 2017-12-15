@@ -20,8 +20,12 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 	@Autowired
 	private GenTableColumnService genTableColumnService;
 
-	public List<GenTable> findTableListFromDb(GenTable genTable) {
-		return dao.findTableListFromDb(genTable);
+	/**
+	 * 获取数据库中的全部表信息
+	 * @return 全部表列表
+	 */
+	public List<GenTable> findAllTableList() {
+		return dao.findTableListFromDb(new GenTable());
 	}
 
 	public GenTable mixNewAndStorageColumn(GenTable newGenTable, GenTable storageGenTable) {
@@ -35,6 +39,7 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 				}
 			}
 			if (!flag) {
+				newColumn.setGenTable(storageGenTable);
 				storageGenTable.getTableColumns().add(newColumn);
 			}
 		}
@@ -60,17 +65,15 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 	 * @return 表对象
 	 */
 	public GenTable getTableNewInfo(String tableName) {
-
 		GenTable genTable = new GenTable();
 		genTable.setName(tableName);
-
 		List<GenTable> tableList = dao.findTableListFromDb(genTable);
 		if (tableList != null && tableList.size() > 0) {
 			genTable = tableList.get(0);
 			if (StringUtils.isBlank(genTable.getComments())) {
-				genTable.setComments(genTable.getName());
+				genTable.setComments(genTable.getName());// 如果数据库表注释为空，则默认使用表名
 			}
-			genTable.setClassName(StringUtils.toCapitalizeCamelCase(genTable.getName()));
+			genTable.setClassName(StringUtils.toCapitalizeCamelCase(genTable.getName()));// 类名为表明的驼峰写法
 		}
 		genTable = getTableNewColumn(genTable);
 		return genTable;
@@ -82,10 +85,9 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 	 * @return 表对象
 	 */
 	public GenTable getTableNewColumn(GenTable genTable) {
-		List<GenTableColumn> tableColumns = dao.findTableColumnFromDb(genTable);
-		genTable.setTableColumns(tableColumns);
-		genTable.setPkList(dao.findTablePKListFromDb(genTable));
-		GenUtil.initColumnField(genTable);
+		genTable.setTableColumns(dao.findTableColumnFromDb(genTable));// 添加列信息
+		genTable.setPkList(dao.findTablePKListFromDb(genTable));// 添加主键信息
+		GenUtil.initColumnField(genTable);// 初始化
 		return genTable;
 	}
 
@@ -119,21 +121,27 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 		return genTable;
 	}
 
+	/**
+	 * 插入表信息和列信息
+	 * @param genTable 表信息
+	 */
 	public void insertTableAndColumn(GenTable genTable) {
 		insert(genTable, true);
 		List<GenTableColumn> columns = genTable.getTableColumns();
 		for (GenTableColumn genTableColumn : columns) {
 			genTableColumn.setGenTable(genTable);
-			genTableColumnService.insert(genTableColumn, true);
 		}
+		genTableColumnService.insertBatch(columns, true);
 	}
 
+	/**
+	 * 更新表信息和列信息
+	 * @param genTable 表信息
+	 */
 	public void updateTableAndColumn(GenTable genTable) {
 		update(genTable);
 		List<GenTableColumn> columns = genTable.getTableColumns();
-		for (GenTableColumn genTableColumn : columns) {
-			genTableColumn.setGenTable(genTable);
-			genTableColumnService.update(genTableColumn);
-		}
+		genTableColumnService.deleteBatchE(columns, false);
+		genTableColumnService.insertBatch(columns, true);
 	}
 }

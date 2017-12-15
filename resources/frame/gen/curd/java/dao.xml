@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>dao</name>
+	<filePath>src\${packagePath}\${modulePath}\dao</filePath>
+	<fileName>${ClassName}Dao.java</fileName>
+	<content>
+	
+
+<![CDATA[
+package ${packagePath}.${modulePath}.dao;
+
+import org.springframework.stereotype.Repository;
+
+import ${packagePath}.${modulePath}.model.${ClassName};
+
+import com.blueframe.frame.base.dao.BaseDao;
+
+/**
+ * ${moduleName} Dao
+ * @author ${moduleAuthor}
+ */
+@Repository
+public interface ${ClassName}Dao extends BaseDao<${ClassName}> {
+
+}
+
+]]>
+	
+	
+	
+	</content>
+</template>

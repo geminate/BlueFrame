@@ -41,6 +41,7 @@
 			<if test="showType!=null and showType!=''">and a.show_type = #{showType}</if>
 			<if test="dictType!=null and dictType!=''">and a.dict_type = #{dictType}</if>
 			<if test="sort!=null and sort!=''">and a.sort = #{sort}</if>
+			<if test="isSystem!=null and isSystem!=''">and a.is_system = #{isSystem}</if>
 
 			<if test="genTable !=null and genTable.id!=null and genTable.id!=''">and a.gen_table_id = #{genTable.id}</if>
 
@@ -75,6 +76,7 @@
 			<if test="showType!=null and showType!=''">and a.show_type = #{showType}</if>
 			<if test="dictType!=null and dictType!=''">and a.dict_type = #{dictType}</if>
 			<if test="sort!=null and sort!=''">and a.sort = #{sort}</if>
+			<if test="isSystem!=null and isSystem!=''">and a.is_system = #{isSystem}</if>
 
 			<if test="genTable !=null and genTable.id!=null and genTable.id!=''">and a.gen_table_id = #{genTable.id}</if>
 
@@ -110,6 +112,7 @@
 		show_type,
 		dict_type,
 		sort,
+		is_system,
 		create_by,
 		create_date,
 		update_by,
@@ -135,6 +138,7 @@
 		#{showType},
 		#{dictType},
 		#{sort},
+		#{isSystem},
 		#{createBy.id},
 		#{createDate},
 		#{updateBy.id},
@@ -165,6 +169,7 @@
 		show_type,
 		dict_type,
 		sort,
+		is_system,
 		create_by,
 		create_date,
 		update_by,
@@ -191,6 +196,7 @@
 			#{item.showType},
 			#{item.dictType},
 			#{item.sort},
+			#{item.isSystem},
 			#{item.createBy.id},
 			#{item.createDate},
 			#{item.updateBy.id},
@@ -202,14 +208,33 @@
 
 	<!-- 删 -->
 	<delete id="delete" parameterType="com.blueframe.frame.gen.model.GenTableColumn">
-		delete from gen_table_colume a
+		delete from gen_table_column a
 		<include refid="dynamicWhere" />
+	</delete>
+
+	<!-- 批量删除(物理) -->
+	<delete id="deleteBatch">
+		delete
+		from gen_table_column
+		where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</delete>
 
 	<!-- 删(逻辑) -->
 	<update id="deleteLogic">
-		update gen_table_colume a SET a.del_flag = '1'
+		update gen_table_column a SET a.del_flag = '1'
 		<include refid="dynamicWhere" />
+	</update>
+
+	<!-- 批量删除(逻辑) -->
+	<update id="deleteLogicBatch">
+		update gen_table_column a SET a.del_flag = '1'
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</update>
 
 	<!-- 改 -->
@@ -230,11 +255,39 @@
 			<if test="showType!=null and showType!=''">a.show_type = #{showType},</if>
 			<if test="dictType!=null and dictType!=''">a.dict_type = #{dictType},</if>
 			<if test="sort!=null and sort!=''">a.sort =#{sort},</if>
+			<if test="isSystem!=null and isSystem!=''">a.is_system =#{isSystem},</if>
 			<if test="updateBy !=null and updateBy.id!=null and updateBy.id!=''">a.update_by = #{updateBy.id},</if>
 			<if test="updateDate!=null and updateDate!=''">a.update_date = #{updateDate},</if>
 			<if test="delFlag!=null and delFlag!=''">a.del_flag = #{delFlag}</if>
 		</set>
 		WHERE a.id = #{id}
+	</update>
+
+	<update id="updatebatch" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+			UPDATE gen_table_column a
+			<set>
+				<if test="comments!=null and comments!=''">a.comments = #{item.comments},</if>
+				<if test="jdbcType!=null and jdbcType!=''">a.jdbc_type = #{item.jdbcType},</if>
+				<if test="javaType!=null and javaType!=''">a.java_type = #{item.javaType},</if>
+				<if test="javaField!=null and javaField!=''">a.java_field = #{item.javaField},</if>
+				<if test="isPk!=null and isPk!=''">a.is_pk = #{item.isPk},</if>
+				<if test="isNull!=null and isNull!=''">a.is_null = #{item.isNull},</if>
+				<if test="isInsert!=null and isInsert!=''">a.is_insert = #{item.isInsert},</if>
+				<if test="isEdit!=null and isEdit!=''">a.is_edit = #{item.isEdit},</if>
+				<if test="isList!=null and isList!=''">a.is_list = #{item.isList},</if>
+				<if test="isQuery!=null and isQuery!=''">a.is_query = #{item.isQuery},</if>
+				<if test="queryType!=null and queryType!=''">a.query_type =#{item.queryType},</if>
+				<if test="showType!=null and showType!=''">a.show_type = #{item.showType},</if>
+				<if test="dictType!=null and dictType!=''">a.dict_type = #{item.dictType},</if>
+				<if test="sort!=null and sort!=''">a.sort =#{item.sort},</if>
+				<if test="isSystem!=null and isSystem!=''">a.is_system =#{item.isSystem},</if>
+				<if test="updateBy !=null and updateBy.id!=null and updateBy.id!=''">a.update_by = #{item.updateBy.id},</if>
+				<if test="updateDate!=null and updateDate!=''">a.update_date = #{item.updateDate},</if>
+				<if test="delFlag!=null and delFlag!=''">a.del_flag = #{item.delFlag}</if>
+			</set>
+			WHERE a.id = #{item.id}
+		</foreach>
 	</update>
 
 	<!-- 查(精确) -->
@@ -250,6 +303,22 @@
 				${page.orderDir}
 			</if>
 		</if>
+		<if test="page == null or page.order ==null or page.order =='' ">
+			ORDER BY a.sort
+		</if>
+	</select>
+
+	<!-- 批量查询 ID List -->
+	<select id="selectBatch" resultType="com.blueframe.frame.gen.model.GenTableColumn">
+		select
+		<include refid="selectColumnList" />
+		from gen_table_column a
+		<include refid="leftJoin" />
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		ORDER BY a.sort
 	</select>
 
 	<!-- 数量查询(精确) -->
@@ -271,6 +340,9 @@
 			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
 				${page.orderDir}
 			</if>
+		</if>
+		<if test="page == null or page.order ==null or page.order =='' ">
+			ORDER BY a.sort
 		</if>
 	</select>
 

@@ -110,85 +110,177 @@
 												</tr>
 											</thead>
 											<tbody>
+												<tr>
+													<td colspan="15" class="text-center success">自定义列</td>
+												</tr>
 												<c:forEach items="${genTable.tableColumns}" var="item" varStatus="index">
-													<tr>
-														<input type="hidden" name="tableColumns[${index.index}].id" value="${item.id}" />
-														<input type="hidden" name="tableColumns[${index.index}].genTable.id" value="${item.genTable.id}" />
-														<input type="hidden" name="tableColumns[${index.index}].delFlag" value="0" />
-														<input type="hidden" name="tableColumns[${index.index}].name" value="${item.name}" />
-														<td style="word-break: break-word;">${item.name}</td>
-														<td>
-															<input name="tableColumns[${index.index}].comments" class="form-control input-sm" type="text" value="${item.comments}">
-														</td>
-														<td>
-															<input type="hidden" name="tableColumns[${index.index}].jdbcType" value="${item.jdbcType}" />${item.jdbcType}</td>
-														<td>
-															<select class="form-control input-sm" name="tableColumns[${index.index}].javaType">
-																<c:forEach items="${config.javaTypeList}" var="javaType">
-																	<option value="${javaType.value}" ${javaType.value eq item.javaType?'selected':''}>${javaType.label}</option>
-																</c:forEach>
-															</select>
-														</td>
-														<td>
-															<input class="form-control input-sm" name="tableColumns[${index.index}].javaField" type="text" value="${item.javaField}">
-														</td>
-														<td>
-															<label class="mt-checkbox mt-checkbox-outline table-checkbox">
-																<input type="checkbox" name="tableColumns[${index.index}].isPk" value="1" ${item.isPk eq '1' ? 'checked' : ''} />
-																<span></span>
-															</label>
-														</td>
-														<td>
-															<label class="mt-checkbox mt-checkbox-outline table-checkbox">
-																<input type="checkbox" name="tableColumns[${index.index}].isNull" value="1" ${item.isNull eq '1' ? 'checked' : ''} />
-																<span></span>
-															</label>
-														</td>
-														<td>
-															<label class="mt-checkbox mt-checkbox-outline table-checkbox">
-																<input type="checkbox" name="tableColumns[${index.index}].isInsert" value="1" ${item.isInsert eq '1' ? 'checked' : ''} />
-																<span></span>
-															</label>
-														</td>
-														<td>
-															<label class="mt-checkbox mt-checkbox-outline table-checkbox">
-																<input type="checkbox" name="tableColumns[${index.index}].isEdit" value="1" ${item.isEdit eq '1' ? 'checked' : ''} />
-																<span></span>
-															</label>
-														</td>
-														<td>
-															<label class="mt-checkbox mt-checkbox-outline table-checkbox">
-																<input type="checkbox" name="tableColumns[${index.index}].isList" value="1" ${item.isList eq '1' ? 'checked' : ''} />
-																<span></span>
-															</label>
-														</td>
-														<td>
-															<label class="mt-checkbox mt-checkbox-outline table-checkbox">
-																<input type="checkbox" name="tableColumns[${index.index}].isQuery" value="1" ${item.isQuery eq '1' ? 'checked' : ''} />
-																<span></span>
-															</label>
-														</td>
-														<td>
-															<select class="form-control input-sm" name="tableColumns[${index.index}].queryType">
-																<c:forEach items="${config.queryTypeList}" var="queryType">
-																	<option value="${queryType.value}" ${queryType.value eq item.queryType?'selected':''}>${queryType.label}</option>
-																</c:forEach>
-															</select>
-														</td>
-														<td>
-															<select class="form-control input-sm" name="tableColumns[${index.index}].showType">
-																<c:forEach items="${config.showTypeList}" var="showType">
-																	<option value="${showType.value}" ${showType.value eq item.showType?'selected':''}>${showType.label}</option>
-																</c:forEach>
-															</select>
-														</td>
-														<td>
-															<input class="form-control input-sm" name="tableColumns[${index.index}].dictType" type="text" value="${item.dictType}">
-														</td>
-														<td>
-															<input class="form-control input-sm" name="tableColumns[${index.index}].sort" type="text" value="${item.sort}">
-														</td>
-													</tr>
+													<c:if test="${not(item.isSystem eq '1')}">
+														<tr>
+															<input type="hidden" name="tableColumns[${index.index}].id" value="${item.id}" />
+															<input type="hidden" name="tableColumns[${index.index}].genTable.id" value="${item.genTable.id}" />
+															<input type="hidden" name="tableColumns[${index.index}].delFlag" value="0" />
+															<input type="hidden" name="tableColumns[${index.index}].name" value="${item.name}" />
+															<input type="hidden" name="tableColumns[${index.index}].isSystem" value="${item.isSystem}" />
+															<td style="word-break: break-word;">${item.name}</td>
+															<td>
+																<input name="tableColumns[${index.index}].comments" class="form-control input-sm" type="text" value="${item.comments}">
+															</td>
+															<td>
+																<input type="hidden" name="tableColumns[${index.index}].jdbcType" value="${item.jdbcType}" />${item.jdbcType}</td>
+															<td>
+																<select class="form-control input-sm" name="tableColumns[${index.index}].javaType">
+																	<c:forEach items="${config.javaTypeList}" var="javaType">
+																		<option value="${javaType.value}" ${javaType.value eq item.javaType?'selected':''}>${javaType.label}</option>
+																	</c:forEach>
+																</select>
+															</td>
+															<td>
+																<input class="form-control input-sm" name="tableColumns[${index.index}].javaField" type="text" value="${item.javaField}">
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isPk" value="1" ${item.isPk eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isNull" value="1" ${item.isNull eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isInsert" value="1" ${item.isInsert eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isEdit" value="1" ${item.isEdit eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isList" value="1" ${item.isList eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isQuery" value="1" ${item.isQuery eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<select class="form-control input-sm" name="tableColumns[${index.index}].queryType">
+																	<c:forEach items="${config.queryTypeList}" var="queryType">
+																		<option value="${queryType.value}" ${queryType.value eq item.queryType?'selected':''}>${queryType.label}</option>
+																	</c:forEach>
+																</select>
+															</td>
+															<td>
+																<select class="form-control input-sm" name="tableColumns[${index.index}].showType">
+																	<c:forEach items="${config.showTypeList}" var="showType">
+																		<option value="${showType.value}" ${showType.value eq item.showType?'selected':''}>${showType.label}</option>
+																	</c:forEach>
+																</select>
+															</td>
+															<td>
+																<input class="form-control input-sm" name="tableColumns[${index.index}].dictType" type="text" value="${item.dictType}">
+															</td>
+															<td>
+																<input class="form-control input-sm" name="tableColumns[${index.index}].sort" type="text" value="${item.sort}">
+															</td>
+														</tr>
+													</c:if>
+												</c:forEach>
+												<tr>
+													<td colspan="15" class="text-center danger">系统列</td>
+												</tr>
+												<c:forEach items="${genTable.tableColumns}" var="item" varStatus="index">
+													<c:if test="${item.isSystem eq '1'}">
+														<tr>
+															<input type="hidden" name="tableColumns[${index.index}].id" value="${item.id}" />
+															<input type="hidden" name="tableColumns[${index.index}].genTable.id" value="${item.genTable.id}" />
+															<input type="hidden" name="tableColumns[${index.index}].delFlag" value="0" />
+															<input type="hidden" name="tableColumns[${index.index}].name" value="${item.name}" />
+															<input type="hidden" name="tableColumns[${index.index}].isSystem" value="${item.isSystem}" />
+															<td style="word-break: break-word;">${item.name}</td>
+															<td>
+																<input name="tableColumns[${index.index}].comments" class="form-control input-sm" type="text" value="${item.comments}">
+															</td>
+															<td>
+																<input type="hidden" name="tableColumns[${index.index}].jdbcType" value="${item.jdbcType}" />${item.jdbcType}</td>
+															<td>
+																<select class="form-control input-sm" name="tableColumns[${index.index}].javaType">
+																	<c:forEach items="${config.javaTypeList}" var="javaType">
+																		<option value="${javaType.value}" ${javaType.value eq item.javaType?'selected':''}>${javaType.label}</option>
+																	</c:forEach>
+																</select>
+															</td>
+															<td>
+																<input class="form-control input-sm" name="tableColumns[${index.index}].javaField" type="text" value="${item.javaField}">
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isPk" value="1" ${item.isPk eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isNull" value="1" ${item.isNull eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isInsert" value="1" ${item.isInsert eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isEdit" value="1" ${item.isEdit eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isList" value="1" ${item.isList eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<label class="mt-checkbox mt-checkbox-outline table-checkbox">
+																	<input type="checkbox" name="tableColumns[${index.index}].isQuery" value="1" ${item.isQuery eq '1' ? 'checked' : ''} />
+																	<span></span>
+																</label>
+															</td>
+															<td>
+																<select class="form-control input-sm" name="tableColumns[${index.index}].queryType">
+																	<c:forEach items="${config.queryTypeList}" var="queryType">
+																		<option value="${queryType.value}" ${queryType.value eq item.queryType?'selected':''}>${queryType.label}</option>
+																	</c:forEach>
+																</select>
+															</td>
+															<td>
+																<select class="form-control input-sm" name="tableColumns[${index.index}].showType">
+																	<c:forEach items="${config.showTypeList}" var="showType">
+																		<option value="${showType.value}" ${showType.value eq item.showType?'selected':''}>${showType.label}</option>
+																	</c:forEach>
+																</select>
+															</td>
+															<td>
+																<input class="form-control input-sm" name="tableColumns[${index.index}].dictType" type="text" value="${item.dictType}">
+															</td>
+															<td>
+																<input class="form-control input-sm" name="tableColumns[${index.index}].sort" type="text" value="${item.sort}">
+															</td>
+														</tr>
+													</c:if>
 												</c:forEach>
 											</tbody>
 										</table>

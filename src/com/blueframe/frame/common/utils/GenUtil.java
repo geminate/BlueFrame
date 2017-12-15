@@ -1,6 +1,7 @@
 package com.blueframe.frame.common.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -33,6 +35,10 @@ public class GenUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(GenUtil.class);
 
+	/**
+	 * 初始化 列信息
+	 * @param genTable 表信息
+	 */
 	public static void initColumnField(GenTable genTable) {
 
 		List<GenTableColumn> genTableColumns = genTable.getTableColumns();
@@ -75,48 +81,50 @@ public class GenUtil {
 			// 是否是主键
 			column.setIsPk(genTable.getPkList().contains(StringUtils.lowerCase(column.getName())) ? "1" : "0");
 
-			// 插入字段
+			// 插入、编辑字段
 			column.setIsInsert("1");
-
-			// 编辑字段
-			if (!StringUtils.equalsIgnoreCase(column.getName(), "id") && !StringUtils.equalsIgnoreCase(column.getName(), "create_by")
-					&& !StringUtils.equalsIgnoreCase(column.getName(), "create_date") && !StringUtils.equalsIgnoreCase(column.getName(), "del_flag")) {
-				column.setIsEdit("1");
-			}
-
-			// 列表字段
-			if (StringUtils.equalsIgnoreCase(column.getName(), "name") || StringUtils.equalsIgnoreCase(column.getName(), "title")
-					|| StringUtils.equalsIgnoreCase(column.getName(), "remarks") || StringUtils.equalsIgnoreCase(column.getName(), "update_date")) {
-				column.setIsList("1");
-			}
-
-			// 查询字段
-			if (StringUtils.equalsIgnoreCase(column.getName(), "name") || StringUtils.equalsIgnoreCase(column.getName(), "title")) {
-				column.setIsQuery("1");
-			}
-
-			// 查询字段类型
-			if (StringUtils.equalsIgnoreCase(column.getName(), "name") || StringUtils.equalsIgnoreCase(column.getName(), "title")) {
-				column.setQueryType("like");
-			}
+			column.setIsEdit("1");
+			column.setIsList("1");
+			column.setIsQuery("1");
 
 			// 设置特定类型和字段名
+			// ID
+			if (StringUtils.startsWithIgnoreCase(column.getName(), "id")) {
+				column.setIsSystem("1");
+				column.setIsInsert("0");
+				column.setIsEdit("0");
+				column.setIsList("0");
+				column.setIsQuery("0");
+			}
+
 			// 创建者、更新者
 			if (StringUtils.startsWithIgnoreCase(column.getName(), "create_by") || StringUtils.startsWithIgnoreCase(column.getName(), "update_by")) {
 				column.setJavaType(SysUser.class.getName());
 				column.setJavaField(column.getJavaField() + ".id");
+				column.setIsSystem("1");
+				column.setIsInsert("0");
+				column.setIsEdit("0");
+				column.setIsList("0");
+				column.setIsQuery("0");
 			}
 			// 创建时间、更新时间
 			else if (StringUtils.startsWithIgnoreCase(column.getName(), "create_date") || StringUtils.startsWithIgnoreCase(column.getName(), "update_date")) {
 				column.setShowType("dateselect");
+				column.setIsSystem("1");
+				column.setIsInsert("0");
+				column.setIsEdit("0");
+				column.setIsList("0");
+				column.setIsQuery("0");
 			}
-			// 备注、内容
-			else if (StringUtils.equalsIgnoreCase(column.getName(), "remarks") || StringUtils.equalsIgnoreCase(column.getName(), "content")) {
-				column.setShowType("textarea");
-			}// 删除标记
+			// 删除标记
 			else if (StringUtils.equalsIgnoreCase(column.getName(), "del_flag")) {
 				column.setShowType("radiobox");
 				column.setDictType("del_flag");
+				column.setIsSystem("1");
+				column.setIsInsert("0");
+				column.setIsEdit("0");
+				column.setIsList("0");
+				column.setIsQuery("0");
 			}
 		}
 	}
@@ -180,40 +188,50 @@ public class GenUtil {
 	public static Map<String, Object> getDataModelNew(GenScheme genScheme) {
 		Map<String, Object> model = new HashMap<String, Object>();
 
-		model.put("packageName", StringUtils.lowerCase(genScheme.getPackageName()));
-		model.put("lastPackageName", StringUtils.substringAfterLast((String) model.get("packageName"), "."));
-		model.put("moduleName", StringUtils.lowerCase(genScheme.getModuleName()));
-		// model.put("subModuleName",
-		// StringUtils.lowerCase(genScheme.getSubModuleName()));
+		// 包路径：cn.ac.sec
+		model.put("packagePath", StringUtils.lowerCase(genScheme.getPackagePath()));
 
-		model.put("functionName", genScheme.getFunctionName());
-		// model.put("functionNameSimple", genScheme.getFunctionNameSimple());
-		model.put("functionAuthor", genScheme.getFunctionAuthor());
-		// model.put("functionVersion", DateUtils.getDate());
-		// model.put("className",
-		// StringUtils.uncapitalize(genScheme.getGenSpecial().getpTableName()));
-		// model.put("ClassName",
-		// StringUtils.capitalize(genScheme.getGenSpecial().getpTableName()));
-		// model.put("urlPrefix",model.get("moduleName")+
-		// (StringUtils.isNotBlank(genScheme.getSubModuleName()) ? "/" +
-		// StringUtils.lowerCase(genScheme.getSubModuleName()) : "") + "/"+
-		// model.get("className"));
-		model.put("viewPrefix", model.get("urlPrefix"));
-		// model.put("permissionPrefix",model.get("moduleName")+
-		// (StringUtils.isNotBlank(genScheme.getSubModuleName()) ? ":" +
-		// StringUtils.lowerCase(genScheme.getSubModuleName()) : "") + ":"+
-		// model.get("className"));
-		model.put("dbType", ConfigUtil.getConfig("jdbc.type"));
-		// model.put("table", genScheme.getGenSpecial());
-		return null;
+		// 模块路径名：test
+		model.put("modulePath", StringUtils.lowerCase(genScheme.getModulePath()));
+
+		// 模块说明：测试模块
+		model.put("moduleName", genScheme.getModuleName());
+
+		// 模块作者：hhLiu
+		model.put("moduleAuthor", genScheme.getModuleAuthor());
+
+		// 类名：ProjectTest
+		model.put("ClassName", StringUtils.capitalize(genScheme.getGenTable().getClassName()));
+
+		// 首字母小写类名：projectTest
+		model.put("className", StringUtils.uncapitalize(genScheme.getGenTable().getClassName()));
+
+		// Table 表
+		model.put("table", genScheme.getGenTable());
+
+		// Colomn 列表
+		model.put("columns", genScheme.getGenTable().getTableColumns());
+
+		// 根访问地址：test/projectTest
+		model.put("url", ((String) model.get("modulePath")).replace(".", "/") + "/" + model.get("className"));
+
+		return model;
 	}
 
 	public static void generateToFile(GenTemplate tpl, Map<String, Object> model) {
+		String projectPath = ConfigUtil.getConfig("projectPath");
+		String filePath = FreeMarkers.renderString(tpl.getFilePath(), model).replace(".", "\\");
+		String fileName = FreeMarkers.renderString(tpl.getFileName(), model);
+		String outPathString = projectPath + File.separator + filePath + File.separator + fileName;
 		String content = FreeMarkers.renderString(StringUtils.trimToEmpty(tpl.getContent()), model);
-		System.out.println(content);
+		try {
+			FileUtils.writeStringToFile(new File(outPathString), content, "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
-		System.out.println(getConfig().getShowTypeList());
+
 	}
 }

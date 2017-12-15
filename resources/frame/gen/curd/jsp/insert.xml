@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>entity</name>
+	<filePath>WebRoot\WEB-INF\view\${modulePath}\${className}</filePath>
+	<fileName>insert.jsp</fileName>
+	<content>
+	
+
+<![CDATA[
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/view/include/taglib.jsp"%>
+
+<!-- 标题 -->
+<sitemesh:title>${moduleName} - 添加页</sitemesh:title>
+
+<!-- 自定义 CSS -->
+<sitemesh:custom_style>
+</sitemesh:custom_style>
+
+<!-- 自定义 JS -->
+<sitemesh:custom_script>
+</sitemesh:custom_script>
+
+<!----------------------------------------------------------------- 以下为主体内容 -------------------------------------------------------------------->
+
+<sitemesh:container>
+	<!-- 面包屑 -->
+	<div class="page-bar">
+		<ul class="page-breadcrumb">
+			<li>
+				<a href="${"$"}{ctx}/">首页</a> <i class="fa fa-angle-right"></i>
+			</li>			
+			<li>
+				<a href="${"$"}{ctx}/${url}/list">${moduleName}</a><i class="fa fa-angle-right"></i>
+			</li>
+			<li>
+				<a href="${"$"}{ctx}/${url}/insert">添加页</a>
+			</li>
+		</ul>
+	</div>
+	<!-- 标题 -->
+	<h3 class="page-title">
+		${moduleName}<small>&emsp;添加页&emsp;</small>
+	</h3>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet box green">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-user"></i>添加角色
+					</div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse" title="收起/打开"> </a>
+					</div>
+				</div>
+				<div class="portlet-body form">
+					<form action="${"$"}{ctx}/${url}/insert" class="horizontal-form" method="post" data-validate>
+						<div class="form-body">
+							<h3 class="form-section">角色信息</h3>
+							<div class="row">
+								<#assign i=0>
+								<#list columns as column>
+									<#if column.isInsert?? && column.isInsert == '1'>										
+										<#if i%2 == 0 && i != 0>
+							</div>
+							<div class="row">			
+										</#if>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label need">${column.comments}</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+										<#if column.showType?? && column.showType == 'input'>
+											<input name="${column.javaField}" type="text" class="form-control" placeholder="请输入${column.comments}">
+										</#if>
+										<#if column.showType?? && column.showType == 'textarea'>
+											<textarea name="${column.javaField}" class="form-control" placeholder="请输入${column.comments}"></textarea>
+										</#if>
+										<#if column.showType?? && column.showType == 'dateselect'>
+											<input name="${column.javaField}" type="text" class="form-control date-picker" placeholder="请选择${column.comments}" data-date-format="yyyy-mm-dd" readonly>
+										</#if>
+										</div>
+									</div>
+								</div>
+									<#assign i=i+1>
+									</#if>
+								</#list>								
+							</div>							
+						</div>
+						<div class="form-actions">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="row">
+										<div class="col-md-offset-3 col-md-9">
+											<button type="submit" class="btn green">保存</button>
+											<button type="button" class="btn default" onclick="window.history.back(-1);">返回</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6"></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</sitemesh:container>
+]]>
+	
+	
+	
+	</content>
+</template>

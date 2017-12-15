@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>entity</name>
+	<filePath>src\${packagePath}\${modulePath}\model</filePath>
+	<fileName>${ClassName}.java</fileName>
+	<content>
+	
+
+<![CDATA[
+package ${packagePath}.${modulePath}.model;
+
+<#list table.entityImportList as importList>
+import ${importList};
+</#list>
+
+import com.blueframe.frame.base.model.BaseEntity;
+
+/**
+ * ${moduleName} 对象
+ * @author ${moduleAuthor}
+ */
+public class ${ClassName} extends BaseEntity<${ClassName}> {
+
+<#list columns as column>
+	<#if column.isSystem != "1">
+		<#list column.annotationList as annotation>
+	${annotation}
+		</#list>
+	private ${column.simpleJavaType} ${column.javaField};<#if column.comments??>// ${column.comments}</#if>
+	
+		<#if column.queryType == "between">
+			<#if column.javaType == "java.util.Date">
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+			</#if>
+	private ${column.simpleJavaType} ${column.javaField}Begin;<#if column.comments??>// ${column.comments}-查询起始值</#if>
+			
+			<#if column.javaType == "java.util.Date">
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+			</#if>
+	private ${column.simpleJavaType} ${column.javaField}End;<#if column.comments??>// ${column.comments}-查询结束值</#if>
+	
+		</#if>
+	</#if>
+</#list>
+
+<#list columns as column>
+	<#if column.isSystem != "1">
+	public ${column.simpleJavaType} get${column.javaField?cap_first}() {
+		return ${column.javaField};
+	}
+
+	public void set${column.javaField?cap_first}(${column.simpleJavaType} ${column.javaField}) {
+		this.${column.javaField} = ${column.javaField};
+	}
+	
+		<#if (column.queryType == "between")>
+	public ${column.simpleJavaType} get${column.javaField?cap_first}Begin() {
+		return ${column.javaField}Begin;
+	}
+
+	public void set${column.javaField?cap_first}Begin(${column.simpleJavaType} ${column.javaField}Begin) {
+		this.${column.javaField}Begin = ${column.javaField}Begin;
+	}
+	
+			<#if (column.simpleJavaType == "Date")>
+	public ${column.simpleJavaType} get${column.javaField?cap_first}End() {
+		if (${column.javaField}End != null) {
+			return new ${column.simpleJavaType}(${column.javaField}End.getTime() + (1000 * 60 * 60 * 24 - 1));
+		} else {
+			return null;
+		}
+	}
+	
+			<#else>
+	public ${column.simpleJavaType} get${column.javaField?cap_first}End() {
+		return ${column.javaField}End;
+	}
+	
+			</#if>	
+	public void set${column.javaField?cap_first}End(${column.simpleJavaType} ${column.javaField}End) {
+		this.${column.javaField}End = ${column.javaField}End;
+	}
+				
+		</#if>	
+	</#if>
+</#list>
+}
+]]>
+	
+	
+	
+	</content>
+</template>

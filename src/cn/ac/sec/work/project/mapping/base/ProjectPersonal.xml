@@ -1,0 +1,240 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ac.sec.work.project.dao.ProjectPersonalDao">
+
+	<!-- Select 列 -->
+	<sql id="selectColumnList">
+		a.*,
+
+		cu.id AS "createBy.id",
+		cu.username AS "createBy.username",
+		uu.id AS "updateBy.id",
+		uu.username AS "updateBy.username"
+	</sql>
+	
+	<!-- 关联表 -->
+	<sql id="leftJoin">
+		LEFT JOIN sys_user cu on cu.id = a.create_by
+		LEFT JOIN sys_user uu on uu.id = a.create_by
+	</sql>
+	
+	<!-- 精确查询 Where -->
+	<sql id="dynamicWhere">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">and a.name = #{name}</if>
+			<if test="age!=null and age!=''">and a.age = #{age}</if>
+			<if test="birthday!=null and birthday!=''">and a.birthday = #{birthday}</if>
+			<if test="introduction!=null and introduction!=''">and a.introduction = #{introduction}</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDateBegin != null and createDateEnd != null">
+				and a.create_date BETWEEN #{createDateBegin} AND #{createDateEnd}
+			</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDateBegin != null and updateDateEnd != null">
+				and a.update_date BETWEEN #{updateDateBegin} AND #{updateDateEnd}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 模糊查询 Where -->
+	<sql id="dynamicWhereLike">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = #{id}</if>
+			<if test="name!=null and name!=''">
+				and a.name LIKE
+				<if test="dbType == 'oracle'">'%'||#{name}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{name}, '%')</if>
+			</if>
+			<if test="ageBegin != null and ageEnd != null">
+				and a.age BETWEEN #{ageBegin} AND #{ageEnd}
+			</if>
+			<if test="birthdayBegin != null and birthdayEnd != null">
+				and a.birthday BETWEEN #{birthdayBegin} AND #{birthdayEnd}
+			</if>
+			<if test="introduction!=null and introduction!=''">
+				and a.introduction LIKE
+				<if test="dbType == 'oracle'">'%'||#{introduction}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{introduction}, '%')</if>
+			</if>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
+			<if test="createDateBegin != null and createDateEnd != null">
+				and a.create_date BETWEEN #{createDateBegin} AND #{createDateEnd}
+			</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = #{updateBy.id}</if>
+			<if test="updateDateBegin != null and updateDateEnd != null">
+				and a.update_date BETWEEN #{updateDateBegin} AND #{updateDateEnd}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 增 -->
+	<insert id="insert">
+		insert into project_personal(
+
+		id,
+		name,
+		age,
+		birthday,
+		introduction,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+
+		)values(
+
+		#{id}, 
+		#{name},
+		#{age},
+		#{birthday},
+		#{introduction},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{delFlag}
+
+		)
+	</insert>
+	
+	<!-- 批量插入 -->
+	<insert id="insertBatch">
+		insert into project_personal(
+
+		id,
+		name,
+		age,
+		birthday,
+		introduction,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+
+		)
+		<foreach collection="list" item="item" separator=" union all ">
+			SELECT
+			#{item.id},
+			#{item.name},
+			#{item.age},
+			#{item.birthday},
+			#{item.introduction},
+			#{item.createBy.id},
+			#{item.createDate},
+			#{item.updateBy.id},
+			#{item.updateDate},
+			#{item.delFlag}
+			FROM dual
+		</foreach>
+	</insert>
+	
+	<!-- 删(物理) -->
+	<delete id="delete" parameterType="cn.ac.sec.work.project.model.ProjectPersonal">
+		delete
+		<if test="dbType == 'mysql'">a</if>
+		from project_personal a
+		<include refid="dynamicWhere" />
+	</delete>
+
+	<!-- 批量删除(物理) -->
+	<delete id="deleteBatch">
+		delete		
+		from project_personal
+		where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 删(逻辑) -->
+	<update id="deleteLogic">
+		update project_personal a SET a.del_flag = '1'
+		<include refid="dynamicWhere" />
+	</update>
+
+	<!-- 批量删除(逻辑) -->
+	<update id="deleteLogicBatch">
+		update project_personal a SET a.del_flag = '1'
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!-- 改 -->
+	<update id="update" parameterType="cn.ac.sec.work.project.model.ProjectPersonal">
+		update project_personal a
+		<set>
+			<if test="name!=null">a.name = #{name,jdbcType=VARCHAR},</if>
+			<if test="age!=null">a.age = #{age,jdbcType=VARCHAR},</if>
+			<if test="birthday!=null">a.birthday = #{birthday,jdbcType=VARCHAR},</if>
+			<if test="introduction!=null">a.introduction = #{introduction,jdbcType=VARCHAR},</if>
+			<if test="updateBy!=null and updateBy.id!=null">a.update_by = #{updateBy.id},</if>
+			<if test="updateDate!=null">a.update_date = #{updateDate},</if>
+		</set>
+		where a.id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查(精确) -->
+	<select id="select" parameterType="cn.ac.sec.work.project.model.ProjectPersonal" resultType="cn.ac.sec.work.project.model.ProjectPersonal">
+		select
+		<include refid="selectColumnList" />
+		from project_personal a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 查(模糊) -->
+	<select id="selectLike" parameterType="cn.ac.sec.work.project.model.ProjectPersonal" resultType="cn.ac.sec.work.project.model.ProjectPersonal">
+		select
+		<include refid="selectColumnList" />
+		from project_personal a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 批量查询 ID List -->
+	<select id="selectBatch" resultType="cn.ac.sec.work.project.model.ProjectPersonal">
+		select
+		<include refid="selectColumnList" />
+		from project_personal a
+		<include refid="leftJoin" />
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- 数量查询(精确) -->
+	<select id="count" parameterType="cn.ac.sec.work.project.model.ProjectPersonal" resultType="java.lang.Integer">
+		select count(*) from project_personal a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 数量查询(模糊) -->
+	<select id="countLike" parameterType="cn.ac.sec.work.project.model.ProjectPersonal" resultType="java.lang.Integer">
+		select count(*) from project_personal a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+	</select>
+
+</mapper>

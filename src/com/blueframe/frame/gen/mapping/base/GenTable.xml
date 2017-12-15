@@ -131,11 +131,30 @@
 		delete from gen_table a
 		<include refid="dynamicWhere" />
 	</delete>
+	
+	<!-- 批量删除(物理) -->
+	<delete id="deleteBatch">
+		delete		
+		from gen_table
+		where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 
 	<!-- 删(逻辑) -->
 	<update id="deleteLogic">
 		update gen_table a SET a.del_flag = '1'
 		<include refid="dynamicWhere" />
+	</update>
+	
+	<!-- 批量删除(逻辑) -->
+	<update id="deleteLogicBatch">
+		update gen_table a SET a.del_flag = '1'
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</update>
 
 	<!-- 改 -->
@@ -163,14 +182,7 @@
 			</if>
 		</if>
 	</select>
-
-	<!-- 数量查询(精确) -->
-	<select id="count" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="java.lang.Integer">
-		select count(*) from gen_table a
-		<include refid="leftJoin" />
-		<include refid="dynamicWhere" />
-	</select>
-
+	
 	<!-- 查(模糊) -->
 	<select id="selectLike" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="com.blueframe.frame.gen.model.GenTable">
 		select
@@ -185,92 +197,30 @@
 			</if>
 		</if>
 	</select>
+	
+	<!-- 批量查询 ID List -->
+	<select id="selectBatch" resultType="com.blueframe.frame.gen.model.GenTableColumn">
+		select
+		<include refid="selectColumnList" />
+		from gen_table a
+		<include refid="leftJoin" />
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- 数量查询(精确) -->
+	<select id="count" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="java.lang.Integer">
+		select count(*) from gen_table a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+	</select>
 
 	<!-- 数量查询(模糊) -->
 	<select id="countLike" parameterType="com.blueframe.frame.gen.model.GenTable" resultType="java.lang.Integer">
 		select count(*) from gen_table a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhereLike" />
-	</select>
-
-	<!--********************************************** 自定义Sql ********************************************** -->
-
-	<!-- 获取 数据库中 全部的 表信息 -->
-	<select id="findTableListFromDb" resultType="com.blueframe.frame.gen.model.GenTable">
-		<if test="dbType == 'oracle'">
-			SELECT
-			t.TABLE_NAME AS name,
-			c.COMMENTS AS comments
-			FROM user_tables t, user_tab_comments c
-			WHERE t.table_name = c.table_name
-			<if test="name != null and name != ''">
-				AND t.TABLE_NAME = upper(#{name})
-			</if>
-			ORDER BY t.TABLE_NAME
-		</if>
-		<if test="dbType == 'mysql'">
-			SELECT t.table_name AS name,t.TABLE_COMMENT AS comments
-			FROM information_schema.`TABLES` t
-			WHERE t.TABLE_SCHEMA = (select database())
-			<if test="name != null and name != ''">
-				AND t.TABLE_NAME = (#{name})
-			</if>
-			ORDER BY t.TABLE_NAME
-		</if>
-	</select>
-
-	<!-- 获取某张表的 列信息 -->
-	<select id="findTableColumnFromDb" resultType="com.blueframe.frame.gen.model.GenTableColumn">
-		<if test="dbType == 'oracle'">
-			SELECT
-			t.COLUMN_NAME AS name,
-			(CASE WHEN t.NULLABLE = 'Y' THEN '1' ELSE '0' END) AS isNull,
-			(t.COLUMN_ID * 10) AS sort,
-			c.COMMENTS AS comments,
-			decode(t.DATA_TYPE,'DATE',t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
-			'VARCHAR2', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
-			'VARCHAR', t.DATA_TYPE || '(' ||
-			t.DATA_LENGTH || ')',
-			'NVARCHAR2', t.DATA_TYPE || '(' || t.DATA_LENGTH/2 || ')',
-			'CHAR', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')',
-			'NUMBER',t.DATA_TYPE || (nvl2(t.DATA_PRECISION,nvl2(decode(t.DATA_SCALE,0,null,t.DATA_SCALE),
-			'(' || t.DATA_PRECISION || ',' || t.DATA_SCALE || ')',
-			'(' ||
-			t.DATA_PRECISION ||
-			')'),'(18)')),t.DATA_TYPE) AS jdbcType
-			FROM user_tab_columns t, user_col_comments c
-			WHERE t.TABLE_NAME = c.table_name
-			AND t.COLUMN_NAME = c.column_name
-			<if test="name != null and name != ''">
-				AND t.TABLE_NAME = upper(#{name})
-			</if>
-			ORDER BY t.COLUMN_ID
-		</if>
-		<if test="dbType == 'mysql'">
-			SELECT t.COLUMN_NAME AS name, (CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull,
-			(t.ORDINAL_POSITION * 10) AS sort,t.COLUMN_COMMENT AS comments,t.COLUMN_TYPE AS jdbcType
-			FROM information_schema.`COLUMNS` t
-			WHERE t.TABLE_SCHEMA = (select database())
-			<if test="name != null and name != ''">
-				AND t.TABLE_NAME = (#{name})
-			</if>
-			ORDER BY t.ORDINAL_POSITION
-		</if>
-	</select>
-
-	<select id="findTablePKListFromDb" resultType="string">
-		<if test="dbType == 'oracle'">
-			SELECT lower(cu.COLUMN_NAME) AS columnName
-			FROM user_cons_columns cu, user_constraints au
-			WHERE cu.constraint_name = au.constraint_name
-			AND au.constraint_type = 'P'
-			AND au.table_name = upper(#{name})
-		</if>
-		<if test="dbType == 'mysql'">
-			SELECT lower(au.COLUMN_NAME) AS columnName
-			FROM information_schema.`COLUMNS` au
-			WHERE au.TABLE_SCHEMA = (select database())
-			AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = (#{name})
-		</if>
 	</select>
 </mapper>

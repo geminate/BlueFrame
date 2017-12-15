@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>entity</name>
+	<filePath>WebRoot\WEB-INF\view\${modulePath}\${className}</filePath>
+	<fileName>list.jsp</fileName>
+	<content>
+	
+
+<![CDATA[
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/view/include/taglib.jsp"%>
+
+<!-- 标题 -->
+<sitemesh:title>${moduleName} - 列表页</sitemesh:title>
+
+<!-- 自定义 CSS -->
+<sitemesh:custom_style>
+</sitemesh:custom_style>
+
+<!-- 自定义 JS -->
+<sitemesh:custom_script>
+<script>
+		$(function() {
+			initTable();
+		});
+
+		function initTable() {
+			var columns = [
+					{
+						"render" : function(data, type, row, meta) {
+							return meta.row + 1;
+						},
+						"orderable" : false
+					},
+					<#list columns as column>
+						<#if column.isList?? && column.isList == '1'>
+					{
+						"data" : "${column.javaField}",
+						"name" : "a.${column.javaField}",
+						"defaultContent" : "",
+						"orderable" : true
+					},							
+						</#if>			
+					</#list>	
+					{
+						"render" : function(data, type, row, meta) {
+							var updateA = "<a class='btn btn-xs blue' href='${"$"}{ctx}/${url}/update?id=" + row.id + "'>编辑</a>";
+							var deleteA = "<a class='btn btn-xs red' href='javascript:' onclick='GLOBAL.DATATABLE.deleteRow(this)'" + " data-datatable-url='${"$"}{ctx}/${url}/delete'" + " data-datatable-param='" + row.id + "'"
+									+ " data-datatable-table='#${className}Table'>删除</a>";
+							return updateA + deleteA;
+						},
+						"orderable" : false
+					} ];
+
+			GLOBAL.DATATABLE.initDatatable("#${className}Table", "${"$"}{ctx}/${url}/list", "#searchForm", columns, "#searchBtn", "#resetBtn");
+		}
+	</script>
+</sitemesh:custom_script>
+
+<!----------------------------------------------------------------- 以下为主体内容 -------------------------------------------------------------------->
+
+<sitemesh:container>
+	<!-- 面包屑 -->
+	<div class="page-bar">
+		<ul class="page-breadcrumb">
+			<li>
+				<a href="${"$"}{ctx}/">首页</a> <i class="fa fa-angle-right"></i>
+			</li>			
+			<li>
+				<a href="${"$"}{ctx}/${url}/list">${moduleName}</a><i class="fa fa-angle-right"></i>
+			</li>
+			<li>
+				<a href="${"$"}{ctx}/${url}/list">列表页</a>
+			</li>
+		</ul>
+	</div>
+	<!-- 标题 -->
+	<h3 class="page-title">
+		${moduleName}<small>&emsp;列表页&emsp;</small>
+	</h3>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet box green">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-gift"></i>查询条件
+					</div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+					</div>
+				</div>
+				<div class="portlet-body form">
+					<form id="searchForm" class="horizontal-form">
+						<div class="form-body">
+							<div class="row">
+								<#assign i=0>
+								<#list columns as column>
+									<#if column.isQuery?? && column.isQuery == "1">
+										<#if i%4 == 0 && i != 0>
+							</div>
+							<div class="row">			
+										</#if>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label class="control-label">${column.comments}</label>
+										<#if column.queryType?? && column.queryType == "=">
+											<#if column.showType?? && (column.showType == "input" || column.showType == "textarea")>
+										<input name="${column.javaField}" type="text" class="form-control" placeholder="按${column.comments}查询">
+										</#if>
+											<#if column.showType?? && (column.showType == "dateselect")>										
+											</#if>
+										</#if>
+										<#if column.queryType?? && column.queryType == "like">
+										<input name="${column.javaField}" type="text" class="form-control" placeholder="按${column.comments}查询(模糊)">		
+										</#if>
+										<#if column.queryType?? && column.queryType == "between">
+											<#if column.showType?? && (column.showType == "input" || column.showType == "textarea")>
+										<div class="input-group input-daterange" data-date-format="yyyy-mm-dd">
+											<input type="text" class="form-control" name="${column.javaField}Begin" placeholder="起始值">
+											<span class="input-group-addon"> 至 </span>
+											<input type="text" class="form-control" name="${column.javaField}End" placeholder="结束值">
+										</div>
+											</#if>
+											<#if column.showType?? && (column.showType == "dateselect")>
+										<div class="input-group date date-picker input-daterange" data-date-format="yyyy-mm-dd">
+											<input readonly type="text" class="form-control" name="${column.javaField}Begin" placeholder="起始日期">
+											<span class="input-group-addon"> 至 </span>
+											<input readonly type="text" class="form-control" name="${column.javaField}End" placeholder="结束日期">
+										</div>										
+											</#if>										
+										</#if>
+									</div>
+								</div>
+									<#assign i=i+1>
+									</#if>			
+								</#list>															
+							</div>
+						</div>
+						<div class="form-actions right">
+							<button id="searchBtn" type="button" class="btn green">查询</button>
+							<button id="resetBtn" type="button" class="btn default">重置</button>
+						</div>
+					</form>					 
+				</div>
+			</div>
+			<div class="portlet box blue">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-gift"></i>查询结果
+					</div>
+					<div class="actions">
+						<div class="btn-group btn-group-devided">
+							<a class="btn green-jungle btn-sm" href="${"$"}{ctx}/${url}/insert">添加</a>
+						</div>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="table-container">
+						<table class="table table-striped table-bordered table-hover table-checkable" id="${className}Table">
+							<thead>
+								<tr role="row" class="heading">
+									<th>序号</th>
+									<#list columns as column>
+										<#if column.isList?? && column.isList == '1'>
+									<th>${column.comments}</th>									
+										</#if>			
+									</#list>	
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</sitemesh:container>
+]]>
+	
+	
+	
+	</content>
+</template>

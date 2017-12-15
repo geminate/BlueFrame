@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>entity</name>
+	<filePath>src\${packagePath}\${modulePath}\mapping\base</filePath>
+	<fileName>${ClassName}.xml</fileName>
+	<content>
+	
+
+<![CDATA[
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${packagePath}.${modulePath}.dao.${ClassName}Dao">
+
+	<!-- Select 列 -->
+	<sql id="selectColumnList">
+		a.*,
+
+		cu.id AS "createBy.id",
+		cu.username AS "createBy.username",
+		uu.id AS "updateBy.id",
+		uu.username AS "updateBy.username"
+	</sql>
+	
+	<!-- 关联表 -->
+	<sql id="leftJoin">
+		LEFT JOIN sys_user cu on cu.id = a.create_by
+		LEFT JOIN sys_user uu on uu.id = a.create_by
+	</sql>
+	
+	<!-- 精确查询 Where -->
+	<sql id="dynamicWhere">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = ${"#"}{id}</if>
+			<#list columns as column>
+				<#if column.isSystem != '1'>
+			<if test="${column.javaField}!=null and ${column.javaField}!=''">and a.${column.name?lower_case} = ${"#"}{${column.javaField}}</if>
+				</#if>			
+			</#list>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = ${"#"}{createBy.id}</if>
+			<if test="createDateBegin != null and createDateEnd != null">
+				and a.create_date BETWEEN ${"#"}{createDateBegin} AND ${"#"}{createDateEnd}
+			</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = ${"#"}{updateBy.id}</if>
+			<if test="updateDateBegin != null and updateDateEnd != null">
+				and a.update_date BETWEEN ${"#"}{updateDateBegin} AND ${"#"}{updateDateEnd}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 模糊查询 Where -->
+	<sql id="dynamicWhereLike">
+		<where>
+			a.del_flag = 0
+			<if test="id!=null and id!=''">and a.id = ${"#"}{id}</if>
+			<#list columns as column>
+				<#if column.isSystem != '1'>
+					<#if column.queryType?? && column.queryType == "=">
+			<if test="${column.javaField}!=null and ${column.javaField}!=''">and a.${column.name?lower_case} = ${"#"}{${column.javaField}}</if>
+					</#if>
+					<#if column.queryType?? && column.queryType == "like">
+			<if test="${column.javaField}!=null and ${column.javaField}!=''">
+				and a.${column.name?lower_case} LIKE
+				<if test="dbType == 'oracle'">'%'||${"#"}{${column.javaField}}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', ${"#"}{${column.javaField}}, '%')</if>
+			</if>
+					</#if>
+					<#if column.queryType?? && column.queryType == "between">
+			<if test="${column.javaField}Begin != null and ${column.javaField}End != null">
+				and a.${column.name?lower_case} BETWEEN ${"#"}{${column.javaField}Begin} AND ${"#"}{${column.javaField}End}
+			</if>
+					</#if>
+				</#if>			
+			</#list>
+
+			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = ${"#"}{createBy.id}</if>
+			<if test="createDateBegin != null and createDateEnd != null">
+				and a.create_date BETWEEN ${"#"}{createDateBegin} AND ${"#"}{createDateEnd}
+			</if>
+			<if test="updateBy!=null and updateBy.id!=null and updateBy.id!=''">and a.update_by = ${"#"}{updateBy.id}</if>
+			<if test="updateDateBegin != null and updateDateEnd != null">
+				and a.update_date BETWEEN ${"#"}{updateDateBegin} AND ${"#"}{updateDateEnd}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 增 -->
+	<insert id="insert">
+		insert into ${table.name}(
+
+		id,
+		<#list columns as column>
+				<#if column.isSystem != '1'>
+		${column.name?lower_case},
+				</#if>			
+		</#list>		
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+
+		)values(
+
+		${"#"}{id}, 
+		<#list columns as column>
+				<#if column.isSystem != '1'>
+		${"#"}{${column.javaField}},
+				</#if>			
+		</#list>
+		${"#"}{createBy.id},
+		${"#"}{createDate},
+		${"#"}{updateBy.id},
+		${"#"}{updateDate},
+		${"#"}{delFlag}
+
+		)
+	</insert>
+	
+	<!-- 批量插入 -->
+	<insert id="insertBatch">
+		insert into ${table.name}(
+
+		id,
+		<#list columns as column>
+				<#if column.isSystem != '1'>
+		${column.name?lower_case},
+				</#if>			
+		</#list>
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		del_flag
+
+		)
+		<foreach collection="list" item="item" separator=" union all ">
+			SELECT
+			${"#"}{item.id},
+			<#list columns as column>
+				<#if column.isSystem != '1'>
+			${"#"}{item.${column.javaField}},
+				</#if>			
+			</#list>
+			${"#"}{item.createBy.id},
+			${"#"}{item.createDate},
+			${"#"}{item.updateBy.id},
+			${"#"}{item.updateDate},
+			${"#"}{item.delFlag}
+			FROM dual
+		</foreach>
+	</insert>
+	
+	<!-- 删(物理) -->
+	<delete id="delete" parameterType="${packagePath}.${modulePath}.model.${ClassName}">
+		delete
+		<if test="dbType == 'mysql'">a</if>
+		from ${table.name} a
+		<include refid="dynamicWhere" />
+	</delete>
+
+	<!-- 批量删除(物理) -->
+	<delete id="deleteBatch">
+		delete		
+		from ${table.name}
+		where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			${"#"}{item}
+		</foreach>
+	</delete>
+
+	<!-- 删(逻辑) -->
+	<update id="deleteLogic">
+		update ${table.name} a SET a.del_flag = '1'
+		<include refid="dynamicWhere" />
+	</update>
+
+	<!-- 批量删除(逻辑) -->
+	<update id="deleteLogicBatch">
+		update ${table.name} a SET a.del_flag = '1'
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			${"#"}{item}
+		</foreach>
+	</update>
+
+	<!-- 改 -->
+	<update id="update" parameterType="${packagePath}.${modulePath}.model.${ClassName}">
+		update ${table.name} a
+		<set>
+			<#list columns as column>
+				<#if column.isSystem != '1'>
+			<if test="${column.javaField}!=null">a.${column.name?lower_case} = ${"#"}{${column.javaField},jdbcType=VARCHAR},</if>
+				</#if>			
+			</#list>		
+			<if test="updateBy!=null and updateBy.id!=null">a.update_by = ${"#"}{updateBy.id},</if>
+			<if test="updateDate!=null">a.update_date = ${"#"}{updateDate},</if>
+		</set>
+		where a.id = ${"#"}{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查(精确) -->
+	<select id="select" parameterType="${packagePath}.${modulePath}.model.${ClassName}" resultType="${packagePath}.${modulePath}.model.${ClassName}">
+		select
+		<include refid="selectColumnList" />
+		from ${table.name} a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${"$"}{page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${"$"}{page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 查(模糊) -->
+	<select id="selectLike" parameterType="${packagePath}.${modulePath}.model.${ClassName}" resultType="${packagePath}.${modulePath}.model.${ClassName}">
+		select
+		<include refid="selectColumnList" />
+		from ${table.name} a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+		<if test="page !=null and page.order !=null and page.order !='' ">
+			order by ${"$"}{page.order}
+			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
+				${"$"}{page.orderDir}
+			</if>
+		</if>
+	</select>
+
+	<!-- 批量查询 ID List -->
+	<select id="selectBatch" resultType="${packagePath}.${modulePath}.model.${ClassName}">
+		select
+		<include refid="selectColumnList" />
+		from ${table.name} a
+		<include refid="leftJoin" />
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			${"#"}{item}
+		</foreach>
+	</select>
+
+	<!-- 数量查询(精确) -->
+	<select id="count" parameterType="${packagePath}.${modulePath}.model.${ClassName}" resultType="java.lang.Integer">
+		select count(*) from ${table.name} a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+	</select>
+
+	<!-- 数量查询(模糊) -->
+	<select id="countLike" parameterType="${packagePath}.${modulePath}.model.${ClassName}" resultType="java.lang.Integer">
+		select count(*) from ${table.name} a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhereLike" />
+	</select>
+
+</mapper>
+]]>
+	
+	
+	
+	</content>
+</template>

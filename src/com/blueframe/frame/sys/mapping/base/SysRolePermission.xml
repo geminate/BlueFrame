@@ -6,7 +6,9 @@
 	<sql id="selectColumnList">
 		a.*,
 
+		cu.id AS "createBy.id",
 		cu.username AS "createBy.username",
+		uu.id AS "updateBy.id",
 		uu.username AS "updateBy.username"
 	</sql>
 
@@ -118,10 +120,9 @@
 
 	<!-- 批量删除(物理) -->
 	<delete id="deleteBatch">
-		delete
-		<if test="dbType == 'mysql'">a</if>
-		from sys_role_permission a
-		where a.id in
+		delete		
+		from sys_role_permission
+		where id in
 		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
 			#{item}
 		</foreach>

@@ -1,7 +1,9 @@
 package com.blueframe.frame.gen.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.blueframe.frame.base.model.BaseEntity;
 
@@ -15,8 +17,7 @@ public class GenTable extends BaseEntity<GenTable> {
 	private String className; // 实体类名称
 
 	private List<String> pkList = new ArrayList<>(); // 当前表主键列表
-
-	private List<GenTableColumn> tableColumns = new ArrayList<>();;
+	private List<GenTableColumn> tableColumns = new ArrayList<>();// 包含的列
 
 	public GenTable() {
 	}
@@ -64,4 +65,23 @@ public class GenTable extends BaseEntity<GenTable> {
 	public void setPkList(List<String> pkList) {
 		this.pkList = pkList;
 	}
+
+	/**
+	 * 获得 Entity.java的引入列表
+	 * @return Entity.java的引入列表
+	 */
+	public Set<String> getEntityImportList() {
+		Set<String> entityImportSet = new HashSet<>();
+		for (GenTableColumn column : getTableColumns()) {
+			if ((!("1".equals(column.getIsSystem()))) && (column.getJavaType().indexOf(".") != -1)) {
+				entityImportSet.add(column.getJavaType());
+				if ("java.util.Date".equals(column.getJavaType())) {
+					entityImportSet.add("com.fasterxml.jackson.annotation.JsonFormat");
+					entityImportSet.add("org.springframework.format.annotation.DateTimeFormat");
+				}
+			}
+		}
+		return entityImportSet;
+	}
+
 }

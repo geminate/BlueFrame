@@ -18,10 +18,10 @@ public class GenSchemeService extends BaseService<GenSchemeDao, GenScheme> {
 	public void build(GenScheme genScheme) {
 		GenConfig config = GenUtil.getConfig();
 		List<GenTemplate> templateList = GenUtil.getTemplateList(config, false);
-		System.out.println(templateList);
 		Map<String, Object> model = GenUtil.getDataModelNew(genScheme);
-		for (GenTemplate tpl : templateList){
+		for (GenTemplate tpl : templateList) {
 			GenUtil.generateToFile(tpl, model);
 		}
+
 	}
 }

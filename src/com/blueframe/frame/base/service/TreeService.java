@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.blueframe.frame.base.dao.TreeDao;
 import com.blueframe.frame.base.model.TreeEntity;
 
@@ -13,6 +15,9 @@ import com.blueframe.frame.base.model.TreeEntity;
  */
 public abstract class TreeService<D extends TreeDao<E>, E extends TreeEntity<E>> extends BaseService<D, E> {
 
+	@Autowired
+	protected D dao;
+	
 	/**
 	 * 树状数据 插入
 	 * @param entity 插入对象

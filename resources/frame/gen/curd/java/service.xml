@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>service</name>
+	<filePath>src\${packagePath}\${modulePath}\service</filePath>
+	<fileName>${ClassName}Service.java</fileName>
+	<content>
+	
+
+<![CDATA[
+package ${packagePath}.${modulePath}.service;
+
+import org.springframework.stereotype.Service;
+
+import ${packagePath}.${modulePath}.dao.${ClassName}Dao;
+import ${packagePath}.${modulePath}.model.${ClassName};
+
+import com.blueframe.frame.base.service.BaseService;
+
+/**
+ * ${moduleName} Service
+ * @author ${moduleAuthor}
+ */
+@Service
+public class ${ClassName}Service extends BaseService<${ClassName}Dao, ${ClassName}> {
+
+}
+
+]]>
+	
+	
+	
+	</content>
+</template>

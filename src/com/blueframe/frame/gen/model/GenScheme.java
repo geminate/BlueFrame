@@ -8,12 +8,13 @@ import com.blueframe.frame.base.model.BaseEntity;
  */
 public class GenScheme extends BaseEntity<GenScheme> {
 
-	private String name; // 名称
-	private String packageName; // 生成包路径
-	private String moduleName; // 生成模块名
-	private String functionName; // 生成功能名
-	private GenTable genTable; // 业务表名
-	private String functionAuthor; // 生成功能作者
+	private String name; // 方案名称
+	private String packagePath; // 包路径
+	private String modulePath; // 模块路径名
+	private String moduleName; // 模块名称
+	private String entityName; // 对象名称
+	private GenTable genTable; // 业务表
+	private String moduleAuthor; // 模块作者
 
 	public String getName() {
 		return name;
@@ -23,12 +24,20 @@ public class GenScheme extends BaseEntity<GenScheme> {
 		this.name = name;
 	}
 
-	public String getPackageName() {
-		return packageName;
+	public String getPackagePath() {
+		return packagePath;
 	}
 
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
+	public void setPackagePath(String packagePath) {
+		this.packagePath = packagePath;
+	}
+
+	public String getModulePath() {
+		return modulePath;
+	}
+
+	public void setModulePath(String modulePath) {
+		this.modulePath = modulePath;
 	}
 
 	public String getModuleName() {
@@ -39,12 +48,12 @@ public class GenScheme extends BaseEntity<GenScheme> {
 		this.moduleName = moduleName;
 	}
 
-	public String getFunctionName() {
-		return functionName;
+	public String getEntityName() {
+		return entityName;
 	}
 
-	public void setFunctionName(String functionName) {
-		this.functionName = functionName;
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
 	}
 
 	public GenTable getGenTable() {
@@ -55,12 +64,12 @@ public class GenScheme extends BaseEntity<GenScheme> {
 		this.genTable = genTable;
 	}
 
-	public String getFunctionAuthor() {
-		return functionAuthor;
+	public String getModuleAuthor() {
+		return moduleAuthor;
 	}
 
-	public void setFunctionAuthor(String functionAuthor) {
-		this.functionAuthor = functionAuthor;
+	public void setModuleAuthor(String moduleAuthor) {
+		this.moduleAuthor = moduleAuthor;
 	}
 
 }

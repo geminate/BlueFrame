@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blueframe.frame.sys.dao.SysRoleDao">
+
+	<!-- 查询 某个用户 的全部角色 -->
+	<select id="selectRolesByUser" resultType="com.blueframe.frame.sys.model.SysRole">
+		select distinct
+		<include refid="selectColumnList" />
+		from sys_role a
+		<include refid="leftJoin" />
+		LEFT JOIN sys_user_role sur on sur.sys_role_id = a.id
+		LEFT JOIN sys_user su on su.id = sur.sys_user_id
+		where sur.sys_user_id = #{id}
+		and a.del_flag = 0
+		and sur.del_flag = 0
+		and su.del_flag = 0
+	</select>
+</mapper>

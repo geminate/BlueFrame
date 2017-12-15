@@ -1,5 +1,6 @@
 package com.blueframe.frame.base.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,6 +84,14 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 		} else {
 			dao.deleteBatch(ids);
 		}
+	}
+
+	public void deleteBatchE(List<E> ids, Boolean logicDelete) {
+		List<String> idList = new ArrayList<>();
+		for (E e : ids) {
+			idList.add(e.getId());
+		}
+		deleteBatch(idList, logicDelete);
 	}
 
 	/**

@@ -27,11 +27,12 @@
 			a.del_flag = 0
 			<if test="id!=null and id!=''">and a.id = #{id}</if>
 			<if test="name!=null and name!=''">and a.name = #{name}</if>
-			<if test="packageName!=null and packageName!=''">and a.package_name = #{packageName}</if>
+			<if test="packagePath!=null and packagePath!=''">and a.package_path = #{packagePath}</if>
+			<if test="modulePath!=null and modulePath!=''">and a.module_path = #{modulePath}</if>
 			<if test="moduleName!=null and moduleName!=''">and a.module_name = #{moduleName}</if>
-			<if test="functionName!=null and functionName!=''">and a.function_name = #{functionName}</if>
+			<if test="entityName!=null and entityName!=''">and a.entity_name = #{entityName}</if>
 			<if test="genTable!=null and genTable.id !=null and genTable.id!=''">and a.gen_table_id = #{genTable.id}</if>
-			<if test="functionAuthor!=null and functionAuthor!=''">and a.function_author = #{functionAuthor}</if>
+			<if test="moduleAuthor!=null and moduleAuthor!=''">and a.module_author = #{moduleAuthor}</if>
 
 			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
 			<if test="createDateBegin != null and createDateEnd != null">
@@ -50,11 +51,12 @@
 			a.del_flag = 0
 			<if test="id!=null and id!=''">and a.id = #{id}</if>
 			<if test="name!=null and name!=''">and a.name = #{name}</if>
-			<if test="packageName!=null and packageName!=''">and a.package_name = #{packageName}</if>
+			<if test="packagePath!=null and packagePath!=''">and a.package_path = #{packagePath}</if>
+			<if test="modulePath!=null and modulePath!=''">and a.module_path = #{modulePath}</if>
 			<if test="moduleName!=null and moduleName!=''">and a.module_name = #{moduleName}</if>
-			<if test="functionName!=null and functionName!=''">and a.function_name = #{functionName}</if>
+			<if test="entityName!=null and entityName!=''">and a.entity_name = #{entityName}</if>
 			<if test="genTable!=null and genTable.id !=null and genTable.id!=''">and a.gen_table_id = #{genTable.id}</if>
-			<if test="functionAuthor!=null and functionAuthor!=''">and a.function_author = #{functionAuthor}</if>
+			<if test="moduleAuthor!=null and moduleAuthor!=''">and a.module_author = #{moduleAuthor}</if>
 
 			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
 			<if test="createDateBegin != null and createDateEnd != null">
@@ -73,11 +75,12 @@
 		(
 		id,
 		name,
-		package_name,
+		package_path,
+		module_path,
 		module_name,
-		function_name,
+		entity_name,
 		gen_table_id,
-		function_author,
+		module_author,
 
 		create_by,
 		create_date,
@@ -89,11 +92,12 @@
 		(
 		#{id},
 		#{name},
-		#{packageName},
+		#{packagePath},
+		#{modulePath},
 		#{moduleName},
-		#{functionName},
+		#{entityName},
 		#{genTable.id},
-		#{functionAuthor},
+		#{moduleAuthor},
 
 		#{createBy.id},
 		#{createDate},
@@ -109,11 +113,12 @@
 		(
 		id,
 		name,
-		package_name,
+		package_path,
+		module_path,
 		module_name,
-		function_name,
+		entity_name,
 		gen_table_id,
-		function_author,
+		module_author,
 
 		create_by,
 		create_date,
@@ -125,11 +130,12 @@
 			SELECT
 			#{item.id},
 			#{item.name},
-			#{item.packageName},
+			#{item.packagePath},
+			#{item.modulePath},
 			#{item.moduleName},
-			#{item.functionName},
+			#{item.entityName},
 			#{item.genTable.id},
-			#{item.functionAuthor},
+			#{item.moduleAuthor},
 
 			#{item.createBy.id},
 			#{item.createDate},
@@ -146,10 +152,29 @@
 		<include refid="dynamicWhere" />
 	</delete>
 
+	<!-- 批量删除(物理) -->
+	<delete id="deleteBatch">
+		delete
+		from gen_scheme
+		where id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
 	<!-- 删(逻辑) -->
 	<update id="deleteLogic">
 		update gen_scheme a SET a.del_flag = '1'
 		<include refid="dynamicWhere" />
+	</update>
+
+	<!-- 批量删除(逻辑) -->
+	<update id="deleteLogicBatch">
+		update gen_scheme a SET a.del_flag = '1'
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</update>
 
 	<!-- 改 -->
@@ -157,11 +182,12 @@
 		update gen_scheme a
 		<set>
 			<if test="name!=null and name!=''">a.name = #{name},</if>
-			<if test="packageName!=null and packageName!=''">a.package_name = #{packageName},</if>
+			<if test="packagePath!=null and packagePath!=''">a.package_path = #{packagePath},</if>
+			<if test="modulePath!=null and modulePath!=''">a.module_path = #{modulePath},</if>
 			<if test="moduleName!=null and moduleName!=''">a.module_name = #{moduleName},</if>
-			<if test="functionName!=null and functionName!=''">a.function_name = #{functionName},</if>
+			<if test="entityName!=null and entityName!=''">a.entity_name = #{entityName},</if>
 			<if test="genTable!=null and genTable.id !=null and genTable.id!=''">a.gen_table_id = #{genTable.id},</if>
-			<if test="functionAuthor!=null and functionAuthor!=''">a.function_author = #{functionAuthor},</if>
+			<if test="moduleAuthor!=null and moduleAuthor!=''">a.module_author = #{moduleAuthor},</if>
 		</set>
 		where a.id = #{id,jdbcType=VARCHAR}
 	</update>
@@ -178,14 +204,7 @@
 			<if test="page !=null and page.orderDir !=null and page.orderDir !='' ">
 				${page.orderDir}
 			</if>
-		</if>
-	</select>
-
-	<!-- 数量查询(精确) -->
-	<select id="count" parameterType="com.blueframe.frame.gen.model.GenScheme" resultType="java.lang.Integer">
-		select count(*) from gen_scheme a
-		<include refid="leftJoin" />
-		<include refid="dynamicWhere" />
+		</if>		
 	</select>
 
 	<!-- 查(模糊) -->
@@ -203,14 +222,29 @@
 		</if>
 	</select>
 
+	<!-- 批量查询 ID List -->
+	<select id="selectBatch" resultType="com.blueframe.frame.gen.model.GenTableColumn">
+		select
+		<include refid="selectColumnList" />
+		from gen_scheme a
+		<include refid="leftJoin" />
+		where a.id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- 数量查询(精确) -->
+	<select id="count" parameterType="com.blueframe.frame.gen.model.GenScheme" resultType="java.lang.Integer">
+		select count(*) from gen_scheme a
+		<include refid="leftJoin" />
+		<include refid="dynamicWhere" />
+	</select>
+
 	<!-- 数量查询(模糊) -->
 	<select id="countLike" parameterType="com.blueframe.frame.gen.model.GenScheme" resultType="java.lang.Integer">
 		select count(*) from gen_scheme a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhereLike" />
 	</select>
-
-	<!--********************************************** 自定义Sql ********************************************** -->
-
-
 </mapper>
