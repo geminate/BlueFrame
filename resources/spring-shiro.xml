@@ -21,11 +21,11 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/resources/** = anon
-				/login = anon				
-				/ = authc
-				/* = authc
-				/** = authc
-				/*.* = authc
+				/login = anon
+				/ = user
+				/* = user
+				/** = user
+				/*.* = user
 				/logout = logout
 			</value>
 		</property>
@@ -36,15 +36,28 @@
 		<property name="realm" ref="SecShiroRealm"></property>
 		<property name="cacheManager" ref="cacheManager"></property>
 		<property name="sessionManager" ref="sessionManager"></property>
+		<property name="rememberMeManager" ref="rememberMeManager"></property>
 	</bean>
 
 	<bean id="SecShiroRealm" class="com.blueframe.frame.common.component.shiro.SecShiroRealm">
 		<property name="credentialsMatcher" ref="credentialsMatcher"></property>
 	</bean>
+
 	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<property name="sessionIdUrlRewritingEnabled" value="false"></property>
 		<property name="globalSessionTimeout" value="-1000"></property>
 	</bean>
+
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="rememberMe" />
+		<property name="httpOnly" value="true" />
+		<property name="maxAge" value="2592000" /><!-- 30天 -->
+	</bean>
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
+		<property name="cookie" ref="rememberMeCookie" />
+	</bean>
+
 	<bean id="credentialsMatcher" class="com.blueframe.frame.common.component.shiro.SecCredentialsMatcher"></bean>
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
 	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean>

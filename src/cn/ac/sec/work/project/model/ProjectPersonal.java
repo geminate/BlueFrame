@@ -12,6 +12,8 @@ import com.blueframe.frame.base.model.BaseEntity;
  */
 public class ProjectPersonal extends BaseEntity<ProjectPersonal> {
 
+	private static final long serialVersionUID = 1L;
+
 	private String name;// 姓名
 	
 	private Long age;// 年龄

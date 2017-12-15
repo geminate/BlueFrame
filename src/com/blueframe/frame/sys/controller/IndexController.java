@@ -70,8 +70,8 @@ public class IndexController extends BaseController {
 	 * @return 返回信息
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ReturnMessage postLogin(SysUser sysUser) {
-		UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword());
+	public ReturnMessage postLogin(SysUser sysUser, boolean rememberMe) {
+		UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(sysUser.getUsername(), sysUser.getPassword(), rememberMe);
 		try {
 			SecurityUtils.getSubject().login(usernamePasswordToken);
 			return buildReturnMessage("success", "", "登陆成功");

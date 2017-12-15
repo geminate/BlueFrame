@@ -9,6 +9,8 @@ import com.blueframe.frame.base.model.TreeEntity;
  * @author hhLiu
  */
 public class SysPermission extends TreeEntity<SysPermission> {
+	
+	private static final long serialVersionUID = 1L;
 
 	private String href;
 

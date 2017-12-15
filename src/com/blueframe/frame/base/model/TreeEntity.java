@@ -5,10 +5,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * 树结构对象 基类<br>
  * 数据库中 需至少包含 name,parent_id,parent_ids 字段<br>
- * 需要初始化一条  id 为1, parent_id 为0 的根节点
+ * 需要初始化一条 id 为1, parent_id 为0 的根节点
  * @author hhLiu
  */
 public abstract class TreeEntity<T> extends BaseEntity<T> {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 节点名称
@@ -23,7 +25,7 @@ public abstract class TreeEntity<T> extends BaseEntity<T> {
 
 	/**
 	 * 父节点对象
-	 */	
+	 */
 	protected T parent;
 
 	/**

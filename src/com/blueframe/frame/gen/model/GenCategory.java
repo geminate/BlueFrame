@@ -15,6 +15,8 @@ import com.blueframe.frame.sys.model.Dict;
 @XmlRootElement(name = "category")
 public class GenCategory extends Dict {
 
+	private static final long serialVersionUID = 1L;
+
 	private List<String> template = new ArrayList<>(); // 模板
 
 	@XmlElement(name = "template")

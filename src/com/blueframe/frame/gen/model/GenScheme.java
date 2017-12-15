@@ -8,6 +8,8 @@ import com.blueframe.frame.base.model.BaseEntity;
  */
 public class GenScheme extends BaseEntity<GenScheme> {
 
+	private static final long serialVersionUID = 1L;
+
 	private String name; // 方案名称
 	private String packagePath; // 包路径
 	private String modulePath; // 模块路径名

@@ -6,6 +6,8 @@ import com.blueframe.frame.base.model.BaseEntity;
 
 @XmlRootElement(name = "template")
 public class GenTemplate extends BaseEntity<GenTemplate> {
+	
+	private static final long serialVersionUID = 1L;
 
 	private String name; // 名称
 	private String category; // 分类

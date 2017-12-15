@@ -21,6 +21,8 @@ import com.blueframe.frame.base.model.BaseEntity;
  */
 public class ${ClassName} extends BaseEntity<${ClassName}> {
 
+	private static final long serialVersionUID = 1L;
+
 <#list columns as column>
 	<#if column.isSystem != "1">
 		<#list column.annotationList as annotation>

@@ -12,6 +12,9 @@ import com.blueframe.frame.base.model.BaseEntity;
  * @author hhLiu
  */
 public class GenTable extends BaseEntity<GenTable> {
+
+	private static final long serialVersionUID = 1L;
+
 	private String name;// 名称
 	private String comments; // 描述
 	private String className; // 实体类名称

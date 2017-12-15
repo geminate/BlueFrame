@@ -6,6 +6,8 @@ import java.util.List;
 import com.blueframe.frame.base.model.BaseEntity;
 
 public class GenTableColumn extends BaseEntity<GenTableColumn> {
+	
+	private static final long serialVersionUID = 1L;
 
 	private GenTable genTable; // 归属表
 	private String name; // 列名

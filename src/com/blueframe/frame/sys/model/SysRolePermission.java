@@ -7,6 +7,9 @@ import com.blueframe.frame.base.model.BaseEntity;
  * @author hhLiu
  */
 public class SysRolePermission extends BaseEntity<SysRolePermission> {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private SysRole sysRole;
 	private SysPermission sysPermission;
 

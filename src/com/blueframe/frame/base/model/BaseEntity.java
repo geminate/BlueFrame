@@ -1,5 +1,6 @@
 package com.blueframe.frame.base.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,7 +17,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * 数据库中 需至少包含 id,create_by,create_date,update_by,update_date,del_flag 字段
  * @author hhLiu
  */
-public class BaseEntity<T> {
+public class BaseEntity<T> implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 主键ID

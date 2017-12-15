@@ -43,6 +43,10 @@
 				</div>
 			</div>
 			<div class="form-actions">
+				<label class="rememberme mt-checkbox mt-checkbox-outline">
+					<input type="checkbox" name="rememberMe">
+					记住我<span></span>
+				</label>
 				<button id="loginBtn" type="button" class="btn green pull-right">登 录</button>
 			</div>
 		</form>
