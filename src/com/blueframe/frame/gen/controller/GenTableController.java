@@ -62,6 +62,7 @@ public class GenTableController extends BaseController {
 	public ModelAndView toGetSelectTable() {
 		ModelAndView mov = new ModelAndView("/frame/gen/genTable/selectTable");
 		List<GenTable> tableList = genTableService.findAllTableList();
+		tableList = genTableService.filterSelectTableList(tableList);
 		mov.addObject("tableList", tableList);
 		return mov;
 	}

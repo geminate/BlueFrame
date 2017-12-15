@@ -43,7 +43,7 @@
 			<div class="portlet box green">
 				<div class="portlet-title">
 					<div class="caption">
-						<i class="fa fa-user"></i>添加用户
+						<i class="fa fa-user"></i>添加生成方案
 					</div>
 					<div class="tools">
 						<a href="javascript:;" class="collapse" title="收起/打开"> </a>
@@ -52,7 +52,7 @@
 				<div class="portlet-body form">
 					<form action="${ctx}/frame/gen/genScheme/insert" method="post" class="horizontal-form" data-validate>
 						<div class="form-body">
-							<h3 class="form-section">权限信息</h3>
+							<h3 class="form-section">生成方案信息</h3>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
@@ -129,7 +129,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div>							
 						</div>
 						<div class="form-actions">
 							<div class="row">

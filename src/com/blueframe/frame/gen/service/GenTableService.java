@@ -1,5 +1,6 @@
 package com.blueframe.frame.gen.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -143,5 +144,24 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 		List<GenTableColumn> columns = genTable.getTableColumns();
 		genTableColumnService.deleteBatchE(columns, false);
 		genTableColumnService.insertBatch(columns, true);
+	}
+
+	/**
+	 * 过滤 已经添加过的表 和 系统、代码生成相关表
+	 * @param tableList 原列表
+	 * @return 过滤后的列表
+	 */
+	public List<GenTable> filterSelectTableList(List<GenTable> tableList) {
+		List<GenTable> reList = new ArrayList<>();
+		for (GenTable genTable : tableList) {
+			if ((!genTable.getName().toLowerCase().startsWith("gen_")) && (!genTable.getName().toLowerCase().startsWith("sys_"))) {
+				GenTable selectEntity = new GenTable();
+				selectEntity.setName(genTable.getName());
+				if (count(selectEntity, false) <= 0) {
+					reList.add(genTable);
+				}
+			}
+		}
+		return reList;
 	}
 }
