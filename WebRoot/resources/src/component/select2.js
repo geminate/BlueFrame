@@ -11,18 +11,9 @@
                 return markup;
             },
             templateResult: GLOBAL.SELECT2.temple,
-            templateSelection: GLOBAL.SELECT2.temple
-        });
-
-        $(".select2-allow-clear").select2({
-            allowClear: true,
-            placeholder: '请选择',
-            width: null,
-            escapeMarkup: function (markup) {
-                return markup;
-            },
-            templateResult: GLOBAL.SELECT2.temple,
-            templateSelection: GLOBAL.SELECT2.temple
+            templateSelection: GLOBAL.SELECT2.temple,
+            minimumResultsForSearch: 7,
+            allowClear: true
         });
     };
 

@@ -60,7 +60,7 @@
 										<label class="control-label need">名称</label>
 										<div class="input-icon right">
 											<i class="fa"></i>
-											<input name="name" type="text" class="form-control" placeholder="请输入名称" value="${sysRole.name}">
+											<input name="name" type="text" class="form-control required" placeholder="请输入名称" value="${sysRole.name}">
 										</div>
 									</div>
 								</div>
@@ -69,13 +69,13 @@
 										<label class="control-label need">角色标识</label>
 										<div class="input-icon right">
 											<i class="fa"></i>
-											<input name="roleStr" type="text" class="form-control" placeholder="请输入角色标识" value="${sysRole.roleStr}">
+											<input name="roleStr" type="text" class="form-control required" placeholder="请输入角色标识" value="${sysRole.roleStr}">
 										</div>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="control-label need">简介</label>
+										<label class="control-label">简介</label>
 										<div class="input-icon right">
 											<i class="fa"></i>
 											<input name="description" type="text" class="form-control" placeholder="请输入简介" value="${sysRole.description}">

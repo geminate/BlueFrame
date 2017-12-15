@@ -76,16 +76,16 @@
 		if ("${checkable}" == "true") {
 			var checkNodes = treeObj.getCheckedNodes(true);
 			var idArray = [];
-			$.each(checkNodes, function(index, value) {
+			$.each(checkNodes, function(index, value) {				
 				idArray.push(value.id);
 			});
-			$("#${id}TreeInput").val(idArray.join(","));
+			$("#${id}TreeInput").val(idArray.join(","));			
 		} else {
 			var selectNodes = treeObj.getSelectedNodes();
 			if (selectNodes != null && selectNodes.length > 0) {
 				$("#${id}TreeInput").val(selectNodes[0].id);
 			}
-		}
+		}		
 	}
 
 	//打开时 是否展开全部节点

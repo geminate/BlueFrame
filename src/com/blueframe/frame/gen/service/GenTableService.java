@@ -154,13 +154,13 @@ public class GenTableService extends BaseService<GenTableDao, GenTable> {
 	public List<GenTable> filterSelectTableList(List<GenTable> tableList) {
 		List<GenTable> reList = new ArrayList<>();
 		for (GenTable genTable : tableList) {
-			if ((!genTable.getName().toLowerCase().startsWith("gen_")) && (!genTable.getName().toLowerCase().startsWith("sys_"))) {
+			//if ((!genTable.getName().toLowerCase().startsWith("gen_")) && (!genTable.getName().toLowerCase().startsWith("sys_"))) {
 				GenTable selectEntity = new GenTable();
 				selectEntity.setName(genTable.getName());
 				if (count(selectEntity, false) <= 0) {
 					reList.add(genTable);
 				}
-			}
+			//}
 		}
 		return reList;
 	}

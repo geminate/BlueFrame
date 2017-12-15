@@ -29,9 +29,6 @@
                 var icon = $(element).parent('.input-icon').children('i');
                 $(element).closest('.form-group').removeClass('has-error').addClass('has-success'); // set success class to the control group
                 icon.removeClass("fa-warning").addClass("fa-check");
-            },
-            submitHandler: function (form) {
-                $form[0].submit();
             }
         });
     };

@@ -57,11 +57,14 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need" for="name">业务表</label>
-										<select class="select2 form-control" name="name">
-											<c:forEach items="${tableList}" var="item">
-												<option data-subtext="${item.comments}" value="${item.name}">${item.name}</option>
-											</c:forEach>
-										</select>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<select class="select2 form-control required" name="name" size="20">
+												<c:forEach items="${tableList}" var="item">
+													<option data-subtext="${item.comments}" value="${item.name}">${item.name}</option>
+												</c:forEach>
+											</select>
+										</div>
 									</div>
 								</div>
 							</div>

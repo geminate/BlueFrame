@@ -32,7 +32,7 @@
 				<a href="${"$"}{ctx}/">首页</a> <i class="fa fa-angle-right"></i>
 			</li>			
 			<li>
-				<a href="${"$"}{ctx}/${url}/list">${moduleName}</a><i class="fa fa-angle-right"></i>
+				<a href="${"$"}{ctx}/${url}/list">${moduleName}</a> <i class="fa fa-angle-right"></i>
 			</li>
 			<li>
 				<a href="${"$"}{ctx}/${url}/update">编辑页</a>

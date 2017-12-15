@@ -6,14 +6,14 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.blueframe.frame.sys.model.Dict;
+import com.blueframe.frame.sys.model.SysDict;
 
 /**
  * 模板 类型 对象
  * @author hhLiu
  */
 @XmlRootElement(name = "category")
-public class GenCategory extends Dict {
+public class GenCategory extends SysDict {
 
 	private static final long serialVersionUID = 1L;
 
