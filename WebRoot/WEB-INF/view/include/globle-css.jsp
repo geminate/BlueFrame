@@ -13,6 +13,8 @@
 <link href="${ctxStatic}/metronic/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
 <link href="${ctxStatic}/metronic/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
 
+<link href="${ctxStatic}/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+
 <link href="${ctxStatic}/plugins/treeTable/vsStyle/jquery.treeTable.css" rel="stylesheet" type="text/css">
 <link href="${ctxStatic}/plugins/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css">
 

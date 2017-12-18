@@ -18,7 +18,7 @@
 </head>
 <body class="login">
 	<div class="logo">
-		<a href="index.html"> <img src="${ctxStatic}/metronic/pages/img/logo-big.png" alt="" />
+		<a href="index.html"> <img src="${ctxStatic}/img/logo-big.png" alt="" />
 		</a>
 	</div>
 	<div class="content">

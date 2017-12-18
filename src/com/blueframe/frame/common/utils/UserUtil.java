@@ -35,7 +35,7 @@ public class UserUtil {
 	 * 获取当前登录用户的角色列表
 	 * @return 当前登录用户的角色列表
 	 */
-	public static List<SysRole> getCurrentRoleList() {		
+	public static List<SysRole> getCurrentRoleList() {
 		return sysRoleService.selectRolesByUser(getCurrentUser().getId());
 	}
 
@@ -45,5 +45,16 @@ public class UserUtil {
 	 */
 	public static List<SysPermission> getCurrentPermissionList() {
 		return sysPermissionService.selectPermissionsByUser(getCurrentUser().getId());
+	}
+
+	/**
+	 * 刷新当前登录的 用户信息
+	 * @param newUser 改后用户信息
+	 */
+	public static void reFreshLoginInfo(SysUser newUser) {
+		SysUser oldUser = getCurrentUser();
+		if (newUser != null && newUser.getName() != null) {
+			oldUser.setName(newUser.getName());
+		}
 	}
 }

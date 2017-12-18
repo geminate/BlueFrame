@@ -28,5 +28,4 @@ public class SysUserService extends BaseService<SysUserDao, SysUser> {
 			return null;
 		}
 	}
-
 }

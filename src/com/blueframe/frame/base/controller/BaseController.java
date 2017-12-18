@@ -42,7 +42,7 @@ public class BaseController {
 	/**
 	 * 添加重定向返回提示信息
 	 * @param attributes 重定向对象
-	 * @param type 提示类型
+	 * @param type 提示类型：success/info/warning/error
 	 * @param title 提示信息标题
 	 * @param message 提示信息主体
 	 */
