@@ -67,8 +67,8 @@
         if (resetBtn != null) {
             $(resetBtn).click(function () {
                 $(form)[0].reset();
-                $(form).find(".select2").select2("val", "");
-                $(form).find(".select2-multiple").select2("val", "");
+                $(form).find(".select2").val('').trigger('change');
+                $(form).find(".select2-multiple").val('').trigger('change');
                 re.ajax.reload();
             });
         }

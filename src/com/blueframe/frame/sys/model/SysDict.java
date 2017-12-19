@@ -15,6 +15,8 @@ public class SysDict extends BaseEntity<SysDict> {
 	private String label;// 标签名
 
 	private String value;// 数据值
+	
+	private String enumName;// 枚举名
 
 	private String type;// 分类
 
@@ -38,6 +40,14 @@ public class SysDict extends BaseEntity<SysDict> {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+	
+	public String getEnumName() {
+		return enumName;
+	}
+
+	public void setEnumName(String enumName) {
+		this.enumName = enumName;
 	}
 
 	public String getType() {

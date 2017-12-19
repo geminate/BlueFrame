@@ -39,5 +39,6 @@
 		<dict value="input" label="单行文本" />
 		<dict value="textarea" label="多行文本" />	
 		<dict value="dateselect" label="日期选择" />
+		<dict value="select" label="下拉选择" />
 	</showType>
 </config>

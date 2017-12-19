@@ -1,5 +1,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.blueframe.frame.sys.dao.SysDictDao">
+<mapper namespace="com.blueframe.frame.sys.dao.SysFileDao">
 
 	<!-- Select 列 -->
 	<sql id="selectColumnList">
@@ -22,12 +22,10 @@
 		<where>
 			a.del_flag = 0
 			<if test="id!=null and id!=''">and a.id = #{id}</if>
-			<if test="label!=null and label!=''">and a.label = #{label}</if>
-			<if test="value!=null and value!=''">and a.value = #{value}</if>
-			<if test="enumName!=null and enumName!=''">and a.enum_name = #{enumName}</if>
-			<if test="type!=null and type!=''">and a.type = #{type}</if>
-			<if test="sort!=null and sort!=''">and a.sort = #{sort}</if>
-			<if test="description!=null and description!=''">and a.description = #{description}</if>
+			<if test="fileType!=null and fileType!=''">and a.file_type = #{fileType}</if>
+			<if test="foreignId!=null and foreignId!=''">and a.foreign_id = #{foreignId}</if>
+			<if test="filePath!=null and filePath!=''">and a.file_path = #{filePath}</if>
+			<if test="fileName!=null and fileName!=''">and a.file_name = #{fileName}</if>
 
 			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
 			<if test="createDateBegin != null and createDateEnd != null">
@@ -45,27 +43,17 @@
 		<where>
 			a.del_flag = 0
 			<if test="id!=null and id!=''">and a.id = #{id}</if>
-			<if test="label!=null and label!=''">
-				and a.label LIKE
-				<if test="dbType == 'oracle'">'%'||#{label}||'%'</if>
-				<if test="dbType == 'mysql'">CONCAT('%', #{label}, '%')</if>
+			<if test="fileType!=null and fileType!=''">and a.file_type = #{fileType}</if>
+			<if test="foreignId!=null and foreignId!=''">and a.foreign_id = #{foreignId}</if>
+			<if test="filePath!=null and filePath!=''">
+				and a.file_path LIKE
+				<if test="dbType == 'oracle'">'%'||#{filePath}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{filePath}, '%')</if>
 			</if>
-			<if test="value!=null and value!=''">
-				and a.value LIKE
-				<if test="dbType == 'oracle'">'%'||#{value}||'%'</if>
-				<if test="dbType == 'mysql'">CONCAT('%', #{value}, '%')</if>
-			</if>
-			<if test="enumName!=null and enumName!=''">
-				and a.enum_name LIKE
-				<if test="dbType == 'oracle'">'%'||#{enumName}||'%'</if>
-				<if test="dbType == 'mysql'">CONCAT('%', #{enumName}, '%')</if>
-			</if>
-			<if test="type!=null and type!=''">and a.type = #{type}</if>
-			<if test="sort!=null and sort!=''">and a.sort = #{sort}</if>
-			<if test="description!=null and description!=''">
-				and a.description LIKE
-				<if test="dbType == 'oracle'">'%'||#{description}||'%'</if>
-				<if test="dbType == 'mysql'">CONCAT('%', #{description}, '%')</if>
+			<if test="fileName!=null and fileName!=''">
+				and a.file_name LIKE
+				<if test="dbType == 'oracle'">'%'||#{fileName}||'%'</if>
+				<if test="dbType == 'mysql'">CONCAT('%', #{fileName}, '%')</if>
 			</if>
 
 			<if test="createBy!=null and createBy.id!=null and createBy.id!=''">and a.create_by = #{createBy.id}</if>
@@ -81,15 +69,13 @@
 	
 	<!-- 增 -->
 	<insert id="insert">
-		insert into sys_dict(
+		insert into sys_file(
 
 		id,
-		label,
-		value,
-		enum_name,
-		type,
-		sort,
-		description,
+		file_type,
+		foreign_id,
+		file_path,
+		file_name,
 		create_by,
 		create_date,
 		update_by,
@@ -99,12 +85,10 @@
 		)values(
 
 		#{id}, 
-		#{label},
-		#{value},
-		#{enumName},
-		#{type},
-		#{sort},
-		#{description},
+		#{fileType},
+		#{foreignId},
+		#{filePath},
+		#{fileName},
 		#{createBy.id},
 		#{createDate},
 		#{updateBy.id},
@@ -116,15 +100,13 @@
 	
 	<!-- 批量插入 -->
 	<insert id="insertBatch">
-		insert into sys_dict(
+		insert into sys_file(
 
 		id,
-		label,
-		value,
-		enum_name,
-		type,
-		sort,
-		description,
+		file_type,
+		foreign_id,
+		file_path,
+		file_name,
 		create_by,
 		create_date,
 		update_by,
@@ -135,12 +117,10 @@
 		<foreach collection="list" item="item" separator=" union all ">
 			SELECT
 			#{item.id},
-			#{item.label},
-			#{item.value},
-			#{item.enumName},
-			#{item.type},
-			#{item.sort},
-			#{item.description},
+			#{item.fileType},
+			#{item.foreignId},
+			#{item.filePath},
+			#{item.fileName},
 			#{item.createBy.id},
 			#{item.createDate},
 			#{item.updateBy.id},
@@ -151,17 +131,17 @@
 	</insert>
 	
 	<!-- 删(物理) -->
-	<delete id="delete" parameterType="com.blueframe.frame.sys.model.SysDict">
+	<delete id="delete" parameterType="com.blueframe.frame.sys.model.SysFile">
 		delete
 		<if test="dbType == 'mysql'">a</if>
-		from sys_dict a
+		from sys_file a
 		<include refid="dynamicWhere" />
 	</delete>
 
 	<!-- 批量删除(物理) -->
 	<delete id="deleteBatch">
 		delete		
-		from sys_dict
+		from sys_file
 		where id in
 		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
 			#{item}
@@ -170,13 +150,13 @@
 
 	<!-- 删(逻辑) -->
 	<update id="deleteLogic">
-		update sys_dict a SET a.del_flag = '1'
+		update sys_file a SET a.del_flag = '1'
 		<include refid="dynamicWhere" />
 	</update>
 
 	<!-- 批量删除(逻辑) -->
 	<update id="deleteLogicBatch">
-		update sys_dict a SET a.del_flag = '1'
+		update sys_file a SET a.del_flag = '1'
 		where a.id in
 		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
 			#{item}
@@ -184,15 +164,13 @@
 	</update>
 
 	<!-- 改 -->
-	<update id="update" parameterType="com.blueframe.frame.sys.model.SysDict">
-		update sys_dict a
+	<update id="update" parameterType="com.blueframe.frame.sys.model.SysFile">
+		update sys_file a
 		<set>
-			<if test="label!=null">a.label = #{label,jdbcType=VARCHAR},</if>
-			<if test="value!=null">a.value = #{value,jdbcType=VARCHAR},</if>
-			<if test="enumName!=null">a.enum_name = #{enumName,jdbcType=VARCHAR},</if>
-			<if test="type!=null">a.type = #{type,jdbcType=VARCHAR},</if>
-			<if test="sort!=null">a.sort = #{sort,jdbcType=VARCHAR},</if>
-			<if test="description!=null">a.description = #{description,jdbcType=VARCHAR},</if>
+			<if test="fileType!=null">a.file_type = #{fileType,jdbcType=VARCHAR},</if>
+			<if test="foreignId!=null">a.foreign_id = #{foreignId,jdbcType=VARCHAR},</if>
+			<if test="filePath!=null">a.file_path = #{filePath,jdbcType=VARCHAR},</if>
+			<if test="fileName!=null">a.file_name = #{fileName,jdbcType=VARCHAR},</if>
 			<if test="updateBy!=null and updateBy.id!=null">a.update_by = #{updateBy.id},</if>
 			<if test="updateDate!=null">a.update_date = #{updateDate},</if>
 		</set>
@@ -200,10 +178,10 @@
 	</update>
 
 	<!-- 查(精确) -->
-	<select id="select" parameterType="com.blueframe.frame.sys.model.SysDict" resultType="com.blueframe.frame.sys.model.SysDict">
+	<select id="select" parameterType="com.blueframe.frame.sys.model.SysFile" resultType="com.blueframe.frame.sys.model.SysFile">
 		select
 		<include refid="selectColumnList" />
-		from sys_dict a
+		from sys_file a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhere" />
 		<if test="page !=null and page.order !=null and page.order !='' ">
@@ -215,10 +193,10 @@
 	</select>
 
 	<!-- 查(模糊) -->
-	<select id="selectLike" parameterType="com.blueframe.frame.sys.model.SysDict" resultType="com.blueframe.frame.sys.model.SysDict">
+	<select id="selectLike" parameterType="com.blueframe.frame.sys.model.SysFile" resultType="com.blueframe.frame.sys.model.SysFile">
 		select
 		<include refid="selectColumnList" />
-		from sys_dict a
+		from sys_file a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhereLike" />
 		<if test="page !=null and page.order !=null and page.order !='' ">
@@ -230,10 +208,10 @@
 	</select>
 
 	<!-- 批量查询 ID List -->
-	<select id="selectBatch" resultType="com.blueframe.frame.sys.model.SysDict">
+	<select id="selectBatch" resultType="com.blueframe.frame.sys.model.SysFile">
 		select
 		<include refid="selectColumnList" />
-		from sys_dict a
+		from sys_file a
 		<include refid="leftJoin" />
 		where a.id in
 		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
@@ -242,15 +220,15 @@
 	</select>
 
 	<!-- 数量查询(精确) -->
-	<select id="count" parameterType="com.blueframe.frame.sys.model.SysDict" resultType="java.lang.Integer">
-		select count(*) from sys_dict a
+	<select id="count" parameterType="com.blueframe.frame.sys.model.SysFile" resultType="java.lang.Integer">
+		select count(*) from sys_file a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhere" />
 	</select>
 
 	<!-- 数量查询(模糊) -->
-	<select id="countLike" parameterType="com.blueframe.frame.sys.model.SysDict" resultType="java.lang.Integer">
-		select count(*) from sys_dict a
+	<select id="countLike" parameterType="com.blueframe.frame.sys.model.SysFile" resultType="java.lang.Integer">
+		select count(*) from sys_file a
 		<include refid="leftJoin" />
 		<include refid="dynamicWhereLike" />
 	</select>

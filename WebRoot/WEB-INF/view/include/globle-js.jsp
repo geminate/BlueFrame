@@ -34,10 +34,11 @@
 <script src="${ctxStatic}/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/metronic/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js" type="text/javascript"></script>
 
+<script src="${ctxStatic}/plugins/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+
 <script src="${ctxStatic}/plugins/treeTable/jquery.treeTable.js" type="text/javascript"></script>
 <script src="${ctxStatic}/plugins/zTree/js/jquery.ztree.all.min.js" type="text/javascript"></script>
-
-<script src="${ctxStatic}/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
 
 <script src="${ctxStatic}/plugins/jquery-confirm/jquery-confirm.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/metronic/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>

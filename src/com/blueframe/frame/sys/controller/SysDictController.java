@@ -1,5 +1,8 @@
 package com.blueframe.frame.sys.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.blueframe.frame.sys.model.SysDict;
-import com.blueframe.frame.sys.service.SysDictService;
-
 import com.blueframe.frame.base.controller.BaseController;
 import com.blueframe.frame.base.model.Page;
 import com.blueframe.frame.base.model.ReturnMessage;
+import com.blueframe.frame.sys.model.SysDict;
+import com.blueframe.frame.sys.service.SysDictService;
 
 /**
  * 字典项管理 Controller
@@ -109,6 +111,31 @@ public class SysDictController extends BaseController {
 		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysDict/list");
 		sysDictService.update(sysDict);
 		addRedirectToastr(attributes, "success", "", "编辑成功！");
+		return mov;
+	}
+
+	/**
+	 * 字典项管理 - 生成枚举类页 - GET
+	 * @return
+	 */
+	@RequestMapping(value = "/genEnum", method = RequestMethod.GET)
+	public ModelAndView getGenEnum() {
+		ModelAndView mov = new ModelAndView("/frame/sys/sysDict/genEnum");
+		mov.addObject("allTypeList", sysDictService.selectAllTypeList());
+		return mov;
+	}
+
+	@RequestMapping(value = "/genEnum", method = RequestMethod.POST)
+	public ModelAndView postGenEnum(SysDict sysDict, String path, RedirectAttributes attributes) {
+		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysDict/list");
+		List<SysDict> sysDicts = new ArrayList<>();
+		if ("all".equals(sysDict.getType())) {
+			sysDicts = sysDictService.select(new SysDict(), false);
+		} else {
+			sysDicts = sysDictService.select(sysDict, false);
+		}
+		sysDictService.genEnum(sysDicts, path);
+		addRedirectToastr(attributes, "success", "", "生成成功！");
 		return mov;
 	}
 }

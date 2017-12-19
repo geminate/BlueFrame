@@ -44,3 +44,8 @@
 .select2-results__option--highlighted .text-muted {
   color: white;
 }
+
+//文件上传 验证未通过输入框不变红
+.file-input.has-error .form-control {
+  border-color: #c2cad8;
+}

@@ -97,20 +97,11 @@
 										</form>
 									</div>
 									<div class="tab-pane" id="tab_1_2">
-										<p>请选择头像</p>
-										<form action="${ctx}/frame/sys/account/changeAvatar" method="post" data-validate>
+
+										<form action="${ctx}/frame/sys/account/changeAvatar" method="post" enctype="multipart/form-data" data-validate>
 											<div class="form-group">
-												<div class="fileinput fileinput-new" data-provides="fileinput">
-													<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-														<img src="${ctxStatic}/img/no_image.png" alt="" />
-													</div>
-													<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-													<div>
-														<span class="btn default btn-file"> <span class="fileinput-new"> 选择 </span> <span class="fileinput-exists"> 修改 </span> <input type="file"
-																name="...">
-														</span> <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> 移除 </a>
-													</div>
-												</div>
+												<label class="control-label need">请选择头像</label>
+												<sys:singleFileUpload name="avatar" id="avatarFileInput" showPreview="true"></sys:singleFileUpload>
 											</div>
 											<div class="margin-top-10">
 												<button type="submit" class="btn green">保存修改</button>

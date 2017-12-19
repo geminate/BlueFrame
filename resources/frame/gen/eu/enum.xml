@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>enum</name>
+	<filePath>src\${packagePath}</filePath>
+	<fileName>${ClassName}.java</fileName>
+	<content>
+	
+
+<![CDATA[
+package ${packagePath};
+
+public class ${ClassName} extends BaseEnum{
+
+	<#list sysDicts as sysDict>
+	public static BaseEnum ${sysDict.enumName} = new BaseEnum("${sysDict.label}", "${sysDict.value}");
+	</#list>
+
+}
+
+]]>
+	
+
+
+	</content>
+</template>

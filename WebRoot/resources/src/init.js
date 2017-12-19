@@ -22,4 +22,5 @@ $(function () {
     GLOBAL.VALIDATE.init();
     GLOBAL.MAXLENGTH.init();
     GLOBAL.SELECT2.initSelect2();
+   //GLOBAL.FILEINPUT.initFileInput();
 });

@@ -71,7 +71,16 @@
 									</div>
 								</div>
 							</div>
-							<div class="row">			
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label need">枚举名</label>
+										<div class="input-icon right">
+											<i class="fa"></i>
+											<input name="enumName" type="text" class="form-control" placeholder="请输入枚举名" value="${sysDict.enumName}">
+										</div>
+									</div>
+								</div>			
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">分类</label>
@@ -80,7 +89,9 @@
 											<input name="type" type="text" class="form-control" placeholder="请输入分类" value="${sysDict.type}">
 										</div>
 									</div>
-								</div>
+								</div>								
+							</div>
+							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">排序</label>
@@ -89,9 +100,7 @@
 											<input name="sort" type="text" class="form-control" placeholder="请输入排序" value="${sysDict.sort}">
 										</div>
 									</div>
-								</div>
-							</div>
-							<div class="row">			
+								</div>		
 								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label need">简介</label>
