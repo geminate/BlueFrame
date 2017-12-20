@@ -59,6 +59,10 @@ public class AccountController extends BaseController {
 	@RequestMapping(value = "/changeAvatar", method = RequestMethod.POST)
 	public ModelAndView postChangeAvatar(HttpServletRequest request, RedirectAttributes attributes) {
 		List<MultipartFile> files = sysUserService.requestToFiles(request);
+		// TODO 
+		// 1. 把图片保存起来
+		// 2. 向附件表里面 插入一条数据
+		// 3. 修改用户表中的Avatar字段为附件ID
 		ModelAndView mov = new ModelAndView("redirect:/frame/sys/account/setting");
 		addRedirectToastr(attributes, "success", "", "修改成功！");
 		return mov;

@@ -11,7 +11,7 @@
         };
 
         if (toastrType != null && toastrType != "" && window.name == "") {
-            toastr[toastrType](toastrTitle, toastrMessage);
+            toastr[toastrType](toastrMessage, toastrTitle);
         }
 
     };

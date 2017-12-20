@@ -1,9 +1,12 @@
 <%-- 单文件上传，文件异步提交 --%>
+<%-- 异步上传的地址为 /sys/sysFile/uploadFile,上传完成后会异步返回上传的附件ID，并作为一个隐藏字段最终通过表单提交 --%>
+<%-- Controller中应将主表中的附件ID字段置为附件的ID，并更新附件表修改器附件类型与外键ID --%>
 <%@ tag trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/taglib.jsp"%>
 
 <%@ attribute name="id" type="java.lang.String" required="true" description="组件ID，同一个页面 应为唯一值"%>
 <%@ attribute name="name" type="java.lang.String" required="true" description="表单name"%>
+<%@ attribute name="description" type="java.lang.String" required="true" description="字段说明，例如:头像"%>
 <%@ attribute name="showPreview" type="java.lang.String" required="false" description="是否显示缩略图,默认不显示"%>
 <%@ attribute name="showDropZone" type="java.lang.String" required="false" description="是否显示拖拽区,默认不显示"%>
 <%@ attribute name="required" type="java.lang.String" required="false" description="是否必填"%>
@@ -27,10 +30,10 @@
 			language : 'zh',// 语言
 			showClose : false,// 是否显示 关闭按钮
 			allowedPreviewTypes : [ 'image' ],
-			required : ${required?required:false},
-			allowedFileExtensions : <enhance:out escapeXml="false">${allowedFileExtensions?allowedFileExtensions:"null"}</enhance:out>,
+			required : ${(required!=null)?required:false},
+			allowedFileExtensions : <enhance:out escapeXml="false">${(allowedFileExtensions != null)?allowedFileExtensions:"null"}</enhance:out>,
 			previewClass : "${(showPreview eq 'true')?'':'hidePreview'}",
-			dropZoneEnabled : ${showDropZone?showDropZone:false},
+			dropZoneEnabled : ${(showDropZone!=null)?showDropZone:false},
 			uploadUrl : "${ctx}/frame/sys/sysFile/uploadFile"
 		});
 	}
@@ -66,20 +69,20 @@
 
 	function ${id}formSubmit() {
 		var filesCount = $("#${id}FileInput").fileinput("getFilesCount");
-		if ($("#${id}ValueInput").val() == "" && ${required?required:false}) { // 必填且无返回ID			
+		if ($("#${id}ValueInput").val() == "" && ${(required!=null)?required:false}) { // 必填且无返回ID			
 			if (filesCount == 0) {
-				alert("必填项没填");
+				toastr["warning"]("${description}字段为必填字段", "请检查");
 				return false;
 			} else if (${id}FileUploading) {
-				alert("请等待文件上传完成");
+				toastr["warning"]("请等待${description}文件上传完成", "请等待");
 				return false;
 			} else {
-				alert("请开始文件上传");
+				toastr["warning"]("请先开始${description}文件的上传", "请检查");
 				return false;
 			}
 		} else {
 			if (filesCount > 0) {
-				alert("您的文件还未上传，是否上传？");
+				toastr["warning"]("请先开始${description}文件的上传", "请检查");
 				return false;
 			} else {
 				return true;

@@ -1,4 +1,6 @@
 <%-- 单文件上传，文件随表单同步提交 --%>
+<%-- 同步文件上传的上传地址为 Form表单的地址，Controller中可获取到上传文件和其他表单参数 --%>
+<%-- Controller应保存文件、向文件表中插入一条数据、将主表中的附件ID字段置为附件的ID --%>
 <%@ tag trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/taglib.jsp"%>
 
@@ -21,9 +23,9 @@
 			language : 'zh',// 语言
 			showClose : false,// 是否显示 关闭按钮
 			allowedPreviewTypes : [ 'image' ],
-			required : ${required?required:false},
+			required : ${(required!=null)?required:false},
 			showUpload : false,
-			allowedFileExtensions : <enhance:out escapeXml="false">${allowedFileExtensions?allowedFileExtensions:"null"}</enhance:out>,
+			allowedFileExtensions : <enhance:out escapeXml="false">${(allowedFileExtensions != null)?allowedFileExtensions:"null"}</enhance:out>,
 			previewClass : "${(showPreview eq 'true')?'':'hidePreview'}"
 		});
 	}
