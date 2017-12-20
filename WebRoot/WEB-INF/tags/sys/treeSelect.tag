@@ -1,3 +1,4 @@
+<%-- 树选择组件,在页面中直接展示树结构 --%>
 <%@ tag trimDirectiveWhitespaces="true" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/taglib.jsp"%>
 
@@ -31,7 +32,7 @@
 			},
 			view : {
 				selectedMulti : false,
-				autoCancelSelected: false
+				autoCancelSelected : false
 			},
 			check : {
 				enable : ${checkable}
@@ -76,16 +77,16 @@
 		if ("${checkable}" == "true") {
 			var checkNodes = treeObj.getCheckedNodes(true);
 			var idArray = [];
-			$.each(checkNodes, function(index, value) {				
+			$.each(checkNodes, function(index, value) {
 				idArray.push(value.id);
 			});
-			$("#${id}TreeInput").val(idArray.join(","));			
+			$("#${id}TreeInput").val(idArray.join(","));
 		} else {
 			var selectNodes = treeObj.getSelectedNodes();
 			if (selectNodes != null && selectNodes.length > 0) {
 				$("#${id}TreeInput").val(selectNodes[0].id);
 			}
-		}		
+		}
 	}
 
 	//打开时 是否展开全部节点

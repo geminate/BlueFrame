@@ -49,3 +49,16 @@
 .file-input.has-error .form-control {
   border-color: #c2cad8;
 }
+
+// 文件和表单同步上传
+.file-input .hidePreview {
+  display: none;
+}
+
+.file-input.has-error .hidePreview .file-preview-thumbnails {
+  display: none;
+}
+
+.file-input.has-error .hidePreview {
+  display: block;
+}

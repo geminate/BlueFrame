@@ -96,18 +96,25 @@
 											</div>
 										</form>
 									</div>
-									<div class="tab-pane" id="tab_1_2">
 
+									<div class="tab-pane" id="tab_1_2">
 										<form action="${ctx}/frame/sys/account/changeAvatar" method="post" enctype="multipart/form-data" data-validate>
 											<div class="form-group">
+												<input type="hidden" value="123" name="test">
 												<label class="control-label need">请选择头像</label>
-												<sys:singleFileUpload name="avatar" id="avatarFileInput" showPreview="true"></sys:singleFileUpload>
+												<!-- 
+												<sys:singleFileUpload id="avatarFileInput" name="avatar" showPreview="false" required="true" maxFilePreviewSize="5120"
+													allowedFileExtensions="['jpg','jpeg','gif','png','bmp']"></sys:singleFileUpload>-->
+												
+												 <sys:singleFileUploadAsyn id="avatarFileInput" name="avatar" showPreview="true" required="false" maxFilePreviewSize="0"
+													></sys:singleFileUploadAsyn>
 											</div>
 											<div class="margin-top-10">
 												<button type="submit" class="btn green">保存修改</button>
 											</div>
 										</form>
 									</div>
+
 									<div class="tab-pane" id="tab_1_3">
 										<form action="${ctx}/frame/sys/account/changePassword" method="post" data-validate>
 											<div class="form-group">

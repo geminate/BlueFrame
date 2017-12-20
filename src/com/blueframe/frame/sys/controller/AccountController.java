@@ -1,9 +1,14 @@
 package com.blueframe.frame.sys.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -52,7 +57,8 @@ public class AccountController extends BaseController {
 	}
 
 	@RequestMapping(value = "/changeAvatar", method = RequestMethod.POST)
-	public ModelAndView postChangeAvatar(RedirectAttributes attributes) {
+	public ModelAndView postChangeAvatar(HttpServletRequest request, RedirectAttributes attributes) {
+		List<MultipartFile> files = sysUserService.requestToFiles(request);
 		ModelAndView mov = new ModelAndView("redirect:/frame/sys/account/setting");
 		addRedirectToastr(attributes, "success", "", "修改成功！");
 		return mov;

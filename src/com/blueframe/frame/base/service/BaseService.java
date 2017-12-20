@@ -1,11 +1,15 @@
 package com.blueframe.frame.base.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.blueframe.frame.base.dao.BaseDao;
 import com.blueframe.frame.base.model.BaseEntity;
@@ -234,5 +238,21 @@ public abstract class BaseService<D extends BaseDao<E>, E extends BaseEntity<E>>
 		} else {
 			return false;
 		}
+	}
+
+	public List<MultipartFile> requestToFiles(HttpServletRequest request) {
+		List<MultipartFile> multipartFiles = new ArrayList<>();
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+		if (multipartResolver.isMultipart(request)) {
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+			Iterator<String> iter = multiRequest.getFileNames();
+			while (iter.hasNext()) {
+				MultipartFile file = multiRequest.getFile(iter.next().toString());
+				if (file != null) {
+					multipartFiles.add(file);
+				}
+			}
+		}
+		return multipartFiles;
 	}
 }

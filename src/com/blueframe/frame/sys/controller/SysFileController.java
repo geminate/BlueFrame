@@ -1,17 +1,19 @@
 package com.blueframe.frame.sys.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.blueframe.frame.sys.model.SysFile;
 import com.blueframe.frame.sys.service.SysFileService;
-
 import com.blueframe.frame.base.controller.BaseController;
 import com.blueframe.frame.base.model.Page;
 import com.blueframe.frame.base.model.ReturnMessage;
@@ -26,7 +28,7 @@ public class SysFileController extends BaseController {
 
 	@Autowired
 	private SysFileService sysFileService;
-	
+
 	/**
 	 * 附件管理 - 列表页 - GET
 	 * @return 列表页
@@ -36,7 +38,7 @@ public class SysFileController extends BaseController {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysFile/list");
 		return mov;
 	}
-	
+
 	/**
 	 * 附件管理 - 列表页表格数据Ajax - POST
 	 * @param sysFile 筛选对象
@@ -49,7 +51,7 @@ public class SysFileController extends BaseController {
 		page = sysFileService.selectPage(sysFile, request, page);
 		return page;
 	}
-	
+
 	/**
 	 * 附件管理 - 新增页 - GET
 	 * @return 新增页
@@ -59,7 +61,7 @@ public class SysFileController extends BaseController {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysFile/insert");
 		return mov;
 	}
-	
+
 	/**
 	 * 附件管理 - 新增操作 - POST
 	 * @param sysFile 新增对象
@@ -68,12 +70,12 @@ public class SysFileController extends BaseController {
 	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public ModelAndView postInsert(SysFile sysFile, RedirectAttributes attributes) {
-		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysFile/list");		
-		sysFileService.insert(sysFile, true);		
+		ModelAndView mov = new ModelAndView("redirect:/frame/sys/sysFile/list");
+		sysFileService.insert(sysFile, true);
 		addRedirectToastr(attributes, "success", "", "添加成功！");
 		return mov;
 	}
-	
+
 	/**
 	 * 附件管理 - 删除操作- POST
 	 * @param sysFile 删除对象
@@ -93,7 +95,7 @@ public class SysFileController extends BaseController {
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public ModelAndView getUpdate(SysFile sysFile) {
 		ModelAndView mov = new ModelAndView("/frame/sys/sysFile/update");
-		mov.addObject("sysFile", sysFileService.selectById(sysFile.getId()));		
+		mov.addObject("sysFile", sysFileService.selectById(sysFile.getId()));
 		return mov;
 	}
 
@@ -109,5 +111,13 @@ public class SysFileController extends BaseController {
 		sysFileService.update(sysFile);
 		addRedirectToastr(attributes, "success", "", "编辑成功！");
 		return mov;
+	}
+
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	public ReturnMessage postUploadFile(HttpServletRequest request, SysFile sysFile) {
+		List<MultipartFile> multipartFiles = sysFileService.requestToFiles(request);
+		System.out.println(sysFile);
+		System.out.println(multipartFiles);
+		return buildReturnMessage("success", "", "123456789");
 	}
 }
